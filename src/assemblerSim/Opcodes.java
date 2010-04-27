@@ -21,8 +21,10 @@ public enum Opcodes {
 	JMPGE(16,"JMPGE"),
 	JMPLE(17,"JMPLE");
 	
+	@SuppressWarnings("unused")
 	private final int code;
-    private final String instruction;
+    @SuppressWarnings("unused")
+	private final String instruction;
     
     Opcodes(int nCode, String nInstruction)
     {
