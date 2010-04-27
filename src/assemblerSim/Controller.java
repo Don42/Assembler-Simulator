@@ -23,7 +23,7 @@ public class Controller
 	{
 		
 		interpreter = new Interpreter();
-		rechner = new VonNeumannRechner(nramSize);
+		rechner = new VonNeumannRechner(this, nramSize);
 		view = new View(this);
 		clock = new Clock(rechner);
 		frm = new GUIFrame(view, this);
@@ -56,7 +56,7 @@ public class Controller
 	
 	public void loadRamFromFile(File nfile) throws Exception
 	{
-		int[] tRam = new int[rechner.getRamSize()];
+		int[] tRAM = new int[rechner.getRamSize()];
 		StringBuilder tString = new StringBuilder(512);
 		FileReader reader = new FileReader(nfile);
 		BufferedReader breader = new BufferedReader(reader);
@@ -65,8 +65,8 @@ public class Controller
 		{
 			tString.append(breader.readLine()+"/n");
 		}
-		tRam = interpreter.stringToRam(tString.toString());
-		rechner.setRam(tRam);
+		tRAM = interpreter.stringToRam(tString.toString());
+		setRAM(tRAM);
 	}
 
 	public void saveRamToFile(File nfile) throws Exception
@@ -87,6 +87,15 @@ public class Controller
 		return interpreter.stringToRam(input);
 		
 	}
-
+	
+	protected void setRAM(int[] nRAM)
+	{
+		rechner.setRam(nRAM);
+	}
+	
+	protected void updateRAMAnimation(int[] input)
+	{
+		frm.updateRAMAnimation(input);
+	}
 
 }

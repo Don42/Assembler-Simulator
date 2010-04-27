@@ -167,23 +167,28 @@ public class GUIFrame extends JFrame
 		return area.getText();
 	}
 	
-	private void setRAMAnimation()
+	private void setRAM()
 	{
 		String input = area.getText();
 		int[] tRAM = parent.interpretInput(input);
+		parent.setRAM(tRAM);
+	}
+	
+	protected void updateRAMAnimation(int[] nRAM)
+	{
+		int[] tRAM = nRAM;
 		String output = "";
 		
 		for(int i = 0; i<tRAM.length;i++)
 		{
 			output = output+tRAM[i]+"\n";
 		}
-		
 		view.setRAMAnimation(output);
 	}
 	
 	private void run()
 	{
-		setRAMAnimation();
+		setRAM();
 		area.setText(null);
 		step.setEnabled(false);
 		run.setEnabled(false);

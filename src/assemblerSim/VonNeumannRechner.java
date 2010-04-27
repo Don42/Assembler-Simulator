@@ -56,14 +56,16 @@ public class VonNeumannRechner
 	public final static int JMPGE =  16;
 	public final static int JMPLE =  17;
 
-	public VonNeumannRechner(int nramSize)
+	public VonNeumannRechner(Controller nController, int nramSize)
 	{
-		// TODO Auto-generated constructor stub
+		controller = nController;
+		ram = new int[nramSize];
 	}
 	
 	protected void setRam(int[] nram)
 	{
 		ram = nram;
+		controller.updateRAMAnimation(ram);
 	}
 	public void step()
 	{
