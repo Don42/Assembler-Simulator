@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
-public class Controller 
+public class Controller
 {
 
 	/*
@@ -42,11 +42,6 @@ public class Controller
 	public void halt() 
 	{
 		clock.halt();
-	}
-	
-	public void reset()
-	{
-		rechner.reset();
 	}
 	
 	public void setStepTime(int nStepTime)

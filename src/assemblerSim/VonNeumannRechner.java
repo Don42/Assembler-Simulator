@@ -176,4 +176,14 @@ public class VonNeumannRechner
 			break;
 		}
 	}
+
+	protected int getRamSize()
+	{
+		return ram.length;
+	}
+
+	protected int[] getRam()
+	{
+		return ram;
+	}
 }
