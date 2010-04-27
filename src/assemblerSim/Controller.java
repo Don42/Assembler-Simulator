@@ -87,5 +87,11 @@ public class Controller
 		}
 	}
 
+	protected int[] interpretInput(String input)
+	{
+		return interpreter.stringToRam(input);
+		
+	}
+
 
 }

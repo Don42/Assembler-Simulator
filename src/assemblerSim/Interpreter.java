@@ -10,12 +10,13 @@ public class Interpreter
 	
 	protected int[] stringToRam(String assemblerCode)
 	{
-		return null;
+		int[] output = {4,3,3,6};
+		return output;
 	}
 	
 	protected String ramToString(int[] ram)
 	{
-		return null;
+		return "";
 	}
 	
 	protected int stringToOpcode(String assemblerCode)
@@ -25,7 +26,7 @@ public class Interpreter
 	
 	protected String opcodeToString(int[] ram)
 	{
-		return null;
+		return "";
 	}
 
 }
