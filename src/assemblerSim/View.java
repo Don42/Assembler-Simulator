@@ -221,6 +221,7 @@ public class View extends JComponent
 		default:
 			break;
 		}
+		drawAnimation();
 	}
 	
 	/**
