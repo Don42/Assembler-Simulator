@@ -257,5 +257,6 @@ public class View extends JComponent
 	public void setRAMAnimation(String code)
 	{
 		are.setText(code);
+		are.setCaretPosition(0);
 	}
 }
