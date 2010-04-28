@@ -37,11 +37,13 @@ public class GUIFrame extends JFrame
 	private JButton step = new JButton("Step");
 	private JButton run = new JButton("Run");
 	private JButton stop = new JButton("Stop");
+	private JButton reset = new JButton("Reset");
 	private JLabel label = new JLabel("----- Clock in ms -----");
 	private JSlider slider = new JSlider(JSlider.HORIZONTAL,1,5000,1000);
 	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
 	private JTextArea area = new JTextArea();
-	private JScrollPane scroll;
+	private JTextArea consol = new JTextArea();
+	private JScrollPane scroll1, scroll2;
 	
 	
 	/**
@@ -51,14 +53,14 @@ public class GUIFrame extends JFrame
 	{ 
 		super("VonNeumann-Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1100,628);
+		setSize(1100,850);
 		
 		view = nView;
 		parent = nParent;
 		
 		// Save-Button
 		add(save);
-		save.setBounds(958,15,127,30);
+		save.setBounds(910,15,80,30);
 		save.addActionListener(new ActionListener()
 		{
 
@@ -72,12 +74,23 @@ public class GUIFrame extends JFrame
 		
 		// Load-Button
 		add(load);
-		load.setBounds(815,15,127,30);
+		load.setBounds(815,15,80,30);
 		load.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
 				loadRamFromFile();
+			}
+		});
+		
+		// Save-Button
+		add(reset);
+		reset.setBounds(1005,15,80,30);
+		reset.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				
 			}
 		});
 		
@@ -148,9 +161,16 @@ public class GUIFrame extends JFrame
 		
 		// Program Code Field
 		area.setLineWrap(true);
-		scroll = new JScrollPane(area);
-		add(scroll);
-		scroll.setBounds(815,190,270,398);
+		scroll1 = new JScrollPane(area);
+		add(scroll1);
+		scroll1.setBounds(815,190,270,410);
+
+		// Console
+		consol.setLineWrap(true);
+		scroll2 = new JScrollPane(consol);
+		add(scroll2);
+		scroll2.setBounds(13,615,1072,193);
+		consol.setEditable(false);
 		
 		// The Von-Neumann Animation
 		add(view);
