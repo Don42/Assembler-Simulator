@@ -182,7 +182,7 @@ public class GUIFrame extends JFrame
 		for(int i = 0; i<tRAM.length;i++)
 		{
 			String tOut =  ""+tRAM[i];
-			while(tOut.length()<8)
+			while(tOut.length()<10)
 			{
 				tOut = "0" + tOut;
 			}
