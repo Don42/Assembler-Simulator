@@ -35,11 +35,11 @@ public class View extends JComponent
 	Controller parent;
 	
 	// register
-	private int pc = 0;
-	private int ir = 0;
-	private int ar = 0;
-	private int val = 0;
-	private int acc = 0;
+	private String pc = "00000000";
+	private String ir = "00000000";
+	private String ar = "00000000";
+	private String val = "00000000";
+	private String acc = "00000000";
 	public View(Controller ncontroller)
 	{
 		parent = ncontroller;
@@ -183,11 +183,11 @@ public class View extends JComponent
 		
 		// the following lines draw the register values
 		g2d.setColor(Color.BLACK);
-		g2d.drawString(String.valueOf(Integer.toHexString(pc)),319,125);
-		g2d.drawString(String.valueOf(Integer.toHexString(ar)),210,525);
-		g2d.drawString(String.valueOf(Integer.toHexString(ir)),572,119);
-		g2d.drawString(String.valueOf(Integer.toHexString(val)),475,432);
-		g2d.drawString(String.valueOf(Integer.toHexString(acc)),674,432);
+		g2d.drawString(String.valueOf(pc),319,125);
+		g2d.drawString(String.valueOf(ar),210,525);
+		g2d.drawString(String.valueOf(ir),572,119);
+		g2d.drawString(String.valueOf(val),475,432);
+		g2d.drawString(String.valueOf(acc),674,432);
 
 	}
 	
@@ -201,23 +201,23 @@ public class View extends JComponent
 		{
 		case VonNeumannRechner.PROGRAMMCOUNTER:
 			// Program Counter
-			pc=value;
+			pc=Integer.toHexString(value);
 			break;
 		case VonNeumannRechner.INSTRUCTIONREGISTER:
 			// Instruction Register
-			ir=value;
+			ir=Integer.toHexString(value);
 			break;
 		case VonNeumannRechner.ADRESSREGISTER:
 			// Address Register
-			ar=value;
+			ar=Integer.toHexString(value);
 			break;
 		case VonNeumannRechner.VALUEREGISTER:
 			// Value
-			val=value;
+			val=Integer.toHexString(value);
 			break;
 		case VonNeumannRechner.ACCUMULATOR:
 			// Accumulator
-			acc=value;
+			acc=Integer.toHexString(value);
 			break;
 		default:
 			break;
