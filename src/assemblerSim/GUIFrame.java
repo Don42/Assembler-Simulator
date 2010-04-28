@@ -181,9 +181,9 @@ public class GUIFrame extends JFrame
 		
 		for(int i = 0; i<tRAM.length;i++)
 		{
-			String tOut =  ""+tRAM[i];
+			String tOut =  ""+ Integer.toHexString(tRAM[i]);
 			String cell = ""+i;
-			while(tOut.length()<10)
+			while(tOut.length()<8)
 			{
 				tOut = "0" + tOut;
 			}
@@ -192,7 +192,7 @@ public class GUIFrame extends JFrame
 			{
 				cell = "0"+cell;
 			}
-			output = output + cell + " | " + tOut+"\n";
+			output = output + "  " + cell + " | " + tOut+"\n";
 		}
 		view.setRAMAnimation(output);
 	}
