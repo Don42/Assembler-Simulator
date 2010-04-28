@@ -182,11 +182,17 @@ public class GUIFrame extends JFrame
 		for(int i = 0; i<tRAM.length;i++)
 		{
 			String tOut =  ""+tRAM[i];
+			String cell = ""+i;
 			while(tOut.length()<10)
 			{
 				tOut = "0" + tOut;
 			}
-			output = output+tOut+"\n";
+			
+			while(cell.length()<3)
+			{
+				cell = "0"+cell;
+			}
+			output = output + cell + " | " + tOut+"\n";
 		}
 		view.setRAMAnimation(output);
 	}
