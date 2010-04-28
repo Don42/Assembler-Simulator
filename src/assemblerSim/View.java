@@ -22,7 +22,7 @@ public class View extends JComponent
 
 	
 	// object declaration
-	private Image image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine-BraunGrü_IvvonesVersionn.png");
+	private Image image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine.png");
 	private final Stroke stroke1 = new BasicStroke(13.0F);
 	
 	// RAM-JTextArea field.
