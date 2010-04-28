@@ -198,23 +198,23 @@ public class View extends JComponent
 	{
 		switch (register)
 		{
-		case 1:
+		case VonNeumannRechner.PROGRAMMCOUNTER:
 			// Program Counter
 			pc=value;
 			break;
-		case 2:
+		case VonNeumannRechner.INSTRUCTIONREGISTER:
 			// Instruction Register
 			ir=value;
 			break;
-		case 3:
+		case VonNeumannRechner.ADRESSREGISTER:
 			// Address Register
 			ar=value;
 			break;
-		case 4:
+		case VonNeumannRechner.VALUEREGISTER:
 			// Value
 			val=value;
 			break;
-		case 5:
+		case VonNeumannRechner.ACCUMULATOR:
 			// Accumulator
 			acc=value;
 			break;
