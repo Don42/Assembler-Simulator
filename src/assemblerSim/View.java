@@ -181,7 +181,7 @@ public class View extends JComponent
 			break;
 		}
 		
-		// the following line draw the register values
+		// the following lines draw the register values
 		g2d.setColor(Color.BLACK);
 		g2d.drawString(String.valueOf(pc),300,125);
 		g2d.drawString(String.valueOf(ar),195,525);

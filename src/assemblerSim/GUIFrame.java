@@ -38,7 +38,7 @@ public class GUIFrame extends JFrame
 	private JButton run = new JButton("Run");
 	private JButton stop = new JButton("Stop");
 	private JLabel label = new JLabel("----- Clock in ms -----");
-	private JSlider slider = new JSlider(JSlider.HORIZONTAL,0,5000,1000);
+	private JSlider slider = new JSlider(JSlider.HORIZONTAL,1,5000,1000);
 	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
 	private JTextArea area = new JTextArea();
 	private JScrollPane scroll;
@@ -182,6 +182,10 @@ public class GUIFrame extends JFrame
 		for(int i = 0; i<tRAM.length;i++)
 		{
 			String tOut =  ""+tRAM[i];
+			while(tOut.length()<8)
+			{
+				tOut = "0" + tOut;
+			}
 			output = output+tOut+"\n";
 		}
 		view.setRAMAnimation(output);

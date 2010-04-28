@@ -20,7 +20,7 @@ public class Clock
 	public Clock(VonNeumannRechner nrechner)
 	{
 		timer = new Timer();
-		//task = new ClockTask();
+		task = new ClockTask();
 		rechner = nrechner;
 	}
 	
@@ -40,12 +40,13 @@ public class Clock
 	protected void run()
 	{
 		isRunning = true;
-		timer.scheduleAtFixedRate(new ClockTask(), 0, stepTime);
+		timer.scheduleAtFixedRate(task = new ClockTask(), 0, stepTime);
 	}
 
 	protected void halt()
 	{
 		isRunning = false;
+		task.cancel();
 		timer.purge();
 	}
 	

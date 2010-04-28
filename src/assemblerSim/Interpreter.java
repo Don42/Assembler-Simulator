@@ -9,7 +9,7 @@ public class Interpreter
 	
 	protected int[] stringToRam(String assemblerCode)
 	{
-		int[] output = {4,3,3,6};
+		int[] output = new int[512];
 		return output;
 	}
 	
