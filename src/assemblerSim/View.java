@@ -183,11 +183,11 @@ public class View extends JComponent
 		
 		// the following lines draw the register values
 		g2d.setColor(Color.BLACK);
-		g2d.drawString(String.valueOf(pc),319,125);
-		g2d.drawString(String.valueOf(ar),210,525);
-		g2d.drawString(String.valueOf(ir),572,119);
-		g2d.drawString(String.valueOf(val),475,432);
-		g2d.drawString(String.valueOf(acc),674,432);
+		g2d.drawString(String.valueOf(Integer.toHexString(pc)),319,125);
+		g2d.drawString(String.valueOf(Integer.toHexString(ar)),210,525);
+		g2d.drawString(String.valueOf(Integer.toHexString(ir)),572,119);
+		g2d.drawString(String.valueOf(Integer.toHexString(val)),475,432);
+		g2d.drawString(String.valueOf(Integer.toHexString(acc)),674,432);
 
 	}
 	
