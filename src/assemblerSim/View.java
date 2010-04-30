@@ -22,7 +22,8 @@ public class View extends JComponent
 
 	
 	// object declaration
-	private Image image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine.png");
+	private Image image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine.png");	// 800x600 Pixels
+	private Image scaledImage; 
 	private final Stroke stroke1 = new BasicStroke(13.0F);
 	
 	// RAM-JTextArea field.
@@ -47,6 +48,7 @@ public class View extends JComponent
 		are.setEditable(false);
 		add(sco);
 		sco.setBounds(43,114,123,283);
+		scaledImage = image.getScaledInstance(1000, -1, Image.SCALE_SMOOTH);
 	}
 	
 	/**
@@ -56,7 +58,7 @@ public class View extends JComponent
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		g.drawImage(image, 0, 0, this);
+		g.drawImage(scaledImage, 0, 0, this);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(stroke1);
 		g2d.setColor(Color.RED);
@@ -69,9 +71,9 @@ public class View extends JComponent
 			break;
 		case 1:
 			// RAM to Address Register
-			g2d.drawLine(197,282,320,282);
-			g2d.drawLine(319,522,319,281);
-			g2d.drawLine(319,522,301,522);
+			g2d.drawLine(197,282,320,282);	//relative: (24.625, 47, 40, 47)
+			g2d.drawLine(319,522,319,281);	//relative: (39.875, 87, 39.875, 46.83)
+			g2d.drawLine(319,522,301,522);	//relative: (39.875, 87, 37.625, 87)
 			break;
 		case 2:
 			// Address Register to RAM
@@ -258,5 +260,11 @@ public class View extends JComponent
 	{
 		are.setText(code);
 		are.setCaretPosition(0);
+	}
+
+	protected void updateSize() 
+	{
+		scaledImage = image.getScaledInstance(this.getParent().getWidth()-410, -1, Image.SCALE_DEFAULT);
+		
 	}
 }
