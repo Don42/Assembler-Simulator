@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.Toolkit;
@@ -23,7 +24,7 @@ public class View extends JComponent
 	
 	// object declaration
 	private Image image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine.png");	// 800x600 Pixels
-	private Image scaledImage; 
+	private Image scaledImage = null; 
 	private final Stroke stroke1 = new BasicStroke(13.0F);
 	
 	// RAM-JTextArea field.
@@ -48,7 +49,6 @@ public class View extends JComponent
 		are.setEditable(false);
 		add(sco);
 		sco.setBounds(43,114,123,283);
-		scaledImage = image.getScaledInstance(1000, -1, Image.SCALE_SMOOTH);
 	}
 	
 	/**
@@ -199,27 +199,32 @@ public class View extends JComponent
 	 */
 	protected void setRegister(int register, int value)
 	{
+		String temp = Integer.toHexString(value);
+		while(temp.length()<8)
+		{
+			temp = "0" + temp;
+		}
 		switch (register)
 		{
 		case VonNeumannRechner.PROGRAMMCOUNTER:
 			// Program Counter
-			pc=Integer.toHexString(value);
+			pc=temp;
 			break;
 		case VonNeumannRechner.INSTRUCTIONREGISTER:
 			// Instruction Register
-			ir=Integer.toHexString(value);
+			ir=temp;
 			break;
 		case VonNeumannRechner.ADRESSREGISTER:
 			// Address Register
-			ar=Integer.toHexString(value);
+			ar=temp;
 			break;
 		case VonNeumannRechner.VALUEREGISTER:
 			// Value
-			val=Integer.toHexString(value);
+			val=temp;
 			break;
 		case VonNeumannRechner.ACCUMULATOR:
 			// Accumulator
-			acc=Integer.toHexString(value);
+			acc=temp;
 			break;
 		default:
 			break;
@@ -264,7 +269,22 @@ public class View extends JComponent
 
 	protected void updateSize() 
 	{
-		scaledImage = image.getScaledInstance(this.getParent().getWidth()-410, -1, Image.SCALE_DEFAULT);
+		double maxHeightScale = (this.getParent().getHeight() / (double) image.getHeight(null));
+		double maxWidthScale = ((this.getParent().getWidth() - 210) /(double) image.getWidth(null));
+		double scale;
+		if ( maxWidthScale<=maxHeightScale)
+		{
+			scaledImage = image.getScaledInstance(this.getParent().getWidth()-210, -1, Image.SCALE_DEFAULT);
+			scale=maxWidthScale;
+		}
+		else
+		{
+			scaledImage = image.getScaledInstance(-1, this.getParent().getHeight(), Image.SCALE_DEFAULT);
+			scale = maxHeightScale;
+		}
+		sco.setBounds((int)(image.getWidth(null)*0.05375*scale), (int)(image.getHeight(null)*0.19*scale), (int)(image.getWidth(null)*0.15375*scale), (int)(image.getHeight(null)*0.4717*scale));
+		
+		
 		
 	}
 }
