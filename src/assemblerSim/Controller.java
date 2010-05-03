@@ -56,7 +56,6 @@ public class Controller
 	
 	public void loadRamFromFile(File nfile) throws Exception
 	{
-		int[] tRAM = new int[rechner.getRamSize()];
 		StringBuilder tString = new StringBuilder(512);
 		FileReader reader = new FileReader(nfile);
 		BufferedReader breader = new BufferedReader(reader);
@@ -65,8 +64,7 @@ public class Controller
 		{
 			tString.append(breader.readLine()+"/n");
 		}
-		tRAM = interpreter.stringToRam(tString.toString());
-		setRAM(tRAM);
+		setCodeArea(tString.toString());
 	}
 
 	public void saveRamToFile(File nfile) throws Exception
@@ -91,6 +89,11 @@ public class Controller
 	protected void setRAM(int[] nRAM)
 	{
 		rechner.setRam(nRAM);
+	}
+	
+	protected void setCodeArea(String string)
+	{
+		frm.setCodeArea(string);
 	}
 	
 	protected void updateRAMAnimation(int[] input)

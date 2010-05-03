@@ -47,6 +47,7 @@ public class GUIFrame extends JFrame
 	private JButton run = new JButton("Run");
 	private JButton stop = new JButton("Stop");
 	private JButton reset = new JButton("Reset");
+	private JButton toRAM = new JButton("Assemble");
 	private JLabel sliderLabel = new JLabel("Delay in ms");
 	private JSlider slider = new JSlider(JSlider.VERTICAL,1,5000,1000);
 	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
@@ -105,7 +106,7 @@ public class GUIFrame extends JFrame
 		
 		// Reset-Button
 		add(reset);
-		reset.setBounds(this.getWidth()-90,150,80,30);
+		reset.setBounds(this.getWidth()-90,180,80,30);
 		reset.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -116,7 +117,7 @@ public class GUIFrame extends JFrame
 		
 		// Run-Button
 		add(run);
-		run.setBounds(this.getWidth()-90,60,80,30);
+		run.setBounds(this.getWidth()-90,90,80,30);
 		run.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -125,9 +126,20 @@ public class GUIFrame extends JFrame
 			}
 		});
 		
+		// Button to write Input frome the Code Area to RAM
+		add(toRAM);
+		toRAM.setBounds(this.getWidth()-90,60,100,30);
+		toRAM.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				setRAM();
+			}
+		});
+		
 		// Step-Button
 		add(step);
-		step.setBounds(this.getWidth()-90,90,80,30);
+		step.setBounds(this.getWidth()-90,120,80,30);
 		step.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -138,7 +150,7 @@ public class GUIFrame extends JFrame
 		
 		// Stop-Button
 		add(stop);
-		stop.setBounds(this.getWidth()-90,120,80,30);
+		stop.setBounds(this.getWidth()-90,150,80,30);
 		stop.setEnabled(false);
 		stop.addActionListener(new ActionListener()
 		{
@@ -150,11 +162,11 @@ public class GUIFrame extends JFrame
 		
 		// Label for the clock elements
 		add(sliderLabel);
-		sliderLabel.setBounds(this.getWidth()-90,190,80,20);
+		sliderLabel.setBounds(this.getWidth()-90,220,80,20);
 		
 		// Clock-Slider
 		add(slider);
-		slider.setBounds(this.getWidth()-90,210,80,200);
+		slider.setBounds(this.getWidth()-90,240,80,200);
 		slider.setMajorTickSpacing(1000);
 		slider.setMinorTickSpacing(500);
 		slider.setPaintTicks(true);
@@ -170,7 +182,7 @@ public class GUIFrame extends JFrame
 		
 		// Clock-JTextField
 		add(field);
-		field.setBounds(this.getWidth()-90,420,80,30);
+		field.setBounds(this.getWidth()-90,450,80,30);
 		field.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -237,10 +249,13 @@ public class GUIFrame extends JFrame
 		view.setRAMAnimation(output);
 	}
 	
+	protected void setCodeArea(String in)
+	{
+		this.area.setText(in); 
+	}
+	
 	private void run()
 	{
-		setRAM();
-		area.setText(null);
 		step.setEnabled(false);
 		run.setEnabled(false);
 		reset.setEnabled(false);
@@ -279,7 +294,7 @@ public class GUIFrame extends JFrame
 			} 		
             catch (Exception e)
 			{
-				JOptionPane.showMessageDialog(this, "An Error has occured /n" + e.getMessage());
+				JOptionPane.showMessageDialog(this, "An Error has occured \n" + e.getMessage());
 				e.printStackTrace();
 			}
         }
@@ -312,7 +327,7 @@ public class GUIFrame extends JFrame
 			}
 			catch (Exception e)
 			{
-				JOptionPane.showMessageDialog(this, "An Error has occured /n" + e.getMessage());
+				JOptionPane.showMessageDialog(this, "An Error has occured \n" + e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -324,6 +339,7 @@ public class GUIFrame extends JFrame
 		save.setBounds(this.getWidth()-90,save.getY(),save.getWidth(),save.getHeight());
 		load.setBounds(this.getWidth()-90,load.getY(),load.getWidth(),load.getHeight());
 		reset.setBounds(this.getWidth()-90,reset.getY(),reset.getWidth(),reset.getHeight());
+		toRAM.setBounds(this.getWidth()-90,toRAM.getY(),toRAM.getWidth(),toRAM.getHeight());
 		run.setBounds(this.getWidth()-90,run.getY(),run.getWidth(),run.getHeight());
 		step.setBounds(this.getWidth()-90,step.getY(),step.getWidth(),step.getHeight());
 		stop.setBounds(this.getWidth()-90,stop.getY(),stop.getWidth(),stop.getHeight());
