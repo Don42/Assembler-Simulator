@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.Toolkit;
@@ -23,7 +22,7 @@ public class View extends JComponent
 
 	
 	// object declaration
-	private Image image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine.png");	// 800x600 Pixels
+	private Image image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine_1440x1080.png");	// 800x600 Pixels
 	private Image scaledImage = null; 
 	private final Stroke stroke1 = new BasicStroke(13.0F);
 	
@@ -274,12 +273,12 @@ public class View extends JComponent
 		double scale;
 		if ( maxWidthScale<=maxHeightScale)
 		{
-			scaledImage = image.getScaledInstance(this.getParent().getWidth()-210, -1, Image.SCALE_DEFAULT);
+			scaledImage = image.getScaledInstance(this.getParent().getWidth()-210, -1, Image.SCALE_FAST);
 			scale=maxWidthScale;
 		}
 		else
 		{
-			scaledImage = image.getScaledInstance(-1, this.getParent().getHeight(), Image.SCALE_DEFAULT);
+			scaledImage = image.getScaledInstance(-1, this.getParent().getHeight(), Image.SCALE_FAST);
 			scale = maxHeightScale;
 		}
 		sco.setBounds((int)(image.getWidth(null)*0.05375*scale), (int)(image.getHeight(null)*0.19*scale), (int)(image.getWidth(null)*0.15375*scale), (int)(image.getHeight(null)*0.4717*scale));
