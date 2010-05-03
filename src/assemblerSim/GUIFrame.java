@@ -1,7 +1,16 @@
 package assemblerSim;
 
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Label;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -38,12 +47,15 @@ public class GUIFrame extends JFrame
 	private JButton run = new JButton("Run");
 	private JButton stop = new JButton("Stop");
 	private JButton reset = new JButton("Reset");
-	private JLabel label = new JLabel("----- Clock in ms -----");
-	private JSlider slider = new JSlider(JSlider.HORIZONTAL,1,5000,1000);
+	private JButton toRAM = new JButton("Assemble");
+	private JLabel sliderLabel = new JLabel("Delay in ms");
+	private JSlider slider = new JSlider(JSlider.VERTICAL,1,5000,1000);
 	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
 	private JTextArea area = new JTextArea();
-	private JTextArea consol = new JTextArea();
+	private JTextArea console = new JTextArea();
 	private JScrollPane scroll1, scroll2;
+	
+	//Variables for resizing
 	
 	
 	/**
@@ -52,15 +64,24 @@ public class GUIFrame extends JFrame
 	public GUIFrame(View nView, Controller nParent)
 	{ 
 		super("VonNeumann-Simulator");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1100,850);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setMinimumSize(new Dimension(1024,768));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		this.setMaximizedBounds(env.getMaximumWindowBounds());
+		this.setPreferredSize(env.getMaximumWindowBounds().getSize());
+		this.setSize(this.getPreferredSize());
+		this.setExtendedState(this.getExtendedState() | Frame.MAXIMIZED_BOTH);
+		
+		this.addComponentListener(new ResizeListener(this));
+		
 		
 		view = nView;
 		parent = nParent;
 		
 		// Save-Button
 		add(save);
-		save.setBounds(910,15,80,30);
+		save.setBounds(this.getWidth()-90,30,80,30);
 		save.addActionListener(new ActionListener()
 		{
 
@@ -74,7 +95,7 @@ public class GUIFrame extends JFrame
 		
 		// Load-Button
 		add(load);
-		load.setBounds(815,15,80,30);
+		load.setBounds(this.getWidth()-90,0,80,30);
 		load.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -83,9 +104,9 @@ public class GUIFrame extends JFrame
 			}
 		});
 		
-		// Save-Button
+		// Reset-Button
 		add(reset);
-		reset.setBounds(1005,15,80,30);
+		reset.setBounds(this.getWidth()-90,180,80,30);
 		reset.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -96,7 +117,7 @@ public class GUIFrame extends JFrame
 		
 		// Run-Button
 		add(run);
-		run.setBounds(815,60,80,30);
+		run.setBounds(this.getWidth()-90,90,80,30);
 		run.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -105,9 +126,20 @@ public class GUIFrame extends JFrame
 			}
 		});
 		
+		// Button to write Input frome the Code Area to RAM
+		add(toRAM);
+		toRAM.setBounds(this.getWidth()-90,60,100,30);
+		toRAM.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				setRAM();
+			}
+		});
+		
 		// Step-Button
 		add(step);
-		step.setBounds(910,60,80,30);
+		step.setBounds(this.getWidth()-90,120,80,30);
 		step.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -118,7 +150,7 @@ public class GUIFrame extends JFrame
 		
 		// Stop-Button
 		add(stop);
-		stop.setBounds(1005,60,80,30);
+		stop.setBounds(this.getWidth()-90,150,80,30);
 		stop.setEnabled(false);
 		stop.addActionListener(new ActionListener()
 		{
@@ -129,12 +161,12 @@ public class GUIFrame extends JFrame
 		});
 		
 		// Label for the clock elements
-		add(label);
-		label.setBounds(880,105,140,20);
+		add(sliderLabel);
+		sliderLabel.setBounds(this.getWidth()-90,220,80,20);
 		
 		// Clock-Slider
 		add(slider);
-		slider.setBounds(815,125,200,50);
+		slider.setBounds(this.getWidth()-90,240,80,200);
 		slider.setMajorTickSpacing(1000);
 		slider.setMinorTickSpacing(500);
 		slider.setPaintTicks(true);
@@ -150,7 +182,7 @@ public class GUIFrame extends JFrame
 		
 		// Clock-JTextField
 		add(field);
-		field.setBounds(1030,135,55,30);
+		field.setBounds(this.getWidth()-90,450,80,30);
 		field.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -163,14 +195,14 @@ public class GUIFrame extends JFrame
 		area.setLineWrap(true);
 		scroll1 = new JScrollPane(area);
 		add(scroll1);
-		scroll1.setBounds(815,190,270,410);
+		scroll1.setBounds(this.getWidth()-220,0,130,this.getHeight());
 
 		// Console
-		consol.setLineWrap(true);
-		scroll2 = new JScrollPane(consol);
-		add(scroll2);
-		scroll2.setBounds(13,615,1072,193);
-		consol.setEditable(false);
+//		console.setLineWrap(true);
+//		scroll2 = new JScrollPane(console);
+//		add(scroll2);
+//		scroll2.setBounds(13,615,1072,193);
+//		console.setEditable(false);
 		
 		// The Von-Neumann Animation
 		add(view);
@@ -217,12 +249,16 @@ public class GUIFrame extends JFrame
 		view.setRAMAnimation(output);
 	}
 	
+	protected void setCodeArea(String in)
+	{
+		this.area.setText(in); 
+	}
+	
 	private void run()
 	{
-		setRAM();
-		area.setText(null);
 		step.setEnabled(false);
 		run.setEnabled(false);
+		reset.setEnabled(false);
 		stop.setEnabled(true);
 		parent.setStepTime(slider.getValue());
 		parent.run();
@@ -230,7 +266,6 @@ public class GUIFrame extends JFrame
 	
 	private void step()
 	{
-		parent.setStepTime(slider.getValue());
 		parent.step();
 	}
 	
@@ -239,6 +274,7 @@ public class GUIFrame extends JFrame
 		parent.halt();
 		step.setEnabled(true);
 		run.setEnabled(true);
+		reset.setEnabled(true);
 		stop.setEnabled(false);
 	}
 	
@@ -258,7 +294,7 @@ public class GUIFrame extends JFrame
 			} 		
             catch (Exception e)
 			{
-				JOptionPane.showMessageDialog(this, "An Error has occured /n" + e.getMessage());
+				JOptionPane.showMessageDialog(this, "An Error has occured \n" + e.getMessage());
 				e.printStackTrace();
 			}
         }
@@ -291,10 +327,27 @@ public class GUIFrame extends JFrame
 			}
 			catch (Exception e)
 			{
-				JOptionPane.showMessageDialog(this, "An Error has occured /n" + e.getMessage());
+				JOptionPane.showMessageDialog(this, "An Error has occured \n" + e.getMessage());
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void updateSize() 
+	{
+		//Move Buttons
+		save.setBounds(this.getWidth()-90,save.getY(),save.getWidth(),save.getHeight());
+		load.setBounds(this.getWidth()-90,load.getY(),load.getWidth(),load.getHeight());
+		reset.setBounds(this.getWidth()-90,reset.getY(),reset.getWidth(),reset.getHeight());
+		toRAM.setBounds(this.getWidth()-90,toRAM.getY(),toRAM.getWidth(),toRAM.getHeight());
+		run.setBounds(this.getWidth()-90,run.getY(),run.getWidth(),run.getHeight());
+		step.setBounds(this.getWidth()-90,step.getY(),step.getWidth(),step.getHeight());
+		stop.setBounds(this.getWidth()-90,stop.getY(),stop.getWidth(),stop.getHeight());
+		slider.setBounds(this.getWidth()-90,slider.getY(),slider.getWidth(),slider.getHeight());
+		sliderLabel.setBounds(this.getWidth()-90,sliderLabel.getY(),sliderLabel.getWidth(),sliderLabel.getHeight());
+		field.setBounds(this.getWidth()-90,field.getY(),field.getWidth(),field.getHeight());
+		scroll1.setBounds(this.getWidth()-220,scroll1.getY(),scroll1.getWidth(),this.getHeight());
+		view.updateSize();
 	}
 	
 }
