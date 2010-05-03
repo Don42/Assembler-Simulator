@@ -62,7 +62,7 @@ public class Controller
 		
 		while(breader.ready())
 		{
-			tString.append(breader.readLine()+"/n");
+			tString.append(breader.readLine()+"\n");
 		}
 		setCodeArea(tString.toString());
 	}

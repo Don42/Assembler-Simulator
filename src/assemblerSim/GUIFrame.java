@@ -56,7 +56,8 @@ public class GUIFrame extends JFrame
 	private JScrollPane scroll1, scroll2;
 	
 	private final static int BUTTON_WIDTH = 100;
-	
+	private final static int BUTTON_SPACER = 15;
+	private final static int AREA_WIDTH = 130;
 	
 	
 	/**
@@ -80,7 +81,7 @@ public class GUIFrame extends JFrame
 		
 		// Save-Button
 		add(save);
-		save.setBounds(this.getWidth()-90,30,80,30);
+		save.setBounds(this.getWidth()-BUTTON_WIDTH,30,BUTTON_WIDTH,30);
 		save.addActionListener(new ActionListener()
 		{
 
@@ -94,7 +95,7 @@ public class GUIFrame extends JFrame
 		
 		// Load-Button
 		add(load);
-		load.setBounds(this.getWidth()-90,0,80,30);
+		load.setBounds(this.getWidth()-BUTTON_WIDTH,0,BUTTON_WIDTH,30);
 		load.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -105,7 +106,7 @@ public class GUIFrame extends JFrame
 		
 		// Reset-Button
 		add(reset);
-		reset.setBounds(this.getWidth()-90,180,80,30);
+		reset.setBounds(this.getWidth()-BUTTON_WIDTH,180,BUTTON_WIDTH,30);
 		reset.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -116,7 +117,7 @@ public class GUIFrame extends JFrame
 		
 		// Run-Button
 		add(run);
-		run.setBounds(this.getWidth()-90,90,80,30);
+		run.setBounds(this.getWidth()-BUTTON_WIDTH,90,BUTTON_WIDTH,30);
 		run.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -127,7 +128,7 @@ public class GUIFrame extends JFrame
 		
 		// Button to write Input frome the Code Area to RAM
 		add(toRAM);
-		toRAM.setBounds(this.getWidth()-90,60,100,30);
+		toRAM.setBounds(this.getWidth()-BUTTON_WIDTH,60,BUTTON_WIDTH,30);
 		toRAM.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -138,7 +139,7 @@ public class GUIFrame extends JFrame
 		
 		// Step-Button
 		add(step);
-		step.setBounds(this.getWidth()-90,120,80,30);
+		step.setBounds(this.getWidth()-BUTTON_WIDTH,120,BUTTON_WIDTH,30);
 		step.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -149,7 +150,7 @@ public class GUIFrame extends JFrame
 		
 		// Stop-Button
 		add(stop);
-		stop.setBounds(this.getWidth()-90,150,80,30);
+		stop.setBounds(this.getWidth()-BUTTON_WIDTH,150,BUTTON_WIDTH,30);
 		stop.setEnabled(false);
 		stop.addActionListener(new ActionListener()
 		{
@@ -161,11 +162,11 @@ public class GUIFrame extends JFrame
 		
 		// Label for the clock elements
 		add(sliderLabel);
-		sliderLabel.setBounds(this.getWidth()-90,220,80,20);
+		sliderLabel.setBounds(this.getWidth()-BUTTON_WIDTH,220,BUTTON_WIDTH,20);
 		
 		// Clock-Slider
 		add(slider);
-		slider.setBounds(this.getWidth()-90,240,80,200);
+		slider.setBounds(this.getWidth()-BUTTON_WIDTH,240,BUTTON_WIDTH,200);
 		slider.setMajorTickSpacing(1000);
 		slider.setMinorTickSpacing(500);
 		slider.setPaintTicks(true);
@@ -181,7 +182,7 @@ public class GUIFrame extends JFrame
 		
 		// Clock-JTextField
 		add(field);
-		field.setBounds(this.getWidth()-90,450,80,30);
+		field.setBounds(this.getWidth()-BUTTON_WIDTH,450,BUTTON_WIDTH,30);
 		field.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -334,18 +335,20 @@ public class GUIFrame extends JFrame
 
 	public void updateSize() 
 	{
+		int x = this.getWidth()-BUTTON_WIDTH + 10;
+		int x1 = this.getWidth()-BUTTON_WIDTH + 140;
 		//Move Buttons
-		save.setBounds(this.getWidth()-90,save.getY(),save.getWidth(),save.getHeight());
-		load.setBounds(this.getWidth()-90,load.getY(),load.getWidth(),load.getHeight());
-		reset.setBounds(this.getWidth()-90,reset.getY(),reset.getWidth(),reset.getHeight());
-		toRAM.setBounds(this.getWidth()-90,toRAM.getY(),toRAM.getWidth(),toRAM.getHeight());
-		run.setBounds(this.getWidth()-90,run.getY(),run.getWidth(),run.getHeight());
-		step.setBounds(this.getWidth()-90,step.getY(),step.getWidth(),step.getHeight());
-		stop.setBounds(this.getWidth()-90,stop.getY(),stop.getWidth(),stop.getHeight());
-		slider.setBounds(this.getWidth()-90,slider.getY(),slider.getWidth(),slider.getHeight());
-		sliderLabel.setBounds(this.getWidth()-90,sliderLabel.getY(),sliderLabel.getWidth(),sliderLabel.getHeight());
-		field.setBounds(this.getWidth()-90,field.getY(),field.getWidth(),field.getHeight());
-		scroll1.setBounds(this.getWidth()-220,scroll1.getY(),scroll1.getWidth(),this.getHeight());
+		save.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),save.getY(),save.getWidth(),save.getHeight());
+		load.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),load.getY(),load.getWidth(),load.getHeight());
+		reset.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),reset.getY(),reset.getWidth(),reset.getHeight());
+		toRAM.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),toRAM.getY(),toRAM.getWidth(),toRAM.getHeight());
+		run.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),run.getY(),run.getWidth(),run.getHeight());
+		step.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),step.getY(),step.getWidth(),step.getHeight());
+		stop.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),stop.getY(),stop.getWidth(),stop.getHeight());
+		slider.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),slider.getY(),slider.getWidth(),slider.getHeight());
+		sliderLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),sliderLabel.getY(),sliderLabel.getWidth(),sliderLabel.getHeight());
+		field.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),field.getY(),field.getWidth(),field.getHeight());
+		scroll1.setBounds(this.getWidth()-(AREA_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),scroll1.getWidth(),this.getHeight());
 		view.updateSize();
 	}
 	
