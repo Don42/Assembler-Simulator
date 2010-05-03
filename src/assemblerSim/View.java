@@ -197,27 +197,32 @@ public class View extends JComponent
 	 */
 	protected void setRegister(int register, int value)
 	{
+		String temp = Integer.toHexString(value);
+		while(temp.length()<8)
+		{
+			temp = "0" + temp;
+		}
 		switch (register)
 		{
 		case VonNeumannRechner.PROGRAMMCOUNTER:
 			// Program Counter
-			pc=Integer.toHexString(value);
+			pc=temp;
 			break;
 		case VonNeumannRechner.INSTRUCTIONREGISTER:
 			// Instruction Register
-			ir=Integer.toHexString(value);
+			ir=temp;
 			break;
 		case VonNeumannRechner.ADRESSREGISTER:
 			// Address Register
-			ar=Integer.toHexString(value);
+			ar=temp;
 			break;
 		case VonNeumannRechner.VALUEREGISTER:
 			// Value
-			val=Integer.toHexString(value);
+			val=temp;
 			break;
 		case VonNeumannRechner.ACCUMULATOR:
 			// Accumulator
-			acc=Integer.toHexString(value);
+			acc=temp;
 			break;
 		default:
 			break;
