@@ -101,4 +101,10 @@ public class Controller
 		frm.updateRAMAnimation(input);
 	}
 
+	protected void reset() 
+	{
+		rechner.reset();
+		
+	}
+
 }

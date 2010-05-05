@@ -197,7 +197,7 @@ public class View extends JComponent
 	 */
 	protected void setRegister(int register, int value)
 	{
-		String temp = Integer.toHexString(value);
+		String temp = Integer.toHexString(value).toUpperCase();
 		while(temp.length()<8)
 		{
 			temp = "0" + temp;

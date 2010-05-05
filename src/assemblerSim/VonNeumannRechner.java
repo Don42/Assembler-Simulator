@@ -237,4 +237,23 @@ public class VonNeumannRechner
 			nextStep = HALT;
 		}
 	}
+
+	protected void reset() 
+	{
+		
+		accumulator=0;
+		valueRegister=0;
+		instructionRegister=0;
+		programCounter=0;
+		addressRegister=0;
+		stackPointer=0;
+		controller.setRegister(ACCUMULATOR, accumulator);
+		controller.setRegister(VALUEREGISTER, valueRegister);
+		controller.setRegister(INSTRUCTIONREGISTER, instructionRegister);
+		controller.setRegister(PROGRAMMCOUNTER,programCounter);
+		controller.setRegister(ADRESSREGISTER,addressRegister);
+		controller.setRegister(STACKPOINTER,stackPointer);
+		setRam(new int[ram.length]);
+		
+	}
 }

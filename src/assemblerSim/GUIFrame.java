@@ -73,7 +73,6 @@ public class GUIFrame extends JFrame
 		this.setSize(this.getPreferredSize());
 		this.setExtendedState(this.getExtendedState() | Frame.MAXIMIZED_BOTH);
 		
-		this.addComponentListener(new ResizeListener(this));
 		
 		
 		view = nView;
@@ -111,7 +110,7 @@ public class GUIFrame extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				reset();
 			}
 		});
 		
@@ -233,7 +232,7 @@ public class GUIFrame extends JFrame
 		
 		for(int i = 0; i<tRAM.length;i++)
 		{
-			String tOut =  ""+ Integer.toHexString(tRAM[i]);
+			String tOut =  ""+ Integer.toHexString(tRAM[i]).toUpperCase();
 			String cell = ""+i;
 			while(tOut.length()<8)
 			{
@@ -276,6 +275,11 @@ public class GUIFrame extends JFrame
 		run.setEnabled(true);
 		reset.setEnabled(true);
 		stop.setEnabled(false);
+	}
+	
+	private void reset()
+	{
+		parent.reset();
 	}
 	
 	public void loadRamFromFile()
@@ -347,7 +351,6 @@ public class GUIFrame extends JFrame
 		sliderLabel.setBounds(this.getWidth()-90,sliderLabel.getY(),sliderLabel.getWidth(),sliderLabel.getHeight());
 		field.setBounds(this.getWidth()-90,field.getY(),field.getWidth(),field.getHeight());
 		scroll1.setBounds(this.getWidth()-220,scroll1.getY(),scroll1.getWidth(),this.getHeight());
-		view.updateSize();
 	}
 	
 }
