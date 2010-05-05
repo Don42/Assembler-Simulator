@@ -259,6 +259,7 @@ public class GUIFrame extends JFrame
 		run.setEnabled(false);
 		reset.setEnabled(false);
 		stop.setEnabled(true);
+		toRAM.setEnabled(false);
 		parent.setStepTime(slider.getValue());
 		parent.run();
 	}
@@ -274,6 +275,7 @@ public class GUIFrame extends JFrame
 		step.setEnabled(true);
 		run.setEnabled(true);
 		reset.setEnabled(true);
+		toRAM.setEnabled(true);
 		stop.setEnabled(false);
 	}
 	

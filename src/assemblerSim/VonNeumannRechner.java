@@ -254,6 +254,7 @@ public class VonNeumannRechner
 		controller.setRegister(ADRESSREGISTER,addressRegister);
 		controller.setRegister(STACKPOINTER,stackPointer);
 		setRam(new int[ram.length]);
+		nextStep = STEP_FETCH;
 		
 	}
 }
