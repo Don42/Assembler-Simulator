@@ -65,8 +65,7 @@ public class GUIFrame extends JFrame
 	{ 
 		super("VonNeumann-Simulator");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setMinimumSize(new Dimension(1024,768));
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
+		this.setMinimumSize(new Dimension(1024,768)); 
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		this.setMaximizedBounds(env.getMaximumWindowBounds());
 		this.setPreferredSize(env.getMaximumWindowBounds().getSize());

@@ -79,8 +79,6 @@ public class View extends JComponent
 		super.paintComponent(g);
 		g.drawImage(main_image, 0, 0, this);
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setStroke(stroke1);
-		g2d.setColor(Color.RED);
 		
 		// In this case block, depending on linie, the active line is drawn. Default value of linie at the beginning is 0, so no line is drawn.
 		switch (linie)

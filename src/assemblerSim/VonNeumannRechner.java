@@ -34,28 +34,6 @@ public class VonNeumannRechner
 	public final static int STEP_INDIRECT = 3;
 	public final static int STEP_EXECUTE = 4;
 	
-	/*
-	 * INSTRUCTIONS
-	 */
-	public final static int NOP =  0;
-	public final static int HALT =  1;
-	public final static int LOAD =  2;
-	public final static int STORE =  3;
-	public final static int ADD =  4;
-	public final static int SUB =  5;
-	public final static int DIV =  6;
-	public final static int MULT =  7;
-	public final static int MOD =  8;
-	public final static int AND =  9;
-	public final static int OR = 10;
-	public final static int NOT =  11;
-	public final static int JMP =  12;
-	public final static int JMPEQ =  13;
-	public final static int JMPGT =  14;
-	public final static int JMPLT =  15;
-	public final static int JMPGE =  16;
-	public final static int JMPLE =  17;
-
 	public VonNeumannRechner(Controller nController, int nramSize)
 	{
 		controller = nController;
@@ -97,72 +75,101 @@ public class VonNeumannRechner
 	{
 		nextStep = STEP_INDIRECT;	
 
-		instruction = Integer.rotateRight(instructionRegister, 24);
+		instruction = Integer.rotateRight(instructionRegister, 24)&255;
+		
+		addressRegister = instructionRegister&16777215%ram.length;
+		controller.setRegister(ADRESSREGISTER, addressRegister);
 	}
 	
 	protected void indirect()
 	{
-		nextStep = STEP_EXECUTE;		
+		nextStep = STEP_EXECUTE;
+		if((Integer.rotateRight(instructionRegister,23)&1)==1)
+		{
+			//direct addressing:
+
+			valueRegister = ram[addressRegister];
+			controller.setRegister(VALUEREGISTER, valueRegister);
+		}
+		else
+		{
+			//immediate addressing
+			valueRegister = addressRegister;
+			controller.setRegister(VALUEREGISTER, valueRegister);
+		}
 	}
 	
 	protected void execute()
 	{
 		nextStep = STEP_FETCH;
 		
+		Opcodes command = Opcodes.values()[instruction];
 		
-		switch (instruction)
+		switch (command)
 		{
 		case HALT:
 			nextStep = STEP_HALT;
+			controller.halt();
 			break;
 		case LOAD:
 			accumulator = ram[addressRegister];
+			controller.setRegister(ACCUMULATOR, accumulator);
 			increasProgrammCounter();
 			break;
 		case STORE:
 			ram[addressRegister] = accumulator;
+			controller.updateRAMAnimation(ram);
 			increasProgrammCounter();
 			break;
 		case ADD:
 			accumulator = accumulator + valueRegister;
+			controller.setRegister(ACCUMULATOR, accumulator);
 			increasProgrammCounter();
 			break;
 		case SUB:
 			accumulator = accumulator - valueRegister;
+			controller.setRegister(ACCUMULATOR, accumulator);
 			increasProgrammCounter();
 			break;
 		case MULT:
 			accumulator = accumulator * valueRegister;
+			controller.setRegister(ACCUMULATOR, accumulator);
 			increasProgrammCounter();
 			break;
 		case DIV:
 			accumulator = accumulator / valueRegister;
+			controller.setRegister(ACCUMULATOR, accumulator);
 			increasProgrammCounter();
 			break;
 		case MOD:
 			accumulator = accumulator % valueRegister;
+			controller.setRegister(ACCUMULATOR, accumulator);
 			increasProgrammCounter();
 			break;
 		case AND:
 			accumulator = accumulator & valueRegister;
+			controller.setRegister(ACCUMULATOR, accumulator);
 			increasProgrammCounter();
 			break;
 		case OR:
 			accumulator = accumulator | valueRegister;
+			controller.setRegister(ACCUMULATOR, accumulator);
 			increasProgrammCounter();
 			break;
 		case NOT:
 			accumulator = ~accumulator;
+			controller.setRegister(ACCUMULATOR, accumulator);
 			increasProgrammCounter();
 			break;
 		case JMP:
-			programCounter = valueRegister;
-			increasProgrammCounter();
+			programCounter = valueRegister%ram.length;
+			controller.setRegister(PROGRAMMCOUNTER, programCounter);	
 			break;
 		case JMPEQ:
 			if(accumulator == 0)
 			{
-				programCounter = valueRegister;				
+				programCounter = valueRegister%ram.length;
+				controller.setRegister(PROGRAMMCOUNTER, programCounter);					
 			}
 			else
 			{
@@ -172,7 +179,8 @@ public class VonNeumannRechner
 		case JMPGT:
 			if(accumulator > 0)
 			{
-				programCounter = valueRegister;				
+				programCounter = valueRegister%ram.length;	
+				controller.setRegister(PROGRAMMCOUNTER, programCounter);				
 			}
 			else
 			{
@@ -182,7 +190,8 @@ public class VonNeumannRechner
 		case JMPLT:
 			if(accumulator < 0)
 			{
-				programCounter = valueRegister;				
+				programCounter = valueRegister%ram.length;
+				controller.setRegister(PROGRAMMCOUNTER, programCounter);					
 			}
 			else
 			{
@@ -192,7 +201,8 @@ public class VonNeumannRechner
 		case JMPGE:
 			if(accumulator >= 0)
 			{
-				programCounter = valueRegister;				
+				programCounter = valueRegister%ram.length;	
+				controller.setRegister(PROGRAMMCOUNTER, programCounter);			
 			}
 			else
 			{
@@ -201,7 +211,8 @@ public class VonNeumannRechner
 		case JMPLE:
 			if(accumulator <= 0)
 			{
-				programCounter = valueRegister;				
+				programCounter = valueRegister%ram.length;	
+				controller.setRegister(PROGRAMMCOUNTER, programCounter);				
 			}
 			else
 			{
@@ -234,7 +245,7 @@ public class VonNeumannRechner
 		}
 		else
 		{
-			nextStep = HALT;
+			nextStep = STEP_HALT;
 		}
 	}
 
