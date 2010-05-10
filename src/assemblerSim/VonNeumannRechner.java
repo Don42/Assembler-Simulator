@@ -246,6 +246,7 @@ public class VonNeumannRechner
 		else
 		{
 			nextStep = STEP_HALT;
+			controller.halt();
 		}
 	}
 

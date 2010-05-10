@@ -27,6 +27,7 @@ public class Controller
 		view = new View(this);
 		clock = new Clock(rechner);
 		frm = new GUIFrame(view, this);
+		rechner.setRam(new int[nramSize]);
 	}
 	
 	public void step()
@@ -34,13 +35,16 @@ public class Controller
 	clock.step();
 	}
 	
-	public void run()
+	protected void run()
 	{
+		setStepTime(frm.getSliderValue());
+		frm.run();
 		clock.run();
 	}
 	
-	public void halt() 
+	protected void halt() 
 	{
+		frm.stop();
 		clock.halt();
 	}
 	
@@ -86,9 +90,12 @@ public class Controller
 		
 	}
 	
-	protected void setRAM(int[] nRAM)
+	protected void setRAM()
 	{
-		rechner.setRam(nRAM);
+		this.reset();
+		String input = frm.getTextFromCodeArea();
+		int[] tRAM = interpretInput(input);
+		rechner.setRam(tRAM);
 	}
 	
 	protected void setCodeArea(String string)
@@ -103,8 +110,7 @@ public class Controller
 
 	protected void reset() 
 	{
-		rechner.reset();
-		
+		rechner.reset();		
 	}
 
 }

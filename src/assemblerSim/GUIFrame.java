@@ -111,7 +111,7 @@ public class GUIFrame extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				parent.reset();
 			}
 		});
 		
@@ -122,7 +122,7 @@ public class GUIFrame extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				run();
+				parent.run();
 			}
 		});
 		
@@ -133,7 +133,7 @@ public class GUIFrame extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				setRAM();
+				parent.setRAM();
 			}
 		});
 		
@@ -144,7 +144,7 @@ public class GUIFrame extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				step();
+				parent.step();
 			}
 		});
 		
@@ -156,7 +156,7 @@ public class GUIFrame extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				stop();
+				parent.halt();
 			}
 		});
 		
@@ -214,19 +214,12 @@ public class GUIFrame extends JFrame
 	/**
 	 * @return Assembler-Code of the Program Code Field
 	 */
-	public String eingabeCodeUebergabe()
+	String eingabeCodeUebergabe()
 	{
 		return area.getText();
 	}
 	
-	private void setRAM()
-	{
-		String input = area.getText();
-		int[] tRAM = parent.interpretInput(input);
-		parent.setRAM(tRAM);
-	}
-	
-	protected void updateRAMAnimation(int[] nRAM)
+	void updateRAMAnimation(int[] nRAM)
 	{
 		int[] tRAM = nRAM;
 		String output = "";
@@ -253,32 +246,28 @@ public class GUIFrame extends JFrame
 	{
 		this.area.setText(in); 
 	}
+	protected String getTextFromCodeArea()
+	{
+		return this.area.getText();
+	}
 	
-	private void run()
+	void run()
 	{
 		step.setEnabled(false);
 		run.setEnabled(false);
 		reset.setEnabled(false);
 		stop.setEnabled(true);
-		parent.setStepTime(slider.getValue());
-		parent.run();
 	}
 	
-	private void step()
+	void stop()
 	{
-		parent.step();
-	}
-	
-	private void stop()
-	{
-		parent.halt();
 		step.setEnabled(true);
 		run.setEnabled(true);
 		reset.setEnabled(true);
 		stop.setEnabled(false);
 	}
 	
-	public void loadRamFromFile()
+	void loadRamFromFile()
 	{
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -300,7 +289,7 @@ public class GUIFrame extends JFrame
         }
 	}
 	
-	public void saveRamToFile()
+	void saveRamToFile()
 	{
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -333,10 +322,8 @@ public class GUIFrame extends JFrame
 		}
 	}
 
-	public void updateSize() 
+	void updateSize() 
 	{
-		int x = this.getWidth()-BUTTON_WIDTH + 10;
-		int x1 = this.getWidth()-BUTTON_WIDTH + 140;
 		//Move Buttons
 		save.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),save.getY(),save.getWidth(),save.getHeight());
 		load.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),load.getY(),load.getWidth(),load.getHeight());
@@ -351,6 +338,11 @@ public class GUIFrame extends JFrame
 		scroll1.setBounds(this.getWidth()-(AREA_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),scroll1.getWidth(),this.getHeight());
 		scroll1.revalidate();
 		view.updateSize();
+	}
+
+	int getSliderValue()
+	{
+		return slider.getValue();
 	}
 	
 }

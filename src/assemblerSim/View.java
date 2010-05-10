@@ -20,9 +20,9 @@ public class View extends JComponent
 
 	
 	// object declaration
-	//private Image main_image = Toolkit.getDefaultToolkit().getImage("images/VonNeumannMaschine.png");
-	private Image main_image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine_1440x1080.png");
-	private Image line_ram_ar = Toolkit.getDefaultToolkit().getImage("images/lines/RAMAdressRegister.png");
+	private Image main_image = Toolkit.getDefaultToolkit().getImage("images/VonNeumannMaschine.png");
+//	private Image main_image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine_1440x1080.png");
+	private Image line_ram_ar = Toolkit.getDefaultToolkit().getImage("images/lines/RAMAddressRegister.png");
 	private Image line_ar_ram = Toolkit.getDefaultToolkit().getImage("images/lines/AddressRegisterRAM.png");
 	private Image line_ram_pc = Toolkit.getDefaultToolkit().getImage("images/lines/RAMProgramCounter.png");
 	private Image line_ram_value = Toolkit.getDefaultToolkit().getImage("images/lines/RAMValue.png");
