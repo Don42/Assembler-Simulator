@@ -50,7 +50,7 @@ public class GUIFrame extends JFrame
 	private JButton toRAM = new JButton("Assemble");
 	private JLabel sliderLabel = new JLabel("Delay in ms");
 	private JSlider slider = new JSlider(JSlider.VERTICAL,1,5000,1000);
-	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
+//	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
 	private JTextArea area = new JTextArea();
 	private JTextArea console = new JTextArea();
 	private JScrollPane scroll1, scroll2;
@@ -175,21 +175,21 @@ public class GUIFrame extends JFrame
 		{
 			public void stateChanged(ChangeEvent e)
 			{
-				field.setText(String.valueOf(slider.getValue()));
+//				field.setText(String.valueOf(slider.getValue()));
 				parent.setStepTime(slider.getValue());
 			}
 		});
 		
 		// Clock-JTextField
-		add(field);
-		field.setBounds(this.getWidth()-BUTTON_WIDTH,450,BUTTON_WIDTH,30);
-		field.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				slider.setValue(Integer.parseInt(field.getText()));
-			}
-		});
+//		add(field);
+//		field.setBounds(this.getWidth()-BUTTON_WIDTH,450,BUTTON_WIDTH,30);
+//		field.addActionListener(new ActionListener()
+//		{
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				slider.setValue(Integer.parseInt(field.getText()));
+//			}
+//		});
 		
 		// Program Code Field
 		area.setLineWrap(true);
@@ -347,8 +347,9 @@ public class GUIFrame extends JFrame
 		stop.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),stop.getY(),stop.getWidth(),stop.getHeight());
 		slider.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),slider.getY(),slider.getWidth(),slider.getHeight());
 		sliderLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),sliderLabel.getY(),sliderLabel.getWidth(),sliderLabel.getHeight());
-		field.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),field.getY(),field.getWidth(),field.getHeight());
+//		field.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),field.getY(),field.getWidth(),field.getHeight());
 		scroll1.setBounds(this.getWidth()-(AREA_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),scroll1.getWidth(),this.getHeight());
+		scroll1.revalidate();
 		view.updateSize();
 	}
 	
