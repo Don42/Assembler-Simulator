@@ -112,5 +112,10 @@ public class Controller
 	{
 		rechner.reset();		
 	}
+	
+	protected void setLine(int nLine)
+	{
+		view.setLine(nLine);
+	}
 
 }

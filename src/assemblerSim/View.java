@@ -98,7 +98,7 @@ public class View extends JComponent
 		are.setLineWrap(true);
 		are.setEditable(false);
 		add(sco);
-		sco.setBounds(43,114,123,283);
+//		sco.setBounds(43,114,123,283);
 		int max = 0;
 		while(main_image.getHeight(this)==-1&&max>=0)
 		{
@@ -118,7 +118,7 @@ public class View extends JComponent
 		g.drawImage(main_image_scale, 0, 0, this);
 		Graphics2D g2d = (Graphics2D) g;
 		
-		sco.setBounds((int)(43*scale*scaleToPicture),(int)(114*scale*scaleToPicture),(int)(123*scale*scaleToPicture),(int)(283*scale*scaleToPicture));
+		sco.setBounds((int)(37*scale*scaleToPicture),(int)(90*scale*scaleToPicture),(int)(289*scale*scaleToPicture),(int)(289*scale*scaleToPicture));
 		sco.revalidate();
 		// In this case block, depending on linie, the active line is drawn. Default value of linie at the beginning is 0, so no line is drawn.
 		switch (linie)
@@ -226,11 +226,11 @@ public class View extends JComponent
 		
 		// the following lines draw the register values
 		g2d.setColor(Color.BLACK);
-		g2d.drawString(String.valueOf(pc),(int)(295*scale*scaleToPicture),(int)(125*scale*scaleToPicture));
-		g2d.drawString(String.valueOf(ar),(int)(185*scale*scaleToPicture),(int)(525*scale*scaleToPicture));
-		g2d.drawString(String.valueOf(ir),(int)(550*scale*scaleToPicture),(int)(119*scale*scaleToPicture));
-		g2d.drawString(String.valueOf(val),(int)(450*scale*scaleToPicture),(int)(432*scale*scaleToPicture));
-		g2d.drawString(String.valueOf(acc),(int)(650*scale*scaleToPicture),(int)(432*scale*scaleToPicture));
+		g2d.drawString(String.valueOf(pc),(int)(435*scale*scaleToPicture),(int)(108*scale*scaleToPicture));
+		g2d.drawString(String.valueOf(ar),(int)(170*scale*scaleToPicture),(int)(510*scale*scaleToPicture));
+		g2d.drawString(String.valueOf(ir),(int)(650*scale*scaleToPicture),(int)(119*scale*scaleToPicture));
+		g2d.drawString(String.valueOf(val),(int)(460*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
+		g2d.drawString(String.valueOf(acc),(int)(670*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
 	}
 	
 	/**
@@ -274,9 +274,8 @@ public class View extends JComponent
 	
 	/**
 	 * @param line defindes which line to change
-	 * @param value is the new value
 	 */
-	protected void setLine(int line, boolean value)
+	protected void setLine(int line)
 	{
 		linie=line;
 	}
