@@ -62,7 +62,7 @@ public class Controller
 		
 		while(breader.ready())
 		{
-			tString.append(breader.readLine()+"/n");
+			tString.append(breader.readLine()+"\n");
 		}
 		setCodeArea(tString.toString());
 	}
@@ -99,6 +99,12 @@ public class Controller
 	protected void updateRAMAnimation(int[] input)
 	{
 		frm.updateRAMAnimation(input);
+	}
+
+	protected void reset() 
+	{
+		rechner.reset();
+		
 	}
 
 }
