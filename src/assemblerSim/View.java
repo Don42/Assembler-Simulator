@@ -1,11 +1,9 @@
 package assemblerSim;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Stroke;
 import java.awt.Toolkit;
 
 import javax.swing.JComponent;
@@ -22,8 +20,31 @@ public class View extends JComponent
 
 	
 	// object declaration
-	private Image image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine.png");
-	private final Stroke stroke1 = new BasicStroke(13.0F);
+	private Image main_image = Toolkit.getDefaultToolkit().getImage("images/VonNeumannMaschine.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_ram_ar = Toolkit.getDefaultToolkit().getImage("images/lines/RAMAdressRegister.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_ar_ram = Toolkit.getDefaultToolkit().getImage("images/lines/AddressRegisterRAM.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_ram_pc = Toolkit.getDefaultToolkit().getImage("images/lines/RAMProgramCounter.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_ram_value = Toolkit.getDefaultToolkit().getImage("images/lines/RAMValue.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_ram_ir = Toolkit.getDefaultToolkit().getImage("images/lines/RAMInstructionRegister.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_pc_ar = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterAddressRegister.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_pc_value = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterValue.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_pc_ir = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterInstructionRegister.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_ir_pc = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterProgramCounter.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_ir_value = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterValue.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_ir_ar = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterAddressRegister.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_alu_acc = Toolkit.getDefaultToolkit().getImage("images/lines/ALUAccumulator.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_acc_value = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorValue.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_acc_pc = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorProgramCounter.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_acc_ir = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorInstructionRegister.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_acc_ar = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorAddressRegister.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image line_valueacc_alu = Toolkit.getDefaultToolkit().getImage("images/lines/ValueandAccumulatorALU.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image led_ram = Toolkit.getDefaultToolkit().getImage("images/LEDs/RAM.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image led_pc = Toolkit.getDefaultToolkit().getImage("images/LEDs/ProgramCounter.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image led_ar = Toolkit.getDefaultToolkit().getImage("images/LEDs/AddressRegister.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image led_ir = Toolkit.getDefaultToolkit().getImage("images/LEDs/InstructionRegister.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image led_value = Toolkit.getDefaultToolkit().getImage("images/LEDs/Value.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image led_acc = Toolkit.getDefaultToolkit().getImage("images/LEDs/Accumulator.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
+	private Image led_alu = Toolkit.getDefaultToolkit().getImage("images/LEDs/ALU.png").getScaledInstance(800, 600,Image.SCALE_SMOOTH);
 	
 	// RAM-JTextArea field.
 	private JTextArea are = new JTextArea();
@@ -56,7 +77,7 @@ public class View extends JComponent
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		g.drawImage(image, 0, 0, this);
+		g.drawImage(main_image, 0, 0, this);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(stroke1);
 		g2d.setColor(Color.RED);
@@ -69,115 +90,99 @@ public class View extends JComponent
 			break;
 		case 1:
 			// RAM to Address Register
-			g2d.drawLine(197,282,320,282);
-			g2d.drawLine(319,522,319,281);
-			g2d.drawLine(319,522,301,522);
+			g.drawImage(line_ram_ar,0,0, this);
 			break;
 		case 2:
 			// Address Register to RAM
-			g2d.drawLine(103,528,126,528);
-			g2d.drawLine(104,528,104,427);
+			g.drawImage(line_ar_ram,0,0, this);
 			break;
 		case 3:
 			// RAM to Program Counter
-			g2d.drawLine(197,282,347,282);
-			g2d.drawLine(347,282,347,148);
+			g.drawImage(line_ram_pc,0,0, this);
 			break;
 		case 4:
 			// RAM to Value
-			g2d.drawLine(197,282,478,282);
-			g2d.drawLine(478,381,478,281);
+			g.drawImage(line_ram_value,0,0, this);
 			break;
 		case 5:
 			// RAM to Instruction Register
-			g2d.drawLine(197,282,605,282);
-			g2d.drawLine(605,282,605,144);
+			g.drawImage(line_ram_ir,0,0, this);
 			break;
 		case 6:
 			// Program Counter to Address Register 
-			g2d.drawLine(294,282,294,148);
-			g2d.drawLine(293,282,320,282);
-			g2d.drawLine(319,522,319,281);
-			g2d.drawLine(319,522,301,522);
+			g.drawImage(line_pc_ar,0,0, this);
 			break;
 		case 7:
-			// Program Counter to Program Counter
-			g2d.drawLine(294,282,294,148);
-			g2d.drawLine(293,282,347,282);
-			g2d.drawLine(347,282,347,148);
+			// Program Counter to Value
+			g.drawImage(line_pc_value,0,0, this);
 			break;
 		case 8:
-			// Program Counter to Value
-			g2d.drawLine(294,282,294,148);
-			g2d.drawLine(293,282,478,282);
-			g2d.drawLine(478,381,478,281);
+			// Program Counter to Instruction Register
+			g.drawImage(line_pc_ir,0,0, this);
 			break;
 		case 9:
-			// Program Counter to Instruction Register
-			g2d.drawLine(294,282,294,148);
-			g2d.drawLine(293,282,604,282);
-			g2d.drawLine(605,282,605,144);
+			// Instruction Register to Program Counter
+			g.drawImage(line_ir_pc,0,0, this);
 			break;
 		case 10:
-			// Instruction Register to Address Register
-			g2d.drawLine(549,282,549,144);
-			g2d.drawLine(318,282,550,282);
-			g2d.drawLine(319,522,319,281);
-			g2d.drawLine(319,522,301,522);
+			// Instruction Register to Value
+			g.drawImage(line_ir_value,0,0, this);
 			break;
 		case 11:
-			// Instruction Register to Program Counter
-			g2d.drawLine(549,282,549,144);
-			g2d.drawLine(346,282,550,282);
-			g2d.drawLine(347,282,347,148);
+			// Instruction Register to Address Register
+			g.drawImage(line_ir_ar,0,0, this);
 			break;
 		case 12:
-			// Instruction Register to Value
-			g2d.drawLine(549,282,549,144);
-			g2d.drawLine(477,282,550,282);
-			g2d.drawLine(478,381,478,281);
+			// ALU to Accumulator
+			g.drawImage(line_alu_acc,0,0, this);
 			break;
 		case 13:
-			// Instruction Register to Instruction Register
-			g2d.drawLine(549,282,549,144);
-			g2d.drawLine(548,282,605,282);
-			g2d.drawLine(605,282,605,144);
+			// Accumulator to Value
+			g.drawImage(line_acc_value,0,0, this);
 			break;
 		case 14:
-			// Accumulator to Instruction Register
-			g2d.drawLine(669,380,669,281);
-			g2d.drawLine(604,282,669,282);
-			g2d.drawLine(605,282,605,144);
+			// Accumulator to Program Counter
+			g.drawImage(line_acc_pc,0,0, this);
 			break;
 		case 15:
-			// Accumulator to Value
-			g2d.drawLine(669,380,669,281);
-			g2d.drawLine(477,282,669,282);
-			g2d.drawLine(478,381,478,281);
+			// Accumulator to Instruction Register
+			g.drawImage(line_acc_ir,0,0, this);
 			break;
 		case 16:
-			// Accumulator to Program Counter
-			g2d.drawLine(669,380,669,281);
-			g2d.drawLine(346,282,669,282);
-			g2d.drawLine(347,282,347,148);
+			// Accumulator to Address Register
+			g.drawImage(line_acc_ar,0,0, this);
 			break;
 		case 17:
-			// Accumulator to Address Register
-			g2d.drawLine(669,380,669,281);
-			g2d.drawLine(318,282,669,282);
-			g2d.drawLine(319,522,319,281);
-			g2d.drawLine(319,522,301,522);
+			// Value and Accumulator to ALU
+			g.drawImage(line_valueacc_alu,0,0,this);
 			break;
 		case 18:
-			// Value & Accumulator to ALU
-			g2d.drawLine(526,465,526,455);
-			g2d.drawLine(631,465,631,455);
-			g2d.drawLine(526,465,631,465);
-			g2d.drawLine(577,473,577,464);
+			// RAM LED
+			g.drawImage(led_ram,0,0, this);
 			break;
 		case 19:
-			// ALU to Accumulator
-			g2d.drawLine(675,473,675,455);
+			// Program Counter LED
+			g.drawImage(led_pc,0,0, this);
+			break;
+		case 20:
+			// Address Register LED
+			g.drawImage(led_ar,0,0, this);
+			break;
+		case 21:
+			// Instruction Register LED
+			g.drawImage(led_ir,0,0, this);
+			break;
+		case 22:
+			// Value LED
+			g.drawImage(led_value,0,0, this);
+			break;
+		case 23:
+			// Accumulator LED
+			g.drawImage(led_acc,0,0, this);
+			break;
+		case 24:
+			// ALU LED
+			g.drawImage(led_alu,0,0, this);
 			break;
 		}
 		
@@ -197,7 +202,7 @@ public class View extends JComponent
 	 */
 	protected void setRegister(int register, int value)
 	{
-		String temp = Integer.toHexString(value);
+		String temp = Integer.toHexString(value).toUpperCase();
 		while(temp.length()<8)
 		{
 			temp = "0" + temp;
