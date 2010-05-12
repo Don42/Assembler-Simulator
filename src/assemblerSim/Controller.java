@@ -73,16 +73,6 @@ public class Controller
 
 	public void saveRamToFile(File nfile) throws Exception
 	{
-//		String tRam;
-//		FileWriter wrt = new FileWriter(nfile);
-//		BufferedWriter bwriter = new BufferedWriter(wrt);
-//		
-//		tRam = interpreter.ramToString(rechner.getRam());
-//		for(int i = 0; i<rechner.getRamSize(); i++)
-//		{
-//			bwriter.write(tRam,0,tRam.length());
-//		}
-		
 		String tCode = frm.getTextFromCodeArea();
 		FileWriter wrt = new FileWriter(nfile);
 		BufferedWriter bwriter = new BufferedWriter(wrt);

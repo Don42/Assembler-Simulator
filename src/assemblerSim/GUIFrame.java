@@ -41,7 +41,7 @@ public class GUIFrame extends JFrame
 	private JButton stop = new JButton("Stop");
 	private JButton reset = new JButton("Reset");
 	private JButton toRAM = new JButton("Assemble");
-	private JLabel sliderLabel = new JLabel("Delay in ms");
+	private JLabel sliderLabel = new JLabel("Delay");
 	private JSlider slider = new JSlider(JSlider.VERTICAL,1,5000,1000);
 //	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
 	private JTextArea area = new JTextArea();
@@ -219,7 +219,7 @@ public class GUIFrame extends JFrame
 		
 		for(int i = 0; i<tRAM.length;i++)
 		{
-			String tOut =  ""+ Integer.toHexString(tRAM[i]);
+			String tOut =  ""+ Integer.toHexString(tRAM[i]).toUpperCase();
 			String cell = ""+i;
 			while(tOut.length()<8)
 			{
