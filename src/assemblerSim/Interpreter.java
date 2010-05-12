@@ -7,9 +7,9 @@ public class Interpreter
 		// TODO Auto-generated constructor stub
 	}
 	
-	protected int[] stringToRam(String assemblerCode)
+	protected int[] stringToRam(String assemblerCode, int nRamSize)
 	{
-		int[] output = new int[512];
+		int[] output = new int[nRamSize];
 		String[] lines = assemblerCode.split("\n");
 
 		for(int i = 0; i < lines.length && i < output.length; i++)

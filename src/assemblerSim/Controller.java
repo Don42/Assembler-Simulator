@@ -95,7 +95,7 @@ public class Controller
 
 	protected int[] interpretInput(String input)
 	{
-		return interpreter.stringToRam(input);
+		return interpreter.stringToRam(input, rechner.getRamSize());
 		
 	}
 	
