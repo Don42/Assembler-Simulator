@@ -51,15 +51,19 @@ public class VonNeumannRechner
 		switch(nextStep)
 		{
 			case STEP_FETCH:
+				controller.setCycleDisplay("FETCH");
 				fetch();
 				break;
 			case STEP_DECODE:
+				controller.setCycleDisplay("DECODE");
 				decode();
 				break;
 			case STEP_INDIRECT:
+				controller.setCycleDisplay("INDIRECT");
 				indirect();
 				break;
 			case STEP_EXECUTE:
+				controller.setCycleDisplay("EXECUTE");
 				execute();
 				break;
 		}
@@ -109,6 +113,7 @@ public class VonNeumannRechner
 		{
 		case HALT:
 			nextStep = STEP_HALT;
+			controller.setCycleDisplay("HALT");
 			controller.halt();
 			break;
 		case LOAD:
@@ -167,6 +172,17 @@ public class VonNeumannRechner
 			break;
 		case JMPEQ:
 			if(accumulator == 0)
+			{
+				programCounter = valueRegister%ram.length;
+				controller.setRegister(PROGRAMMCOUNTER, programCounter);					
+			}
+			else
+			{
+				increaseProgrammCounter();
+			}
+			break;
+		case JMPNE:
+			if(accumulator != 0)
 			{
 				programCounter = valueRegister%ram.length;
 				controller.setRegister(PROGRAMMCOUNTER, programCounter);					
@@ -247,6 +263,7 @@ public class VonNeumannRechner
 		{
 			nextStep = STEP_HALT;
 			controller.halt();
+			controller.setCycleDisplay("HALT");
 		}
 	}
 
@@ -267,6 +284,7 @@ public class VonNeumannRechner
 		controller.setRegister(STACKPOINTER,stackPointer);
 		setRam(new int[ram.length]);
 		nextStep = STEP_FETCH;
-		
+		controller.setCycleDisplay("FETCH");
+
 	}
 }
