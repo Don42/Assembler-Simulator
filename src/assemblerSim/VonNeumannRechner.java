@@ -66,8 +66,8 @@ public class VonNeumannRechner
 	}
 	protected void fetch()
 	{
-		instructionRegister = ram[programCounter];
-		controller.setRegister(INSTRUCTIONREGISTER, instructionRegister);
+		instructionRegister = ram[programCounter];	//line 6	line 2
+		controller.setRegister(INSTRUCTIONREGISTER, instructionRegister);	//line 5
 		nextStep = STEP_DECODE;
 	}
 	
@@ -77,7 +77,7 @@ public class VonNeumannRechner
 
 		instruction = Integer.rotateRight(instructionRegister, 24)&255;
 		
-		addressRegister = instructionRegister&16777215%ram.length;
+		addressRegister = instructionRegister&16777215%ram.length;	//line 11
 		controller.setRegister(ADRESSREGISTER, addressRegister);
 	}
 	
@@ -88,8 +88,8 @@ public class VonNeumannRechner
 		{
 			//direct addressing:
 
-			valueRegister = ram[addressRegister];
-			controller.setRegister(VALUEREGISTER, valueRegister);
+			valueRegister = ram[addressRegister];	//line 2
+			controller.setRegister(VALUEREGISTER, valueRegister);	//line 4
 		}
 		else
 		{

@@ -67,7 +67,7 @@ public class Interpreter
 		return 0;
 	}
 	
-	protected String opcodeToString(int[] ram)
+	protected String opcodeToString(int nOpcode)
 	{
 		return "";
 	}
