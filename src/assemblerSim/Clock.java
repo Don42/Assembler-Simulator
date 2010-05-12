@@ -40,7 +40,7 @@ public class Clock
 	protected void run()
 	{
 		isRunning = true;
-		timer.scheduleAtFixedRate(task = new ClockTask(), 0, stepTime);
+		timer.scheduleAtFixedRate(task = new ClockTask(), 500, stepTime);
 	}
 
 	protected void halt()

@@ -84,7 +84,7 @@ public class View extends JComponent
 	
 	//Scalling
 	private double scale = 1.0;
-	private double scaleToPicture;
+	private double scaleToPicture = 1.0;
 	
 	// register
 	private String pc = "00000000";
@@ -92,6 +92,12 @@ public class View extends JComponent
 	private String ar = "00000000";
 	private String val = "00000000";
 	private String acc = "00000000";
+	private String cycle;
+	protected void setCycle(String cycle)
+	{
+		this.cycle = cycle;
+	}
+
 	public View(Controller ncontroller)
 	{
 		parent = ncontroller;
@@ -226,11 +232,12 @@ public class View extends JComponent
 		
 		// the following lines draw the register values
 		g2d.setColor(Color.BLACK);
-		g2d.drawString(String.valueOf(pc),(int)(435*scale*scaleToPicture),(int)(108*scale*scaleToPicture));
-		g2d.drawString(String.valueOf(ar),(int)(170*scale*scaleToPicture),(int)(510*scale*scaleToPicture));
-		g2d.drawString(String.valueOf(ir),(int)(650*scale*scaleToPicture),(int)(119*scale*scaleToPicture));
-		g2d.drawString(String.valueOf(val),(int)(460*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
-		g2d.drawString(String.valueOf(acc),(int)(670*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
+		g2d.drawString(pc,(int)(435*scale*scaleToPicture),(int)(108*scale*scaleToPicture));
+		g2d.drawString(ar,(int)(170*scale*scaleToPicture),(int)(510*scale*scaleToPicture));
+		g2d.drawString(ir,(int)(650*scale*scaleToPicture),(int)(119*scale*scaleToPicture));
+		g2d.drawString(val,(int)(460*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
+		g2d.drawString(acc,(int)(670*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
+		g2d.drawString(cycle,(int)(550*scale*scaleToPicture),(int)(557*scale*scaleToPicture));
 	}
 	
 	/**
@@ -272,6 +279,7 @@ public class View extends JComponent
 		drawAnimation();
 	}
 	
+	
 	/**
 	 * @param line defindes which line to change
 	 */
@@ -289,18 +297,10 @@ public class View extends JComponent
 	}
 	
 	/**
-	 * @return RAM-Code, der im der RAM-JTextArea steht.
-	 */
-	public String getRAMAnimationCode()
-	{
-		return are.getText();
-	}
-	
-	/**
 	 * Sets the code in the RAM-JTextArea field.
 	 * @param code Der Code, der im RAM-JTextArea-Feld angezeigt werden soll
 	 */
-	public void setRAMAnimation(String code)
+	public void updateRAMAnimation(String code)
 	{
 		are.setText(code);
 		are.setCaretPosition(0);
