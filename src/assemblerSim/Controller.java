@@ -28,6 +28,7 @@ public class Controller
 		clock = new Clock(rechner);
 		frm = new GUIFrame(view, this);
 		rechner.setRam(new int[nramSize]);
+		setCycleDisplay("FETCH");
 	}
 	
 	public void step()
@@ -102,9 +103,28 @@ public class Controller
 		frm.setCodeArea(string);
 	}
 	
-	protected void updateRAMAnimation(int[] input)
+	protected void updateRAMAnimation(int[] nRAM)
 	{
-		frm.updateRAMAnimation(input);
+		int[] tRAM = nRAM;
+		String output = "";
+		
+		for(int i = 0; i<tRAM.length;i++)
+		{
+			String tOut =  ""+ Integer.toHexString(tRAM[i]).toUpperCase();
+			String cell = ""+i;
+			while(tOut.length()<8)
+			{
+				tOut = "0" + tOut;
+			}
+			
+			while(cell.length()<3)
+			{
+				cell = "0"+cell;
+			}
+			
+			output = output + "  " + cell + " | " + tOut+" | " + interpreter.opcodeToString(tRAM[i]) +"\n";
+		}
+		view.updateRAMAnimation(output);
 	}
 
 	protected void reset() 
@@ -115,6 +135,11 @@ public class Controller
 	protected void setLine(int nLine)
 	{
 		view.setLine(nLine);
+	}
+	
+	protected void setCycleDisplay(String nCycle)
+	{
+			view.setCycle(nCycle);
 	}
 
 }

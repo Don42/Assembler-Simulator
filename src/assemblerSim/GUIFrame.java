@@ -212,29 +212,6 @@ public class GUIFrame extends JFrame
 		return area.getText();
 	}
 	
-	void updateRAMAnimation(int[] nRAM)
-	{
-		int[] tRAM = nRAM;
-		String output = "";
-		
-		for(int i = 0; i<tRAM.length;i++)
-		{
-			String tOut =  ""+ Integer.toHexString(tRAM[i]).toUpperCase();
-			String cell = ""+i;
-			while(tOut.length()<8)
-			{
-				tOut = "0" + tOut;
-			}
-			
-			while(cell.length()<3)
-			{
-				cell = "0"+cell;
-			}
-			output = output + "  " + cell + " | " + tOut+"\n";
-		}
-		view.setRAMAnimation(output);
-	}
-	
 	protected void setCodeArea(String in)
 	{
 		this.area.setText(in); 
