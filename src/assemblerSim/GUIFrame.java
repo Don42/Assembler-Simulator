@@ -307,10 +307,14 @@ public class GUIFrame extends JFrame
 				}
 				else
 				{
-					int ans = JOptionPane.showConfirmDialog(null, "" + out.getName() + " exists. Overwrite?", "Overwrite existing File", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					int ans = JOptionPane.showConfirmDialog(null, "File " + out.getName() + " exists. Overwrite?", "Overwrite existing File", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (ans == JOptionPane.OK_OPTION)
 					{
 						parent.saveRamToFile(out);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(this, "Datei wurde nicht gespeichert.");
 					}
 				}
 			}
