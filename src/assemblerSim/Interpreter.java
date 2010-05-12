@@ -161,11 +161,8 @@ public class Interpreter
 		return code;
 	}
 	
-<<<<<<< HEAD
 	protected String opcodeToString(int ramCell)
-=======
-	protected String opcodeToString(int nOpcode)
->>>>>>> 7d89b67963b7f1a6e928e3382afc597295aa48c0
+
 	{
 		int instruction = Integer.rotateRight(ramCell, 24)&0xFF;
 		String instructionString = Opcodes.values()[instruction].toString();

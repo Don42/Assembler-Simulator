@@ -15,6 +15,7 @@ public enum Opcodes {
 	NOT,
 	JMP,
 	JMPEQ,
+	JMPNE,
 	JMPGT,
 	JMPLT,
 	JMPGE,

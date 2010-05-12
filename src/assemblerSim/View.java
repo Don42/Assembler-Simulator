@@ -1,6 +1,7 @@
 package assemblerSim;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -86,6 +87,10 @@ public class View extends JComponent
 	private double scale = 1.0;
 	private double scaleToPicture = 1.0;
 	
+	//Text
+	Font overlayFont;
+	Font ramFont;
+
 	// register
 	private String pc = "00000000";
 	private String ir = "00000000";
@@ -95,22 +100,39 @@ public class View extends JComponent
 	private String cycle;
 	protected void setCycle(String cycle)
 	{
-		this.cycle = cycle;
+		if(!cycle.equals(null))
+		{
+			this.cycle = cycle;
+		}
+		else
+		{
+			this.cycle="";
+		}
+		repaint();
 	}
 
 	public View(Controller ncontroller)
 	{
+		//Parent is used for function calls
 		parent = ncontroller;
-		are.setLineWrap(true);
+		
+		//Initializing Fonts
+		overlayFont = new Font("Courier",Font.PLAIN, 16);
+		ramFont = new Font("Courier",Font.BOLD, 16);
+		
+		are.setLineWrap(false);
 		are.setEditable(false);
 		add(sco);
-//		sco.setBounds(43,114,123,283);
+		are.setFont(ramFont);
+		
+		//waiting until image is loaded or max iterated through 32bit
 		int max = 0;
 		while(main_image.getHeight(this)==-1&&max>=0)
 		{
 			scale = scale*1;
 			max = max+1;
 		}
+		//Initialize scaling factor to given picture size
 		scaleToPicture = main_image.getHeight(this)/(double)600;
 	}
 	
@@ -123,9 +145,12 @@ public class View extends JComponent
 		super.paintComponent(g);
 		g.drawImage(main_image_scale, 0, 0, this);
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.setFont(overlayFont);
 		
-		sco.setBounds((int)(37*scale*scaleToPicture),(int)(90*scale*scaleToPicture),(int)(289*scale*scaleToPicture),(int)(289*scale*scaleToPicture));
+		sco.setBounds((int)(37*scale*scaleToPicture),(int)(89*scale*scaleToPicture),(int)(289*scale*scaleToPicture),(int)(290*scale*scaleToPicture));
 		sco.revalidate();
+		
+		
 		// In this case block, depending on linie, the active line is drawn. Default value of linie at the beginning is 0, so no line is drawn.
 		switch (linie)
 		{
@@ -230,14 +255,20 @@ public class View extends JComponent
 			break;
 		}
 		
-		// the following lines draw the register values
-		g2d.setColor(Color.BLACK);
-		g2d.drawString(pc,(int)(435*scale*scaleToPicture),(int)(108*scale*scaleToPicture));
-		g2d.drawString(ar,(int)(170*scale*scaleToPicture),(int)(510*scale*scaleToPicture));
-		g2d.drawString(ir,(int)(650*scale*scaleToPicture),(int)(119*scale*scaleToPicture));
-		g2d.drawString(val,(int)(460*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
-		g2d.drawString(acc,(int)(670*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
-		g2d.drawString(cycle,(int)(550*scale*scaleToPicture),(int)(557*scale*scaleToPicture));
+			// the following lines draw the register values
+			g2d.setColor(Color.BLACK);
+			g2d.drawString(pc,(int)(430*scale*scaleToPicture),(int)(108*scale*scaleToPicture));
+			g2d.drawString(ar,(int)(170*scale*scaleToPicture),(int)(510*scale*scaleToPicture));
+			g2d.drawString(ir,(int)(648*scale*scaleToPicture),(int)(119*scale*scaleToPicture));
+			g2d.drawString(val,(int)(458*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
+			g2d.drawString(acc,(int)(668*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
+			try {
+				g2d.drawString(cycle,(int)(540*scale*scaleToPicture),(int)(557*scale*scaleToPicture));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 	}
 	
 	/**
@@ -276,24 +307,16 @@ public class View extends JComponent
 		default:
 			break;
 		}
-		drawAnimation();
+		repaint();
 	}
 	
 	
 	/**
-	 * @param line defindes which line to change
+	 * @param line defines which line to change
 	 */
 	protected void setLine(int line)
 	{
 		linie=line;
-	}
-	
-	/**
-	 * Redraws the animation.
-	 */
-	protected void drawAnimation()
-	{
-		repaint();
 	}
 	
 	/**
@@ -322,6 +345,22 @@ public class View extends JComponent
 			scale = maxHeightScale;
 		}
 		main_image_scale = scaledImage;
-//		sco.setBounds((int)(main_image.getWidth(this)*0.05375*scale), (int)(main_image.getHeight(this)*0.19*scale), (int)(main_image.getWidth(this)*0.15375*scale), (int)(main_image.getHeight(this)*0.4717*scale));
+		
+		//Change font size
+		if((this.getParent().getWidth() - 210) >= 1200)
+		{
+			overlayFont = new Font(overlayFont.getFamily(),overlayFont.getStyle(), 16);
+			ramFont = new Font(ramFont.getFamily(),ramFont.getStyle(), 16);
+		}
+		else if((this.getParent().getWidth() - 210) >= 1000)
+		{
+			overlayFont = new Font(overlayFont.getFamily(),overlayFont.getStyle(), 14);
+			ramFont = new Font(ramFont.getFamily(),ramFont.getStyle(), 14);
+		}
+		else if((this.getParent().getWidth() - 210) <= 800)
+		{
+			overlayFont = new Font(overlayFont.getFamily(),overlayFont.getStyle(), 12);
+			ramFont = new Font(ramFont.getFamily(),ramFont.getStyle(), 12);
+		}
 	}
 }

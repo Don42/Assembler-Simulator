@@ -262,8 +262,8 @@ public class VonNeumannRechner
 		else
 		{
 			nextStep = STEP_HALT;
-			controller.halt();
 			controller.setCycleDisplay("HALT");
+			controller.halt();
 		}
 	}
 
