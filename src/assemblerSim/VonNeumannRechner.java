@@ -114,52 +114,52 @@ public class VonNeumannRechner
 		case LOAD:
 			accumulator = ram[addressRegister];
 			controller.setRegister(ACCUMULATOR, accumulator);
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 		case STORE:
 			ram[addressRegister] = accumulator;
 			controller.updateRAMAnimation(ram);
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 		case ADD:
 			accumulator = accumulator + valueRegister;
 			controller.setRegister(ACCUMULATOR, accumulator);
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 		case SUB:
 			accumulator = accumulator - valueRegister;
 			controller.setRegister(ACCUMULATOR, accumulator);
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 		case MULT:
 			accumulator = accumulator * valueRegister;
 			controller.setRegister(ACCUMULATOR, accumulator);
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 		case DIV:
 			accumulator = accumulator / valueRegister;
 			controller.setRegister(ACCUMULATOR, accumulator);
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 		case MOD:
 			accumulator = accumulator % valueRegister;
 			controller.setRegister(ACCUMULATOR, accumulator);
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 		case AND:
 			accumulator = accumulator & valueRegister;
 			controller.setRegister(ACCUMULATOR, accumulator);
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 		case OR:
 			accumulator = accumulator | valueRegister;
 			controller.setRegister(ACCUMULATOR, accumulator);
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 		case NOT:
 			accumulator = ~accumulator;
 			controller.setRegister(ACCUMULATOR, accumulator);
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 		case JMP:
 			programCounter = valueRegister%ram.length;
@@ -173,7 +173,7 @@ public class VonNeumannRechner
 			}
 			else
 			{
-				increasProgrammCounter();
+				increaseProgrammCounter();
 			}
 			break;
 		case JMPGT:
@@ -184,7 +184,7 @@ public class VonNeumannRechner
 			}
 			else
 			{
-				increasProgrammCounter();
+				increaseProgrammCounter();
 			}
 			break;
 		case JMPLT:
@@ -195,7 +195,7 @@ public class VonNeumannRechner
 			}
 			else
 			{
-				increasProgrammCounter();
+				increaseProgrammCounter();
 			}
 			break;
 		case JMPGE:
@@ -206,7 +206,7 @@ public class VonNeumannRechner
 			}
 			else
 			{
-				increasProgrammCounter();
+				increaseProgrammCounter();
 			}
 		case JMPLE:
 			if(accumulator <= 0)
@@ -216,12 +216,12 @@ public class VonNeumannRechner
 			}
 			else
 			{
-				increasProgrammCounter();
+				increaseProgrammCounter();
 			}
 			break;
 		case NOP:
 		default:
-			increasProgrammCounter();
+			increaseProgrammCounter();
 			break;
 				
 		}
@@ -236,7 +236,7 @@ public class VonNeumannRechner
 	{
 		return ram;
 	}
-	public void increasProgrammCounter()
+	public void increaseProgrammCounter()
 	{
 		if(programCounter < (ram.length-1))
 		{		
