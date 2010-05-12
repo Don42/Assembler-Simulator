@@ -2,15 +2,9 @@ package assemblerSim;
 
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Label;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -20,7 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -52,8 +45,8 @@ public class GUIFrame extends JFrame
 	private JSlider slider = new JSlider(JSlider.VERTICAL,1,5000,1000);
 //	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
 	private JTextArea area = new JTextArea();
-	private JTextArea console = new JTextArea();
-	private JScrollPane scroll1, scroll2;
+//	private JTextArea console = new JTextArea();
+	private JScrollPane scroll1;//, scroll2;
 	
 	private final static int BUTTON_WIDTH = 100;
 	private final static int BUTTON_SPACER = 15;
