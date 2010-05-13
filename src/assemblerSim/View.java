@@ -292,7 +292,7 @@ public class View extends JComponent
 			// Instruction Register
 			ir=temp;
 			break;
-		case VonNeumannRechner.ADRESSREGISTER:
+		case VonNeumannRechner.ADDRESSREGISTER:
 			// Address Register
 			ar=temp;
 			break;

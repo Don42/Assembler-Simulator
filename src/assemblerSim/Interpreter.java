@@ -76,88 +76,33 @@ public class Interpreter
 		
 		try
 		{
-			//guess what this does ;-)
-			instruction = Opcodes.valueOf(input[0].toUpperCase()).ordinal()*0x1000000;
-		}
-		catch(Exception e)
-		{
-			instruction = 0;
-		}
-		
-		String adressString;		
-		boolean indirectAdressMode = false;
-		try
-		{
-			if(instruction !=0)
-			{
-				if(input[1].indexOf('[') == 0)
-				{
-					indirectAdressMode = true;
-					adressString = input[1].substring(input[1].indexOf('[')+1, input[1].indexOf(']'));
-				}
-				else
-				{
-					adressString = input[1];
-				}
-			}
-			else
-			{
-				adressString = input[0];
-			}
-		}
-		catch(Exception e)
-		{
-			adressString = "0";
-		}
-		try{
-			adresse  =  Integer.parseInt(adressString);
-		}
-		catch(NumberFormatException e)
-		{
 			try{
-			adresse  = nLabels.get(adressString);
+				//guess what this does ;-)
+				instruction = Opcodes.valueOf(input[0].toUpperCase()).ordinal()*0x1000000;
 			}
-			catch(Exception e2)
+			catch(IllegalArgumentException e)
 			{
-				adresse = 0;
+				instruction = 0;
 			}
-		}
-		if(indirectAdressMode)
-		{
-			adresse += 0x800000;
-		}
-		/*
-		try
-		{
-			if(instruction !=0)
-			{
-				if(input[1].indexOf('[') == 0)
-				{
-					adressString = input[1].substring(input[1].indexOf('[')+1, input[1].indexOf(']'));
-					//adresse  =  Integer.parseInt(input[1].substring(input[1].indexOf('[')+1, input[1].indexOf(']')))+8388608;						
-				}
-				else
-				{
-					adresse = Integer.parseInt(input[1]);
-				}
-			}
-			else
+		
+			if(input.length==1 && instruction == 0 && !input[0].equalsIgnoreCase("NOP") && !input[0].equals(""))
 			{
 				adresse = Integer.parseInt(input[0]);
 			}
+			else if(input.length==2)
+			{
+				adresse = Integer.parseInt(input[1]);
+			}
+			else
+			{
+				adresse = 0;
+			}
+			code = instruction+adresse;
 		}
 		catch(Exception e)
 		{
-			adresse = 0;
-		}*/
-		try{
-			
+			code = 0xDEADBEEF;
 		}
-		catch(Exception e)
-		{
-			
-		}
-		code = instruction+adresse;
 		return code;
 	}
 	
@@ -165,15 +110,15 @@ public class Interpreter
 
 	{
 		int instruction = Integer.rotateRight(ramCell, 24)&0xFF;
-		String instructionString = Opcodes.values()[instruction].toString();
-		if((Integer.rotateRight(ramCell,23)&1)==1)
-		{
-			instructionString += " ["+(ramCell&0x7FFFFF)+"]";
+		String instructionString;
+		try{
+			instructionString = Opcodes.values()[instruction].toString();			
 		}
-		else
+		catch(IndexOutOfBoundsException e)
 		{
-			instructionString += " "+(ramCell&0x7FFFFF);
+			instructionString = "NOP";
 		}
+		instructionString += " "+(ramCell&0xFFFFFF);
 		return instructionString;
 	}
 }

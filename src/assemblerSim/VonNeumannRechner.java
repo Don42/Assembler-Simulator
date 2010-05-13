@@ -9,30 +9,36 @@ public class VonNeumannRechner
 	/*
 	 * Program Variables
 	 */
-	int accumulator;
-	int valueRegister;
-	int instructionRegister;
-	int programCounter;
-	int addressRegister;
-	int stackPointer;
-	int[] ram;
+	private int accumulator;
+	private int valueRegister;
+	private int instructionRegister;
+	private int programCounter;
+	private int addressRegister;
+	private int microCounter = 0;
+	private int[] ram;
+	protected void setRam(int index, int value)
+	{
+		ram[index] = value;
+		controller.updateRAMAnimation(ram);
+	}
+	boolean jmpFlag = false;
 	
 	int instruction;
+	Opcodes command;
 	
 	public final static int ACCUMULATOR = 0;
 	public final static int VALUEREGISTER = 1;
 	public final static int INSTRUCTIONREGISTER = 2;
 	public final static int PROGRAMMCOUNTER = 3;
-	public final static int ADRESSREGISTER = 4;
-	public final static int STACKPOINTER = 5;
+	public final static int ADDRESSREGISTER = 4;
 	
 	
 	int nextStep;	
 	public final static int STEP_HALT = 0;
 	public final static int STEP_FETCH = 1;
-	public final static int STEP_DECODE = 2;
-	public final static int STEP_INDIRECT = 3;
-	public final static int STEP_EXECUTE = 4;
+	public final static int STEP_INDIRECT = 2;
+	public final static int STEP_EXECUTE = 3;
+	
 	
 	public VonNeumannRechner(Controller nController, int nramSize)
 	{
@@ -41,22 +47,53 @@ public class VonNeumannRechner
 		nextStep = 1;
 	}
 	
+	private void resetMicro()
+	{
+		microCounter = 0;
+	}
+	
 	protected void setRam(int[] nram)
 	{
 		ram = nram;
 		controller.updateRAMAnimation(ram);
 	}
-	public void step()
+	
+	protected int[] getRam()
+	{
+		return ram;
+	}
+	
+	protected int getRamSize()
+	{
+		return ram.length;
+	}
+	
+	protected void reset() 
+	{
+		
+		accumulator=0;
+		valueRegister=0;
+		instructionRegister=0;
+		programCounter=0;
+		addressRegister=0;
+		controller.setRegister(ACCUMULATOR, accumulator);
+		controller.setRegister(VALUEREGISTER, valueRegister);
+		controller.setRegister(INSTRUCTIONREGISTER, instructionRegister);
+		controller.setRegister(PROGRAMMCOUNTER,programCounter);
+		controller.setRegister(ADDRESSREGISTER,addressRegister);
+		setRam(new int[ram.length]);
+		nextStep = STEP_FETCH;
+		resetMicro();
+		controller.setCycleDisplay("FETCH");
+	}
+	
+	protected void step()
 	{
 		switch(nextStep)
 		{
 			case STEP_FETCH:
 				controller.setCycleDisplay("FETCH");
 				fetch();
-				break;
-			case STEP_DECODE:
-				controller.setCycleDisplay("DECODE");
-				decode();
 				break;
 			case STEP_INDIRECT:
 				controller.setCycleDisplay("INDIRECT");
@@ -68,191 +105,403 @@ public class VonNeumannRechner
 				break;
 		}
 	}
-	protected void fetch()
+	
+	private void fetch()
 	{
-		instructionRegister = ram[programCounter];	//line 6	line 2
-		controller.setRegister(INSTRUCTIONREGISTER, instructionRegister);	//line 5
-		nextStep = STEP_DECODE;
+		switch(microCounter)
+		{
+			case 0:
+				loadCurrentAddress();
+				microCounter++;
+				break;
+			case 1:
+				loadOpcode();
+				resetMicro();
+				nextStep = STEP_INDIRECT;
+		}
 	}
 	
-	protected void decode()
+	private void indirect()
 	{
-		nextStep = STEP_INDIRECT;	
-
+		//TODO Catch error if instruction is not in Opcodes
 		instruction = Integer.rotateRight(instructionRegister, 24)&255;
-		
-		addressRegister = instructionRegister&16777215%ram.length;	//line 11
-		controller.setRegister(ADRESSREGISTER, addressRegister);
-	}
-	
-	protected void indirect()
-	{
-		nextStep = STEP_EXECUTE;
-		if((Integer.rotateRight(instructionRegister,23)&1)==1)
+		command = Opcodes.values()[instruction];
+		switch(command)
 		{
-			//direct addressing:
+		case HALT:
+		case LOAD:
+		case STORE:
+		case ADD:
+		case SUB:
+		case MULT:
+		case DIV:
+		case MOD:
+		case AND:
+		case OR:
+		case JMP:
+		case JMPEQ:
+		case JMPNE:
+		case JMPGT:
+		case JMPLT:
+		case JMPGE:
+		case JMPLE:
+			loadAddress();
+		case ADDM:
+		case SUBM:
+		case MULTM:
+		case DIVM:
+		case MODM:
+		case ANDM:
+		case ORM:
+		case NOT:
+		case NOP:
+		case JMPM:
+		case JMPEQM:
+		case JMPNEM:
+		case JMPGTM:
+		case JMPLTM:
+		case JMPGEM:
+		case JMPLEM:
+		default:
+			nextStep = STEP_EXECUTE;
+			break;
+		case LOADI:
+		case STOREI:
+		case ADDI:
+		case SUBI:
+		case MULTI:
+		case DIVI:
+		case MODI:
+		case ANDI:
+		case ORI:
+		case JMPI:
+		case JMPEQI:
+		case JMPNEI:
+		case JMPGTI:
+		case JMPLTI:
+		case JMPGEI:
+		case JMPLEI:
+			switch(microCounter)
+			{
+			case 0:
+				loadAddress();
+				microCounter++;
+				break;
+			case 1:
+				addressIndirect();
+				resetMicro();
+				nextStep = STEP_EXECUTE;
+				break;
+			}
+		}
+	}
 
-			valueRegister = ram[addressRegister];	//line 2
-			controller.setRegister(VALUEREGISTER, valueRegister);	//line 4
-		}
-		else
-		{
-			//immediate addressing
-			valueRegister = addressRegister;
-			controller.setRegister(VALUEREGISTER, valueRegister);
-		}
-	}
-	
-	protected void execute()
-	{
-		nextStep = STEP_FETCH;
-		
-		Opcodes command = Opcodes.values()[instruction];
-		
+	private void execute()
+	{		
 		switch (command)
 		{
+		case NOP:
+		default:
+			increaseProgramCounter();
+			break;
 		case HALT:
 			nextStep = STEP_HALT;
 			controller.setCycleDisplay("HALT");
 			controller.halt();
 			break;
+		case LOADI:
 		case LOAD:
-			accumulator = ram[addressRegister];
-			controller.setRegister(ACCUMULATOR, accumulator);
-			increaseProgrammCounter();
+			loadRamToAcc();
+			increaseProgramCounter();
 			break;
+		case STOREI:
 		case STORE:
-			ram[addressRegister] = accumulator;
-			controller.updateRAMAnimation(ram);
-			increaseProgrammCounter();
+			storeAccToRam();
+			increaseProgramCounter();
 			break;
+			//TODO switch the rest of the functions to the new system and clean up
+		case ADDI:
 		case ADD:
-			accumulator = accumulator + valueRegister;
-			controller.setRegister(ACCUMULATOR, accumulator);
-			increaseProgrammCounter();
+			switch(microCounter)
+			{
+			case 0:
+				loadValue();
+				microCounter++;
+			break;
+			case 1:
+				add();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
+			break;
+		case ADDM:
+			switch(microCounter)
+			{
+			case 0:
+				loadValueImmediate();
+				microCounter++;
+			break;
+			case 1:
+				add();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
 			break;
 		case SUB:
-			accumulator = accumulator - valueRegister;
-			controller.setRegister(ACCUMULATOR, accumulator);
-			increaseProgrammCounter();
+			switch(microCounter)
+			{
+			case 0:
+				loadValue();
+				microCounter++;
+			break;
+			case 1:
+				sub();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
+			break;
+		case SUBM:
+			switch(microCounter)
+			{
+			case 0:
+				loadValueImmediate();
+				microCounter++;
+			break;
+			case 1:
+				sub();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
 			break;
 		case MULT:
-			accumulator = accumulator * valueRegister;
-			controller.setRegister(ACCUMULATOR, accumulator);
-			increaseProgrammCounter();
+			switch(microCounter)
+			{
+			case 0:
+				loadValue();
+				microCounter++;
+			break;
+			case 1:
+				mult();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
+			break;
+		case MULTM:
+			switch(microCounter)
+			{
+			case 0:
+				loadValueImmediate();
+				microCounter++;
+			break;
+			case 1:
+				mult();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
 			break;
 		case DIV:
-			accumulator = accumulator / valueRegister;
-			controller.setRegister(ACCUMULATOR, accumulator);
-			increaseProgrammCounter();
+			switch(microCounter)
+			{
+			case 0:
+				loadValue();
+				microCounter++;
+			break;
+			case 1:
+				div();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
+			break;
+		case DIVM:
+			switch(microCounter)
+			{
+			case 0:
+				loadValueImmediate();
+				microCounter++;
+			break;
+			case 1:
+				div();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
 			break;
 		case MOD:
-			accumulator = accumulator % valueRegister;
-			controller.setRegister(ACCUMULATOR, accumulator);
-			increaseProgrammCounter();
+			switch(microCounter)
+			{
+			case 0:
+				loadValue();
+				microCounter++;
+			break;
+			case 1:
+				mod();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
+			break;
+		case MODM:
+			switch(microCounter)
+			{
+			case 0:
+				loadValueImmediate();
+				microCounter++;
+			break;
+			case 1:
+				mod();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
 			break;
 		case AND:
-			accumulator = accumulator & valueRegister;
-			controller.setRegister(ACCUMULATOR, accumulator);
-			increaseProgrammCounter();
+			switch(microCounter)
+			{
+			case 0:
+				loadValue();
+				microCounter++;
+			break;
+			case 1:
+				and();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
+			break;
+		case ANDM:
+			switch(microCounter)
+			{
+			case 0:
+				loadValueImmediate();
+				microCounter++;
+			break;
+			case 1:
+				and();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
 			break;
 		case OR:
-			accumulator = accumulator | valueRegister;
-			controller.setRegister(ACCUMULATOR, accumulator);
-			increaseProgrammCounter();
+			switch(microCounter)
+			{
+			case 0:
+				loadValue();
+				microCounter++;
+			break;
+			case 1:
+				or();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
+			break;
+		case ORM:
+			switch(microCounter)
+			{
+			case 0:
+				loadValueImmediate();
+				microCounter++;
+			break;
+			case 1:
+				or();
+				increaseProgramCounter();
+				resetMicro();
+				nextStep = STEP_FETCH;
+				break;
+			}
 			break;
 		case NOT:
-			accumulator = ~accumulator;
-			controller.setRegister(ACCUMULATOR, accumulator);
-			increaseProgrammCounter();
+			not();
+			increaseProgramCounter();
+			nextStep = STEP_FETCH;
+			increaseProgramCounter();
 			break;
 		case JMP:
-			programCounter = valueRegister%ram.length;
-			controller.setRegister(PROGRAMMCOUNTER, programCounter);	
+		case JMPI:
+			loadJmp();
+			break;
+		case JMPM:
+			loadJmpImmediate();
 			break;
 		case JMPEQ:
-			if(accumulator == 0)
-			{
-				programCounter = valueRegister%ram.length;
-				controller.setRegister(PROGRAMMCOUNTER, programCounter);					
-			}
-			else
-			{
-				increaseProgrammCounter();
-			}
+		case JMPEQI:
+			checkEQ();
+			checkCond();
 			break;
 		case JMPNE:
-			if(accumulator != 0)
-			{
-				programCounter = valueRegister%ram.length;
-				controller.setRegister(PROGRAMMCOUNTER, programCounter);					
-			}
-			else
-			{
-				increaseProgrammCounter();
-			}
+		case JMPNEI:
+			checkNE();
+			checkCond();
 			break;
 		case JMPGT:
-			if(accumulator > 0)
-			{
-				programCounter = valueRegister%ram.length;	
-				controller.setRegister(PROGRAMMCOUNTER, programCounter);				
-			}
-			else
-			{
-				increaseProgrammCounter();
-			}
+		case JMPGTI:
+			checkGT();
+			checkCond();
 			break;
 		case JMPLT:
-			if(accumulator < 0)
-			{
-				programCounter = valueRegister%ram.length;
-				controller.setRegister(PROGRAMMCOUNTER, programCounter);					
-			}
-			else
-			{
-				increaseProgrammCounter();
-			}
+		case JMPLTI:
+			checkLT();
+			checkCond();
 			break;
 		case JMPGE:
-			if(accumulator >= 0)
-			{
-				programCounter = valueRegister%ram.length;	
-				controller.setRegister(PROGRAMMCOUNTER, programCounter);			
-			}
-			else
-			{
-				increaseProgrammCounter();
-			}
+		case JMPGEI:
+			checkGE();
+			checkCond();
+			break;
 		case JMPLE:
-			if(accumulator <= 0)
-			{
-				programCounter = valueRegister%ram.length;	
-				controller.setRegister(PROGRAMMCOUNTER, programCounter);				
-			}
-			else
-			{
-				increaseProgrammCounter();
-			}
+		case JMPLEI:
+			checkLE();
+			checkCond();
 			break;
-		case NOP:
-		default:
-			increaseProgrammCounter();
+		case JMPEQM:
+			checkEQ();
+			checkCondM();
 			break;
-				
+		case JMPNEM:
+			checkNE();
+			checkCondM();
+			break;
+		case JMPGTM:
+			checkGT();
+			checkCondM();
+			break;
+		case JMPLTM:
+			checkLT();
+			checkCondM();
+			break;
+		case JMPGEM:
+			checkGE();
+			checkCondM();
+			break;
+		case JMPLEM:
+			checkLE();
+			checkCondM();
+			break;
 		}
 	}
 
-	protected int getRamSize()
-	{
-		return ram.length;
-	}
-
-	protected int[] getRam()
-	{
-		return ram;
-	}
-	public void increaseProgrammCounter()
+	private void increaseProgramCounter()
 	{
 		if(programCounter < (ram.length-1))
 		{		
@@ -267,24 +516,167 @@ public class VonNeumannRechner
 		}
 	}
 
-	protected void reset() 
+	private void addressIndirect()
 	{
-		
-		accumulator=0;
-		valueRegister=0;
-		instructionRegister=0;
-		programCounter=0;
-		addressRegister=0;
-		stackPointer=0;
-		controller.setRegister(ACCUMULATOR, accumulator);
+		addressRegister = ram[addressRegister];
+		controller.setRegister(ADDRESSREGISTER, addressRegister);
+	}
+	
+	private void loadValueImmediate()
+	{
+		valueRegister = instructionRegister&0xFFFFFF/**16777215**/;
 		controller.setRegister(VALUEREGISTER, valueRegister);
-		controller.setRegister(INSTRUCTIONREGISTER, instructionRegister);
-		controller.setRegister(PROGRAMMCOUNTER,programCounter);
-		controller.setRegister(ADRESSREGISTER,addressRegister);
-		controller.setRegister(STACKPOINTER,stackPointer);
-		setRam(new int[ram.length]);
-		nextStep = STEP_FETCH;
-		controller.setCycleDisplay("FETCH");
-
+	}
+	
+	private void loadAddress()
+	{
+		addressRegister = instructionRegister&0xFFFFFF/**16777215**/%ram.length;	//line 11
+		controller.setRegister(ADDRESSREGISTER, addressRegister);
+	}
+	
+	private void loadValue()
+	{
+		valueRegister = ram[addressRegister];
+		controller.setRegister(VALUEREGISTER, valueRegister);
+	}
+	
+	private void loadRamToAcc()
+	{
+		accumulator = ram[addressRegister];
+		controller.setRegister(ACCUMULATOR, accumulator);
+	}
+	
+	private void storeAccToRam()
+	{
+		setRam(addressRegister,accumulator);
+	}
+	
+	private void add()
+	{
+		accumulator = accumulator + valueRegister;
+		controller.setRegister(ACCUMULATOR, accumulator);
+	}
+	
+	private void sub()
+	{
+		accumulator = accumulator - valueRegister;
+		controller.setRegister(ACCUMULATOR, accumulator);
+	}
+	
+	private void mult()
+	{
+		accumulator = accumulator * valueRegister;
+		controller.setRegister(ACCUMULATOR, accumulator);
+	}
+	
+	private void div()
+	{
+		accumulator = accumulator / valueRegister;
+		controller.setRegister(ACCUMULATOR, accumulator);
+	}
+	
+	private void mod()
+	{
+		accumulator = accumulator % valueRegister;
+		controller.setRegister(ACCUMULATOR, accumulator);
+	}
+	
+	private void and()
+	{
+		accumulator = accumulator & valueRegister;
+		controller.setRegister(ACCUMULATOR, accumulator);
+	}
+	
+	private void or()
+	{
+		accumulator = accumulator | valueRegister;
+		controller.setRegister(ACCUMULATOR, accumulator);
+	}
+	
+	private void not()
+	{
+		accumulator = ~accumulator;
+		controller.setRegister(ACCUMULATOR, accumulator);
+	}
+	
+	private void loadJmpImmediate()
+	{
+		programCounter = instructionRegister&0xFFFFFF/**16777215**/%ram.length;
+		controller.setRegister(PROGRAMMCOUNTER, programCounter);
+	}
+	
+	private void loadJmp()
+	{
+		programCounter = ram[addressRegister];
+		controller.setRegister(PROGRAMMCOUNTER, programCounter);
+	}
+	
+	private void checkEQ()
+	{
+			jmpFlag = (accumulator == 0);			
+	}
+	
+	private void checkNE()
+	{
+			jmpFlag = (accumulator != 0);			
+	}
+	
+	private void checkGT()
+	{
+			jmpFlag = (accumulator > 0);			
+	}
+	
+	private void checkLT()
+	{
+			jmpFlag = (accumulator < 0);			
+	}
+	
+	private void checkGE()
+	{
+			jmpFlag = (accumulator >= 0);	
+	}
+	
+	private void checkLE()
+	{
+			jmpFlag = (accumulator <= 0);
+	}
+	
+	private void checkCond()
+	{
+		if(jmpFlag)
+		{
+			loadJmp();
+			jmpFlag = false;
+		}
+		else
+		{
+			jmpFlag = false;
+			increaseProgramCounter();
+		}
+	}
+	
+	private void checkCondM()
+	{
+		if(jmpFlag)
+		{
+			loadJmpImmediate();
+			jmpFlag = false;
+		}
+		else
+		{
+			increaseProgramCounter();
+		}
+	}
+	
+	private void loadCurrentAddress()
+	{
+		addressRegister = programCounter; 
+		controller.setRegister(ADDRESSREGISTER, addressRegister);
+	}
+	
+	private void loadOpcode()
+	{
+		instructionRegister = ram[addressRegister];
+		controller.setRegister(INSTRUCTIONREGISTER,instructionRegister);
 	}
 }
