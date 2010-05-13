@@ -84,6 +84,7 @@ public class VonNeumannRechner
 		setRam(new int[ram.length]);
 		nextStep = STEP_FETCH;
 		resetMicro();
+		jmpFlag = false;
 		controller.setCycleDisplay("FETCH");
 	}
 	
@@ -213,11 +214,13 @@ public class VonNeumannRechner
 		case LOAD:
 			loadRamToAcc();
 			increaseProgramCounter();
+			nextStep = STEP_FETCH;
 			break;
 		case STOREI:
 		case STORE:
 			storeAccToRam();
 			increaseProgramCounter();
+			nextStep = STEP_FETCH;
 			break;
 			//TODO switch the rest of the functions to the new system and clean up
 		case ADDI:
@@ -603,12 +606,14 @@ public class VonNeumannRechner
 	{
 		programCounter = instructionRegister&0xFFFFFF/**16777215**/%ram.length;
 		controller.setRegister(PROGRAMMCOUNTER, programCounter);
+		nextStep = STEP_FETCH;
 	}
 	
 	private void loadJmp()
 	{
 		programCounter = ram[addressRegister];
 		controller.setRegister(PROGRAMMCOUNTER, programCounter);
+		nextStep = STEP_FETCH;
 	}
 	
 	private void checkEQ()

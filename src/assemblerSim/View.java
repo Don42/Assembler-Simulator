@@ -28,6 +28,7 @@ public class View extends JComponent
 	private Image line_ram_pc = Toolkit.getDefaultToolkit().getImage("images/lines/RAMProgramCounter.png");
 	private Image line_ram_value = Toolkit.getDefaultToolkit().getImage("images/lines/RAMValue.png");
 	private Image line_ram_ir = Toolkit.getDefaultToolkit().getImage("images/lines/RAMInstructionRegister.png");
+	private Image line_ram_acc = Toolkit.getDefaultToolkit().getImage("images/lines/RAMAccumulator.png");
 	private Image line_pc_ar = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterAddressRegister.png");
 	private Image line_pc_value = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterValue.png");
 	private Image line_pc_ir = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterInstructionRegister.png");
@@ -54,6 +55,7 @@ public class View extends JComponent
 	private Image line_ram_pc_scale = line_ram_pc;
 	private Image line_ram_value_scale = line_ram_value;
 	private Image line_ram_ir_scale = line_ram_ir;
+	private Image line_ram_acc_scale = line_ram_acc;
 	private Image line_pc_ar_scale = line_pc_ar;
 	private Image line_pc_value_scale = line_pc_value;
 	private Image line_pc_ir_scale = line_pc_ir;
@@ -252,6 +254,10 @@ public class View extends JComponent
 		case 24:
 			// ALU LED
 			g.drawImage(led_alu_scale,0,0, this);
+			break;
+		case 25:
+			// RAM to Accumulator
+			g.drawImage(line_ram_acc_scale,0,0, this);
 			break;
 		}
 		
