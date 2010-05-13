@@ -124,9 +124,15 @@ public class VonNeumannRechner
 	
 	private void indirect()
 	{
-		//TODO Catch error if instruction is not in Opcodes
 		instruction = Integer.rotateRight(instructionRegister, 24)&255;
-		command = Opcodes.values()[instruction];
+		try
+		{
+			command = Opcodes.values()[instruction];
+		}
+		catch(IndexOutOfBoundsException e)
+		{
+			command = Opcodes.NOP;
+		}
 		switch(command)
 		{
 		case HALT:
