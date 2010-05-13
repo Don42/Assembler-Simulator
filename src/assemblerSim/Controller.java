@@ -29,6 +29,7 @@ public class Controller
 		frm = new GUIFrame(view, this);
 		rechner.setRam(new int[nramSize]);
 		setCycleDisplay("FETCH");
+		frm.setVisible(true);
 	}
 	
 	public void step()

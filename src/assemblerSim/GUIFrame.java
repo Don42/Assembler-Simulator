@@ -3,6 +3,7 @@ package assemblerSim;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -68,6 +69,8 @@ public class GUIFrame extends JFrame
 		this.setExtendedState(this.getExtendedState() | Frame.MAXIMIZED_BOTH);
 		
 		this.addComponentListener(new ResizeListener(this));
+		
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("images/simulator_LOGO_icon_sq.png"));
 		
 		view = nView;
 		parent = nParent;
@@ -201,7 +204,8 @@ public class GUIFrame extends JFrame
 		add(view);
 		
 		// makes the GUI visible
-		setVisible(true);
+		//moved to controller
+		//setVisible(true);
 	}
 	
 	/**
