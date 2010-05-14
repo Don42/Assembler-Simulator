@@ -43,7 +43,7 @@ public class GUIFrame extends JFrame
 	private JButton reset = new JButton("Reset");
 	private JButton toRAM = new JButton("Assemble");
 	private JLabel sliderLabel = new JLabel("Delay");
-	private JSlider slider = new JSlider(JSlider.VERTICAL,1,5000,1000);
+	private JSlider slider = new JSlider(JSlider.VERTICAL,10,5000,1000);
 //	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
 	private JTextArea area = new JTextArea();
 //	private JTextArea console = new JTextArea();

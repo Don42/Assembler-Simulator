@@ -702,7 +702,7 @@ public class VonNeumannRechner
 	
 	private void loadCurrentAddress()
 	{
-		addressRegister = programCounter; 
+		addressRegister = programCounter%ram.length; 
 		controller.setRegister(ADDRESSREGISTER, addressRegister);
 		controller.setLine(6);
 	}
