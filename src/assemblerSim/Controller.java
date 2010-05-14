@@ -130,7 +130,7 @@ public class Controller
 
 	protected void reset() 
 	{
-		rechner.reset();		
+		rechner.reset();
 	}
 	
 	protected void setLine(int nLine)

@@ -22,7 +22,6 @@ public class View extends JComponent
 	
 	// object declaration
 	private Image main_image = Toolkit.getDefaultToolkit().getImage("images/VonNeumannMaschine.png");
-//	private Image main_image = Toolkit.getDefaultToolkit().getImage("VonNeumannMaschine_1440x1080.png");
 	private Image line_ram_ar = Toolkit.getDefaultToolkit().getImage("images/lines/RAMAddressRegister.png");
 	private Image line_ar_ram = Toolkit.getDefaultToolkit().getImage("images/lines/AddressRegisterRAM.png");
 	private Image line_ram_pc = Toolkit.getDefaultToolkit().getImage("images/lines/RAMProgramCounter.png");
@@ -164,8 +163,8 @@ public class View extends JComponent
 			g.drawImage(line_ram_ar_scale,0,0, this);
 			break;
 		case 2:
-			// Address Register to RAM
-			g.drawImage(line_ar_ram_scale,0,0, this);
+			// RAM to Accumulator
+			g.drawImage(line_ram_acc_scale,0,0, this);
 			break;
 		case 3:
 			// RAM to Program Counter
@@ -182,6 +181,7 @@ public class View extends JComponent
 		case 6:
 			// Program Counter to Address Register 
 			g.drawImage(line_pc_ar_scale,0,0, this);
+			g.drawImage(line_ar_ram_scale,0,0, this);
 			break;
 		case 7:
 			// Program Counter to Value
@@ -202,9 +202,11 @@ public class View extends JComponent
 		case 11:
 			// Instruction Register to Address Register
 			g.drawImage(line_ir_ar_scale,0,0, this);
+			g.drawImage(line_ar_ram_scale,0,0, this);
 			break;
 		case 12:
-			// ALU to Accumulator
+			// ALU Calculation
+			g.drawImage(line_valueacc_alu_scale,0,0,this);
 			g.drawImage(line_alu_acc_scale,0,0, this);
 			break;
 		case 13:
@@ -222,9 +224,10 @@ public class View extends JComponent
 		case 16:
 			// Accumulator to Address Register
 			g.drawImage(line_acc_ar_scale,0,0, this);
+			g.drawImage(line_ar_ram_scale,0,0, this);
 			break;
 		case 17:
-			// Value and Accumulator to ALU
+			//this will be single operand operation to alu and back
 			g.drawImage(line_valueacc_alu_scale,0,0,this);
 			break;
 		case 18:
@@ -254,10 +257,6 @@ public class View extends JComponent
 		case 24:
 			// ALU LED
 			g.drawImage(led_alu_scale,0,0, this);
-			break;
-		case 25:
-			// RAM to Accumulator
-			g.drawImage(line_ram_acc_scale,0,0, this);
 			break;
 		}
 		
@@ -334,6 +333,29 @@ public class View extends JComponent
 		are.setText(code);
 		are.setCaretPosition(0);
 	}
+	
+	private void resizePictures(int x, int y,int hints)
+	{
+		main_image_scale = main_image.getScaledInstance(x,y,hints);
+		line_ram_ar_scale = line_ram_ar.getScaledInstance(x,y,hints);
+		line_ar_ram_scale = line_ar_ram.getScaledInstance(x,y,hints);
+		line_ram_pc_scale = line_ram_pc.getScaledInstance(x,y,hints);
+		line_ram_value_scale = line_ram_value.getScaledInstance(x,y,hints);
+		line_ram_ir_scale = line_ram_ir.getScaledInstance(x,y,hints);
+		line_ram_acc_scale = line_ram_acc.getScaledInstance(x,y,hints);
+		line_pc_ar_scale = line_pc_ar.getScaledInstance(x,y,hints);
+		line_pc_value_scale = line_pc_value.getScaledInstance(x,y,hints);
+		line_pc_ir_scale = line_pc_ir.getScaledInstance(x,y,hints);
+		line_ir_pc_scale = line_ir_pc.getScaledInstance(x,y,hints);
+		line_ir_value_scale = line_ir_value.getScaledInstance(x,y,hints);
+		line_ir_ar_scale = line_ir_ar.getScaledInstance(x,y,hints);
+		line_alu_acc_scale = line_alu_acc.getScaledInstance(x,y,hints);
+		line_acc_value_scale = line_acc_value.getScaledInstance(x,y,hints);
+		line_acc_pc_scale = line_acc_pc.getScaledInstance(x,y,hints);
+		line_acc_ir_scale = line_acc_ir.getScaledInstance(x,y,hints);
+		line_acc_ar_scale = line_acc_ar.getScaledInstance(x,y,hints);
+		line_valueacc_alu_scale = line_valueacc_alu.getScaledInstance(x,y,hints);
+	}
 
 	protected void updateSize() 
 	{
@@ -342,15 +364,14 @@ public class View extends JComponent
 		Image scaledImage;
 		if ( maxWidthScale<=maxHeightScale)
 		{
-			scaledImage = main_image.getScaledInstance(this.getParent().getWidth()-210, -1, Image.SCALE_DEFAULT);
+			resizePictures(this.getParent().getWidth()-210, -1, Image.SCALE_DEFAULT);
 			scale=maxWidthScale;
 		}
 		else
 		{
-			scaledImage = main_image.getScaledInstance(-1, this.getParent().getHeight(), Image.SCALE_DEFAULT);
+			resizePictures(-1, this.getParent().getHeight(), Image.SCALE_DEFAULT);
 			scale = maxHeightScale;
 		}
-		main_image_scale = scaledImage;
 		
 		//Change font size
 		if((this.getParent().getWidth() - 210) >= 1200)

@@ -84,24 +84,33 @@ public class Interpreter
 			{
 				instruction = 0;
 			}
-		
+			
+			String adresseString;
 			if(input.length==1 && instruction == 0 && !input[0].equalsIgnoreCase("NOP") && !input[0].equals(""))
 			{
-				adresse = Integer.parseInt(input[0]);
+				adresseString = input[0];
 			}
 			else if(input.length==2)
 			{
-				adresse = Integer.parseInt(input[1]);
+				adresseString = input[1];
 			}
 			else
 			{
-				adresse = 0;
+				adresseString = "0";
+			}
+			try
+			{
+				adresse = Integer.parseInt(adresseString);				
+			}
+			catch(NumberFormatException e)
+			{
+				adresse = nLabels.get(adresseString);
 			}
 			code = instruction+adresse;
 		}
 		catch(Exception e)
 		{
-			code = 0xDEADBEEF;
+			code = 0xABADC0DE;
 		}
 		return code;
 	}
