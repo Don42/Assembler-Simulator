@@ -373,7 +373,6 @@ public class View extends JComponent
 	{
 		double maxHeightScale = (this.getParent().getHeight() / (double) main_image.getHeight(this));
 		double maxWidthScale = ((this.getParent().getWidth() - 210) /(double) main_image.getWidth(this));
-		Image scaledImage;
 		if ( maxWidthScale<=maxHeightScale)
 		{
 			resizePictures(this.getParent().getWidth()-210, -1, Image.SCALE_DEFAULT);
