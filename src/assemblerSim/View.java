@@ -161,6 +161,7 @@ public class View extends JComponent
 		case 1:
 			// RAM to Address Register
 			g.drawImage(line_ram_ar_scale,0,0, this);
+			g.drawImage(line_ar_ram_scale,0,0, this);
 			break;
 		case 2:
 			// RAM to Accumulator
