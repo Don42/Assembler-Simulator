@@ -210,6 +210,7 @@ public class VonNeumannRechner
 		case NOP:
 		default:
 			increaseProgramCounter();
+			nextStep = STEP_FETCH;
 			break;
 		case HALT:
 			nextStep = STEP_HALT;
