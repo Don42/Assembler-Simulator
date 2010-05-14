@@ -201,6 +201,7 @@ public class VonNeumannRechner
 				nextStep = STEP_EXECUTE;
 				break;
 			}
+			break;
 		}
 	}
 
@@ -232,7 +233,6 @@ public class VonNeumannRechner
 			increaseProgramCounter();
 			nextStep = STEP_FETCH;
 			break;
-			//TODO switch the rest of the functions to the new system and clean up
 		case ADDI:
 		case ADD:
 			switch(microCounter)
@@ -567,7 +567,7 @@ public class VonNeumannRechner
 	private void storeAccToRam()
 	{
 		setRam(addressRegister,accumulator);
-		controller.setLine(1);
+		controller.setLine(18);
 	}
 	
 	private void add()
@@ -623,7 +623,7 @@ public class VonNeumannRechner
 	{
 		accumulator = ~accumulator;
 		controller.setRegister(ACCUMULATOR, accumulator);
-		//TODO missing line
+		controller.setLine(17);
 	}
 	
 	private void loadJmpImmediate()

@@ -40,6 +40,8 @@ public class View extends JComponent
 	private Image line_acc_ir = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorInstructionRegister.png");
 	private Image line_acc_ar = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorAddressRegister.png");
 	private Image line_valueacc_alu = Toolkit.getDefaultToolkit().getImage("images/lines/ValueandAccumulatorALU.png");
+	private Image line_acc_alu = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorALU.png");
+	private Image line_acc_ram = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorRAM.png");
 	private Image led_ram = Toolkit.getDefaultToolkit().getImage("images/LEDs/RAM.png");
 	private Image led_pc = Toolkit.getDefaultToolkit().getImage("images/LEDs/ProgramCounter.png");
 	private Image led_ar = Toolkit.getDefaultToolkit().getImage("images/LEDs/AddressRegister.png");
@@ -67,6 +69,8 @@ public class View extends JComponent
 	private Image line_acc_ir_scale = line_acc_ir;
 	private Image line_acc_ar_scale = line_acc_ar;
 	private Image line_valueacc_alu_scale = line_valueacc_alu;
+	private Image line_acc_alu_scale = line_acc_alu;
+	private Image line_acc_ram_scale = line_acc_ram;
 	private Image led_ram_scale = led_ram;
 	private Image led_pc_scale = led_pc;
 	private Image led_ar_scale = led_ar;
@@ -228,34 +232,39 @@ public class View extends JComponent
 			g.drawImage(line_ar_ram_scale,0,0, this);
 			break;
 		case 17:
-			//this will be single operand operation to alu and back
-			g.drawImage(line_valueacc_alu_scale,0,0,this);
+			//single operand operation to alu and back
+			g.drawImage(line_acc_alu_scale,0,0,this);
+			g.drawImage(line_alu_acc_scale,0,0, this);
 			break;
 		case 18:
+			// Accumulator to ram
+			g.drawImage(line_acc_ram_scale,0,0, this);
+			break;
+		case 19:
 			// RAM LED
 			g.drawImage(led_ram_scale,0,0, this);
 			break;
-		case 19:
+		case 20:
 			// Program Counter LED
 			g.drawImage(led_pc_scale,0,0, this);
 			break;
-		case 20:
+		case 21:
 			// Address Register LED
 			g.drawImage(led_ar_scale,0,0, this);
 			break;
-		case 21:
+		case 22:
 			// Instruction Register LED
 			g.drawImage(led_ir_scale,0,0, this);
 			break;
-		case 22:
+		case 23:
 			// Value LED
 			g.drawImage(led_value_scale,0,0, this);
 			break;
-		case 23:
+		case 24:
 			// Accumulator LED
 			g.drawImage(led_acc_scale,0,0, this);
 			break;
-		case 24:
+		case 25:
 			// ALU LED
 			g.drawImage(led_alu_scale,0,0, this);
 			break;
@@ -356,6 +365,8 @@ public class View extends JComponent
 		line_acc_ir_scale = line_acc_ir.getScaledInstance(x,y,hints);
 		line_acc_ar_scale = line_acc_ar.getScaledInstance(x,y,hints);
 		line_valueacc_alu_scale = line_valueacc_alu.getScaledInstance(x,y,hints);
+		line_acc_ram_scale = line_acc_ram.getScaledInstance(x,y,hints);
+		line_acc_alu_scale = line_acc_alu.getScaledInstance(x,y,hints);
 	}
 
 	protected void updateSize() 
