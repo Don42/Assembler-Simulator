@@ -230,6 +230,7 @@ public class GUIFrame extends JFrame
 		step.setEnabled(false);
 		run.setEnabled(false);
 		reset.setEnabled(false);
+		toRAM.setEnabled(false);
 		stop.setEnabled(true);
 	}
 	
@@ -238,6 +239,7 @@ public class GUIFrame extends JFrame
 		step.setEnabled(true);
 		run.setEnabled(true);
 		reset.setEnabled(true);
+		toRAM.setEnabled(true);
 		stop.setEnabled(false);
 	}
 	
