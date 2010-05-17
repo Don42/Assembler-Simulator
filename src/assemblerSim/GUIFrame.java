@@ -46,8 +46,8 @@ public class GUIFrame extends JFrame
 	private JSlider slider = new JSlider(JSlider.VERTICAL,10,5000,1000);
 //	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
 	private JTextArea area = new JTextArea();
-//	private JTextArea console = new JTextArea();
-	private JScrollPane scroll1;//, scroll2;
+	private JTextArea console = new JTextArea();
+	private JScrollPane scroll1, scroll2;
 	
 	private final static int BUTTON_WIDTH = 100;
 	private final static int BUTTON_SPACER = 15;
@@ -191,14 +191,14 @@ public class GUIFrame extends JFrame
 		area.setLineWrap(true);
 		scroll1 = new JScrollPane(area);
 		add(scroll1);
-		scroll1.setBounds(this.getWidth()-220,0,130,this.getHeight());
+		scroll1.setBounds(this.getWidth()-220,0,130,this.getHeight()-110);
 
 		// Console
-//		console.setLineWrap(true);
-//		scroll2 = new JScrollPane(console);
-//		add(scroll2);
-//		scroll2.setBounds(13,615,1072,193);
-//		console.setEditable(false);
+		console.setLineWrap(true);
+		scroll2 = new JScrollPane(console);
+		add(scroll2);
+		scroll2.setBounds(0,this.getHeight()-100,this.getWidth(),100);
+		console.setEditable(false);
 		
 		// The Von-Neumann Animation
 		add(view);
@@ -223,6 +223,10 @@ public class GUIFrame extends JFrame
 	protected String getTextFromCodeArea()
 	{
 		return this.area.getText();
+	}
+	protected void appendEvent(String nEvent)
+	{
+		console.append(nEvent);
 	}
 	
 	void run()
@@ -315,7 +319,8 @@ public class GUIFrame extends JFrame
 		slider.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),slider.getY(),slider.getWidth(),slider.getHeight());
 		sliderLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),sliderLabel.getY(),sliderLabel.getWidth(),sliderLabel.getHeight());
 //		field.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),field.getY(),field.getWidth(),field.getHeight());
-		scroll1.setBounds(this.getWidth()-(AREA_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),scroll1.getWidth(),this.getHeight());
+		scroll1.setBounds(this.getWidth()-(AREA_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),scroll1.getWidth(),this.getHeight()-110);
+		scroll2.setBounds(0,scroll2.getY(),this.getWidth(),scroll2.getHeight());
 		scroll1.revalidate();
 		view.updateSize();
 	}

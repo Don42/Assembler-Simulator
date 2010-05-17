@@ -142,5 +142,10 @@ public class Controller
 	{
 			view.setCycle(nCycle);
 	}
+	
+	protected void appendEvent(String nEvent)
+	{
+		frm.appendEvent(nEvent);
+	}
 
 }
