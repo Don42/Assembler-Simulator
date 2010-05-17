@@ -154,6 +154,7 @@ public class VonNeumannRechner
 		case JMPGE:
 		case JMPLE:
 			loadAddress();
+		case LOADM:
 		case ADDM:
 		case SUBM:
 		case MULTM:
@@ -227,6 +228,11 @@ public class VonNeumannRechner
 			increaseProgramCounter();
 			nextStep = STEP_FETCH;
 			break;
+		case LOADM:
+			loadAccImmediate();
+			increaseProgramCounter();
+			nextStep = STEP_FETCH;
+			break;
 		case STOREI:
 		case STORE:
 			storeAccToRam();
@@ -264,6 +270,7 @@ public class VonNeumannRechner
 				break;
 			}
 			break;
+		case SUBI:
 		case SUB:
 			switch(microCounter)
 			{
@@ -294,6 +301,7 @@ public class VonNeumannRechner
 				break;
 			}
 			break;
+		case MULTI:
 		case MULT:
 			switch(microCounter)
 			{
@@ -324,6 +332,7 @@ public class VonNeumannRechner
 				break;
 			}
 			break;
+		case DIVI:
 		case DIV:
 			switch(microCounter)
 			{
@@ -354,6 +363,7 @@ public class VonNeumannRechner
 				break;
 			}
 			break;
+		case MODI:
 		case MOD:
 			switch(microCounter)
 			{
@@ -384,6 +394,7 @@ public class VonNeumannRechner
 				break;
 			}
 			break;
+		case ANDI:
 		case AND:
 			switch(microCounter)
 			{
@@ -414,6 +425,7 @@ public class VonNeumannRechner
 				break;
 			}
 			break;
+		case ORI:
 		case OR:
 			switch(microCounter)
 			{
@@ -541,6 +553,13 @@ public class VonNeumannRechner
 		valueRegister = instructionRegister&0xFFFFFF/**16777215**/;
 		controller.setRegister(VALUEREGISTER, valueRegister);
 		controller.setLine(10);
+	}
+	
+	private void loadAccImmediate()
+	{
+		accumulator = instructionRegister&0xFFFFFF/**16777215**/;
+		controller.setRegister(ACCUMULATOR, accumulator);
+		controller.setLine(8);
 	}
 	
 	private void loadAddress()

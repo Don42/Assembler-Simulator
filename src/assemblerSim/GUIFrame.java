@@ -26,6 +26,10 @@ import javax.swing.event.ChangeListener;
 public class GUIFrame extends JFrame
 {
 	
+	private static final int CODE_FIELD_WIDTH = 130;
+	private final static int BUTTON_WIDTH = 100;
+	private final static int BUTTON_SPACER = 15;
+	private final static int AREA_WIDTH = 130;
 	/**
 	 * 
 	 */
@@ -48,10 +52,6 @@ public class GUIFrame extends JFrame
 	private JTextArea area = new JTextArea();
 	private JTextArea console = new JTextArea();
 	private JScrollPane scroll1, scroll2;
-	
-	private final static int BUTTON_WIDTH = 100;
-	private final static int BUTTON_SPACER = 15;
-	private final static int AREA_WIDTH = 130;
 	
 	
 	/**
@@ -191,7 +191,7 @@ public class GUIFrame extends JFrame
 		area.setLineWrap(true);
 		scroll1 = new JScrollPane(area);
 		add(scroll1);
-		scroll1.setBounds(this.getWidth()-220,0,130,this.getHeight()-110);
+		scroll1.setBounds(this.getWidth()-220,0,CODE_FIELD_WIDTH,this.getHeight()-110);
 
 		// Console
 		console.setLineWrap(true);
@@ -319,10 +319,12 @@ public class GUIFrame extends JFrame
 		slider.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),slider.getY(),slider.getWidth(),slider.getHeight());
 		sliderLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),sliderLabel.getY(),sliderLabel.getWidth(),sliderLabel.getHeight());
 //		field.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),field.getY(),field.getWidth(),field.getHeight());
-		scroll1.setBounds(this.getWidth()-(AREA_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),scroll1.getWidth(),this.getHeight()-110);
-		scroll2.setBounds(0,scroll2.getY(),this.getWidth(),scroll2.getHeight());
+		scroll1.setBounds(this.getWidth()-(AREA_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),CODE_FIELD_WIDTH,this.getHeight()-110);
+		scroll2.setBounds(0,this.getHeight()-100,this.getWidth(),scroll2.getHeight());
+		double pictureSize = view.updateSize();
+		scroll1.setBounds((int)(pictureSize)+5,scroll1.getY(),(int)(this.getWidth()-(pictureSize+BUTTON_SPACER+BUTTON_WIDTH+5)),this.getHeight()-110);
 		scroll1.revalidate();
-		view.updateSize();
+		scroll2.revalidate();
 	}
 
 	int getSliderValue()

@@ -26,6 +26,7 @@ public enum Opcodes {
 	/**
 	 * immediate addressing
 	 */
+	LOADM,
 	ADDM,
 	SUBM,
 	DIVM,

@@ -30,10 +30,10 @@ public class View extends JComponent
 	private Image line_ram_acc = Toolkit.getDefaultToolkit().getImage("images/lines/RAMAccumulator.png");
 	private Image line_pc_ar = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterAddressRegister.png");
 	private Image line_pc_value = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterValue.png");
-	private Image line_pc_ir = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterInstructionRegister.png");
 	private Image line_ir_pc = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterProgramCounter.png");
 	private Image line_ir_value = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterValue.png");
 	private Image line_ir_ar = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterAddressRegister.png");
+	private Image line_ir_acc = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterAccumulator.png");
 	private Image line_alu_acc = Toolkit.getDefaultToolkit().getImage("images/lines/ALUAccumulator.png");
 	private Image line_acc_value = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorValue.png");
 	private Image line_acc_pc = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorProgramCounter.png");
@@ -59,10 +59,10 @@ public class View extends JComponent
 	private Image line_ram_acc_scale = line_ram_acc;
 	private Image line_pc_ar_scale = line_pc_ar;
 	private Image line_pc_value_scale = line_pc_value;
-	private Image line_pc_ir_scale = line_pc_ir;
 	private Image line_ir_pc_scale = line_ir_pc;
 	private Image line_ir_value_scale = line_ir_value;
 	private Image line_ir_ar_scale = line_ir_ar;
+	private Image line_ir_acc_scale = line_ir_acc;
 	private Image line_alu_acc_scale = line_alu_acc;
 	private Image line_acc_value_scale = line_acc_value;
 	private Image line_acc_pc_scale = line_acc_pc;
@@ -193,8 +193,8 @@ public class View extends JComponent
 			g.drawImage(line_pc_value_scale,0,0, this);
 			break;
 		case 8:
-			// Program Counter to Instruction Register
-			g.drawImage(line_pc_ir_scale,0,0, this);
+			// Instructionregister to Accumulator
+			g.drawImage(line_ir_acc_scale,0,0, this);
 			break;
 		case 9:
 			// Instruction Register to Program Counter
@@ -355,10 +355,10 @@ public class View extends JComponent
 		line_ram_acc_scale = line_ram_acc.getScaledInstance(x,y,hints);
 		line_pc_ar_scale = line_pc_ar.getScaledInstance(x,y,hints);
 		line_pc_value_scale = line_pc_value.getScaledInstance(x,y,hints);
-		line_pc_ir_scale = line_pc_ir.getScaledInstance(x,y,hints);
 		line_ir_pc_scale = line_ir_pc.getScaledInstance(x,y,hints);
 		line_ir_value_scale = line_ir_value.getScaledInstance(x,y,hints);
 		line_ir_ar_scale = line_ir_ar.getScaledInstance(x,y,hints);
+		line_ir_acc_scale = line_ir_acc.getScaledInstance(x, y, hints);
 		line_alu_acc_scale = line_alu_acc.getScaledInstance(x,y,hints);
 		line_acc_value_scale = line_acc_value.getScaledInstance(x,y,hints);
 		line_acc_pc_scale = line_acc_pc.getScaledInstance(x,y,hints);
@@ -369,7 +369,7 @@ public class View extends JComponent
 		line_acc_alu_scale = line_acc_alu.getScaledInstance(x,y,hints);
 	}
 
-	protected void updateSize() 
+	protected double updateSize() 
 	{
 		double maxHeightScale = ((this.getParent().getHeight() - 100) / (double) main_image.getHeight(this));
 		double maxWidthScale = ((this.getParent().getWidth() - 210) /(double) main_image.getWidth(this));
@@ -400,6 +400,7 @@ public class View extends JComponent
 			overlayFont = new Font(overlayFont.getFamily(),overlayFont.getStyle(), 12);
 			ramFont = new Font(ramFont.getFamily(),ramFont.getStyle(), 12);
 		}
+		return main_image.getWidth(this)*scale;
 	}
 	
 	public void update(Graphics g) {
