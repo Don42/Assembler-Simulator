@@ -278,7 +278,7 @@ public class View extends JComponent
 			g2d.drawString(val,(int)(458*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
 			g2d.drawString(acc,(int)(668*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
 			try {
-				g2d.drawString(cycle,(int)(540*scale*scaleToPicture),(int)(557*scale*scaleToPicture));
+				g2d.drawString(cycle,(int)(648*scale*scaleToPicture),(int)(36*scale*scaleToPicture));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -401,4 +401,8 @@ public class View extends JComponent
 			ramFont = new Font(ramFont.getFamily(),ramFont.getStyle(), 12);
 		}
 	}
+	
+	public void update(Graphics g) {
+		   paint(g);
+		}
 }

@@ -36,7 +36,7 @@ public class Interpreter
 						labelName  = lines[i].substring(1, lines[i].length());
 						lines[i] = "";
 					}
-					labels.put(labelName, i);
+					labels.put(labelName.toUpperCase(), i);
 				}	
 			}
 			catch(Exception e)
@@ -104,7 +104,7 @@ public class Interpreter
 			}
 			catch(NumberFormatException e)
 			{
-				adresse = nLabels.get(adresseString);
+				adresse = nLabels.get(adresseString.toUpperCase());
 			}
 			code = instruction+adresse;
 		}
