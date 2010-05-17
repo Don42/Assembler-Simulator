@@ -52,7 +52,7 @@ public class Controller
 	
 	public void setStepTime(int nStepTime)
 	{
-		clock.setStepTime(nStepTime);
+		clock.setStepTime((int)Math.pow(2, (nStepTime/10))+2);//+2 to get to 10ms in lowest setting 2³ + 2=10
 	}
 	
 	public void setRegister(int nregister, int nvalue)
