@@ -1,6 +1,7 @@
 package assemblerSim;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -369,7 +370,7 @@ public class View extends JComponent
 		line_acc_alu_scale = line_acc_alu.getScaledInstance(x,y,hints);
 	}
 
-	protected double updateSize() 
+	protected Dimension updateSize() 
 	{
 		double maxHeightScale = ((this.getParent().getHeight() - 100) / (double) main_image.getHeight(this));
 		double maxWidthScale = ((this.getParent().getWidth() - 210) /(double) main_image.getWidth(this));
@@ -400,7 +401,9 @@ public class View extends JComponent
 			overlayFont = new Font(overlayFont.getFamily(),overlayFont.getStyle(), 12);
 			ramFont = new Font(ramFont.getFamily(),ramFont.getStyle(), 12);
 		}
-		return main_image.getWidth(this)*scale;
+		Dimension out = new Dimension();
+		out .setSize(main_image.getWidth(this)*scale, main_image.getHeight(this)*scale);
+		return out;
 	}
 	
 	public void update(Graphics g) {

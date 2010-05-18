@@ -131,6 +131,7 @@ public class Controller
 	protected void reset() 
 	{
 		rechner.reset();
+		frm.clearEvents();
 	}
 	
 	protected void setLine(int nLine)

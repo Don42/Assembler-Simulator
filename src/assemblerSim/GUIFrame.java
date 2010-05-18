@@ -63,7 +63,6 @@ public class GUIFrame extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setMinimumSize(new Dimension(1024,768)); 
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		this.setMaximizedBounds(env.getMaximumWindowBounds());
 		this.setPreferredSize(env.getMaximumWindowBounds().getSize());
 		this.setSize(this.getPreferredSize());
 		this.setExtendedState(this.getExtendedState() | Frame.MAXIMIZED_BOTH);
@@ -227,6 +226,12 @@ public class GUIFrame extends JFrame
 	protected void appendEvent(String nEvent)
 	{
 		console.append(nEvent);
+		console.setCaretPosition(console.getText().length());
+	}
+	
+	protected void clearEvents()
+	{
+		console.setText("");
 	}
 	
 	void run()
@@ -318,11 +323,10 @@ public class GUIFrame extends JFrame
 		stop.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),stop.getY(),stop.getWidth(),stop.getHeight());
 		slider.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),slider.getY(),slider.getWidth(),slider.getHeight());
 		sliderLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),sliderLabel.getY(),sliderLabel.getWidth(),sliderLabel.getHeight());
-//		field.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),field.getY(),field.getWidth(),field.getHeight());
-		scroll1.setBounds(this.getWidth()-(AREA_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),CODE_FIELD_WIDTH,this.getHeight()-110);
-		scroll2.setBounds(0,this.getHeight()-100,this.getWidth(),scroll2.getHeight());
-		double pictureSize = view.updateSize();
-		scroll1.setBounds((int)(pictureSize)+5,scroll1.getY(),(int)(this.getWidth()-(pictureSize+BUTTON_SPACER+BUTTON_WIDTH+5)),this.getHeight()-110);
+		scroll1.setBounds(this.getWidth()-(AREA_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),CODE_FIELD_WIDTH,this.getHeight()-110);	
+		Dimension pictureSize = view.updateSize();
+		scroll1.setBounds((int)(pictureSize.getWidth())+5,scroll1.getY(),(int)(this.getWidth()-(pictureSize.getWidth()+BUTTON_SPACER+BUTTON_WIDTH+5)),this.getHeight()-40);//code-fu
+		scroll2.setBounds(1,(int)(this.getHeight()-(this.getHeight()-pictureSize.getHeight())),scroll1.getX()-5,(int)(this.getHeight()-(pictureSize.getHeight()+40)));//definitely code-fu
 		scroll1.revalidate();
 		scroll2.revalidate();
 	}
