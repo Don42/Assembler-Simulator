@@ -3,6 +3,7 @@ package assemblerSim;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -188,6 +189,7 @@ public class GUIFrame extends JFrame
 		
 		// Program Code Field
 		area.setLineWrap(true);
+		area.setMargin(new Insets(area.getMargin().top+2, area.getMargin().left+2, area.getMargin().bottom+1, area.getMargin().right+1));
 		scroll1 = new JScrollPane(area);
 		add(scroll1);
 		scroll1.setBounds(this.getWidth()-220,0,CODE_FIELD_WIDTH,this.getHeight()-110);
@@ -195,6 +197,7 @@ public class GUIFrame extends JFrame
 		// Console
 		console.setLineWrap(true);
 		scroll2 = new JScrollPane(console);
+		console.setMargin(new Insets(2,2,1,1));
 		add(scroll2);
 		scroll2.setBounds(0,this.getHeight()-100,this.getWidth(),100);
 		console.setEditable(false);
