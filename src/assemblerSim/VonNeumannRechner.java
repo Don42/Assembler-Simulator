@@ -1,5 +1,9 @@
 package assemblerSim;
 
+/**
+ * @author Tim Borcherding; Marco "Don" Kaulea
+ *
+ */
 public class VonNeumannRechner
 {
 	/*

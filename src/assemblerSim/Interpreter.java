@@ -3,12 +3,13 @@ package assemblerSim;
 import java.util.HashMap;
 
 
+/**
+ * /**
+ * @author Tim Borcherding
+ */
 public class Interpreter
 {
-	public Interpreter()
-	{
-		// TODO Auto-generated constructor stub
-	}
+	public Interpreter(){}
 	
 	protected int[] stringToRam(String assemblerCode, int nRamSize)
 	{

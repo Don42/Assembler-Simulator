@@ -2,7 +2,10 @@ package assemblerSim;
 
 import java.util.*;
 
-
+/**
+ * @author Marco "Don" Kaulea
+ *
+ */
 public class Clock
 {
 	

@@ -3,7 +3,10 @@ package assemblerSim;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-
+/**
+ * @author Marco "Don" Kaulea
+ *
+ */
 public class ResizeListener extends ComponentAdapter implements
 		ComponentListener 
 {

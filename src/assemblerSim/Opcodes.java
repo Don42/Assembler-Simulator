@@ -1,5 +1,9 @@
 package assemblerSim;
 
+/**
+ * @author Tim Borcherding; Marco "Don" Kaulea
+ *
+ */
 public enum Opcodes {
 	/**
 	 * direct addressing or no addressing(NOP/HALT/NOT)

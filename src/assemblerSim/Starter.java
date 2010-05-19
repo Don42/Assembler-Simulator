@@ -1,5 +1,9 @@
 package assemblerSim;
 
+/**
+ * @author Marco "Don" Kaulea
+ *
+ */
 public class Starter 
 {
 

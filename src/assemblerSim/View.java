@@ -14,8 +14,8 @@ import javax.swing.JTextArea;
 
 /**
  * This call is responsible for the animation part of the GUI. 
- * @author Simon Alexander Skolik
- * @version 0.1
+ * @author Simon Alexander Skolik; Marco "Don" Kaulea
+ * 
  */
 public class View extends JComponent
 {
@@ -370,33 +370,33 @@ public class View extends JComponent
 		line_acc_alu_scale = line_acc_alu.getScaledInstance(x,y,hints);
 	}
 
-	protected Dimension updateSize() 
+	protected Dimension updateSize(int nCodeFieldX, int nConsoleHeight) 
 	{
-		double maxHeightScale = ((this.getParent().getHeight() - 100) / (double) main_image.getHeight(this));
-		double maxWidthScale = ((this.getParent().getWidth() - 210) /(double) main_image.getWidth(this));
+		double maxHeightScale = ((this.getParent().getHeight() - nConsoleHeight) / (double) main_image.getHeight(this));
+		double maxWidthScale = ((this.getParent().getWidth() - nCodeFieldX) /(double) main_image.getWidth(this));
 		if ( maxWidthScale<=maxHeightScale)
 		{
-			resizePictures(this.getParent().getWidth()-210, -1, Image.SCALE_DEFAULT);
+			resizePictures(this.getParent().getWidth()-nCodeFieldX, -1, Image.SCALE_DEFAULT);
 			scale=maxWidthScale;
 		}
 		else
 		{
-			resizePictures(-1, this.getParent().getHeight()-100, Image.SCALE_DEFAULT);
+			resizePictures(-1, this.getParent().getHeight()-nConsoleHeight, Image.SCALE_DEFAULT);
 			scale = maxHeightScale;
 		}
 		
 		//Change font size
-		if((this.getParent().getWidth() - 210) >= 1200)
+		if((this.getParent().getWidth() - nCodeFieldX) >= 1200)
 		{
 			overlayFont = new Font(overlayFont.getFamily(),overlayFont.getStyle(), 16);
 			ramFont = new Font(ramFont.getFamily(),ramFont.getStyle(), 16);
 		}
-		else if((this.getParent().getWidth() - 210) >= 1000)
+		else if((this.getParent().getWidth() - nCodeFieldX) >= 1000)
 		{
 			overlayFont = new Font(overlayFont.getFamily(),overlayFont.getStyle(), 14);
 			ramFont = new Font(ramFont.getFamily(),ramFont.getStyle(), 14);
 		}
-		else if((this.getParent().getWidth() - 210) <= 800)
+		else if((this.getParent().getWidth() - nCodeFieldX) <= 800)
 		{
 			overlayFont = new Font(overlayFont.getFamily(),overlayFont.getStyle(), 12);
 			ramFont = new Font(ramFont.getFamily(),ramFont.getStyle(), 12);

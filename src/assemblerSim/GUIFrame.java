@@ -21,16 +21,18 @@ import javax.swing.event.ChangeListener;
 
 /**
  * This class creates the GUI Frame and the GUI elements.
- * @author Simon Alexander Skolik
- * @version 0.1
+ * @author Simon Alexander Skolik; Marco "Don" Kaulea
+ * 
  */
 public class GUIFrame extends JFrame
 {
 	
+	private static final int BUTTON_HEIGHT = 30;
+	private static final int CONSOLE_STD_HEIGHT = 100;
+	private static final int CONSOLE_TO_CODE_MARGIN = 10;
 	private static final int CODE_FIELD_WIDTH = 130;
 	private final static int BUTTON_WIDTH = 100;
 	private final static int BUTTON_SPACER = 15;
-	private final static int AREA_WIDTH = 130;
 	/**
 	 * 
 	 */
@@ -49,7 +51,6 @@ public class GUIFrame extends JFrame
 	private JButton toRAM = new JButton("Assemble");
 	private JLabel sliderLabel = new JLabel("Delay");
 	private JSlider slider = new JSlider(JSlider.VERTICAL,30,120,75);
-//	private JTextField field = new JTextField(String.valueOf(slider.getValue()));
 	private JTextArea area = new JTextArea();
 	private JTextArea console = new JTextArea();
 	private JScrollPane scroll1, scroll2;
@@ -77,7 +78,7 @@ public class GUIFrame extends JFrame
 		
 		// Save-Button
 		add(save);
-		save.setBounds(this.getWidth()-BUTTON_WIDTH,30,BUTTON_WIDTH,30);
+		save.setBounds(this.getWidth()-BUTTON_WIDTH,30,BUTTON_WIDTH,BUTTON_HEIGHT);
 		save.addActionListener(new ActionListener()
 		{
 
@@ -91,7 +92,7 @@ public class GUIFrame extends JFrame
 		
 		// Load-Button
 		add(load);
-		load.setBounds(this.getWidth()-BUTTON_WIDTH,0,BUTTON_WIDTH,30);
+		load.setBounds(this.getWidth()-BUTTON_WIDTH,0,BUTTON_WIDTH,BUTTON_HEIGHT);
 		load.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -102,7 +103,7 @@ public class GUIFrame extends JFrame
 		
 		// Reset-Button
 		add(reset);
-		reset.setBounds(this.getWidth()-BUTTON_WIDTH,180,BUTTON_WIDTH,30);
+		reset.setBounds(this.getWidth()-BUTTON_WIDTH,180,BUTTON_WIDTH,BUTTON_HEIGHT);
 		reset.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -113,7 +114,7 @@ public class GUIFrame extends JFrame
 		
 		// Run-Button
 		add(run);
-		run.setBounds(this.getWidth()-BUTTON_WIDTH,90,BUTTON_WIDTH,30);
+		run.setBounds(this.getWidth()-BUTTON_WIDTH,90,BUTTON_WIDTH,BUTTON_HEIGHT);
 		run.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -124,7 +125,7 @@ public class GUIFrame extends JFrame
 		
 		// Button to write Input frome the Code Area to RAM
 		add(toRAM);
-		toRAM.setBounds(this.getWidth()-BUTTON_WIDTH,60,BUTTON_WIDTH,30);
+		toRAM.setBounds(this.getWidth()-BUTTON_WIDTH,60,BUTTON_WIDTH,BUTTON_HEIGHT);
 		toRAM.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -135,7 +136,7 @@ public class GUIFrame extends JFrame
 		
 		// Step-Button
 		add(step);
-		step.setBounds(this.getWidth()-BUTTON_WIDTH,120,BUTTON_WIDTH,30);
+		step.setBounds(this.getWidth()-BUTTON_WIDTH,120,BUTTON_WIDTH,BUTTON_HEIGHT);
 		step.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -146,7 +147,7 @@ public class GUIFrame extends JFrame
 		
 		// Stop-Button
 		add(stop);
-		stop.setBounds(this.getWidth()-BUTTON_WIDTH,150,BUTTON_WIDTH,30);
+		stop.setBounds(this.getWidth()-BUTTON_WIDTH,150,BUTTON_WIDTH,BUTTON_HEIGHT);
 		stop.setEnabled(false);
 		stop.addActionListener(new ActionListener()
 		{
@@ -171,43 +172,27 @@ public class GUIFrame extends JFrame
 		{
 			public void stateChanged(ChangeEvent e)
 			{
-//				field.setText(String.valueOf(slider.getValue()));
 				parent.setStepTime(slider.getValue());
 			}
 		});
-		
-		// Clock-JTextField
-//		add(field);
-//		field.setBounds(this.getWidth()-BUTTON_WIDTH,450,BUTTON_WIDTH,30);
-//		field.addActionListener(new ActionListener()
-//		{
-//			public void actionPerformed(ActionEvent e)
-//			{
-//				slider.setValue(Integer.parseInt(field.getText()));
-//			}
-//		});
 		
 		// Program Code Field
 		area.setLineWrap(true);
 		area.setMargin(new Insets(area.getMargin().top+2, area.getMargin().left+2, area.getMargin().bottom+1, area.getMargin().right+1));
 		scroll1 = new JScrollPane(area);
 		add(scroll1);
-		scroll1.setBounds(this.getWidth()-220,0,CODE_FIELD_WIDTH,this.getHeight()-110);
+		scroll1.setBounds(this.getWidth()-(CODE_FIELD_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),0,CODE_FIELD_WIDTH,this.getHeight()-(CONSOLE_STD_HEIGHT+CONSOLE_TO_CODE_MARGIN));
 
 		// Console
 		console.setLineWrap(true);
 		scroll2 = new JScrollPane(console);
 		console.setMargin(new Insets(2,2,1,1));
 		add(scroll2);
-		scroll2.setBounds(0,this.getHeight()-100,this.getWidth(),100);
+		scroll2.setBounds(0,this.getHeight()-100,this.getWidth(),CONSOLE_STD_HEIGHT);
 		console.setEditable(false);
 		
 		// The Von-Neumann Animation
 		add(view);
-		
-		// makes the GUI visible
-		//moved to controller
-		//setVisible(true);
 	}
 	
 	/**
@@ -326,8 +311,8 @@ public class GUIFrame extends JFrame
 		stop.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),stop.getY(),stop.getWidth(),stop.getHeight());
 		slider.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),slider.getY(),slider.getWidth(),slider.getHeight());
 		sliderLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),sliderLabel.getY(),sliderLabel.getWidth(),sliderLabel.getHeight());
-		scroll1.setBounds(this.getWidth()-(AREA_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),CODE_FIELD_WIDTH,this.getHeight()-110);	
-		Dimension pictureSize = view.updateSize();
+		scroll1.setBounds(this.getWidth()-(CODE_FIELD_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),CODE_FIELD_WIDTH,this.getHeight()-(CONSOLE_STD_HEIGHT+CONSOLE_TO_CODE_MARGIN));	
+		Dimension pictureSize = view.updateSize((CODE_FIELD_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),CONSOLE_STD_HEIGHT+CONSOLE_TO_CODE_MARGIN);
 		scroll1.setBounds((int)(pictureSize.getWidth())+5,scroll1.getY(),(int)(this.getWidth()-(pictureSize.getWidth()+BUTTON_SPACER+BUTTON_WIDTH+5)),this.getHeight()-40);//code-fu
 		scroll2.setBounds(1,(int)(this.getHeight()-(this.getHeight()-pictureSize.getHeight())),scroll1.getX()-5,(int)(this.getHeight()-(pictureSize.getHeight()+40)));//definitely code-fu
 		scroll1.revalidate();

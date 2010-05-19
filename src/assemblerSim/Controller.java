@@ -6,6 +6,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;;
 
+/**
+ * @author Marco "Don" Kaulea
+ * 
+ */
 public class Controller
 {
 
