@@ -30,16 +30,11 @@ public class View extends JComponent
 	private Image line_ram_ir = Toolkit.getDefaultToolkit().getImage("images/lines/RAMInstructionRegister.png");
 	private Image line_ram_acc = Toolkit.getDefaultToolkit().getImage("images/lines/RAMAccumulator.png");
 	private Image line_pc_ar = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterAddressRegister.png");
-	private Image line_pc_value = Toolkit.getDefaultToolkit().getImage("images/lines/ProgramCounterValue.png");
 	private Image line_ir_pc = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterProgramCounter.png");
 	private Image line_ir_value = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterValue.png");
 	private Image line_ir_ar = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterAddressRegister.png");
 	private Image line_ir_acc = Toolkit.getDefaultToolkit().getImage("images/lines/InstructionRegisterAccumulator.png");
 	private Image line_alu_acc = Toolkit.getDefaultToolkit().getImage("images/lines/ALUAccumulator.png");
-	private Image line_acc_value = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorValue.png");
-	private Image line_acc_pc = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorProgramCounter.png");
-	private Image line_acc_ir = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorInstructionRegister.png");
-	private Image line_acc_ar = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorAddressRegister.png");
 	private Image line_valueacc_alu = Toolkit.getDefaultToolkit().getImage("images/lines/ValueandAccumulatorALU.png");
 	private Image line_acc_alu = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorALU.png");
 	private Image line_acc_ram = Toolkit.getDefaultToolkit().getImage("images/lines/AccumulatorRAM.png");
@@ -49,7 +44,6 @@ public class View extends JComponent
 	private Image led_ir = Toolkit.getDefaultToolkit().getImage("images/LEDs/InstructionRegister.png");
 	private Image led_value = Toolkit.getDefaultToolkit().getImage("images/LEDs/Value.png");
 	private Image led_acc = Toolkit.getDefaultToolkit().getImage("images/LEDs/Accumulator.png");
-	private Image led_alu = Toolkit.getDefaultToolkit().getImage("images/LEDs/ALU.png");
 	
 	private Image main_image_scale = main_image;
 	private Image line_ram_ar_scale = line_ram_ar;
@@ -59,16 +53,16 @@ public class View extends JComponent
 	private Image line_ram_ir_scale = line_ram_ir;
 	private Image line_ram_acc_scale = line_ram_acc;
 	private Image line_pc_ar_scale = line_pc_ar;
-	private Image line_pc_value_scale = line_pc_value;
+//	private Image line_pc_value_scale = line_pc_value;
 	private Image line_ir_pc_scale = line_ir_pc;
 	private Image line_ir_value_scale = line_ir_value;
 	private Image line_ir_ar_scale = line_ir_ar;
 	private Image line_ir_acc_scale = line_ir_acc;
 	private Image line_alu_acc_scale = line_alu_acc;
-	private Image line_acc_value_scale = line_acc_value;
-	private Image line_acc_pc_scale = line_acc_pc;
-	private Image line_acc_ir_scale = line_acc_ir;
-	private Image line_acc_ar_scale = line_acc_ar;
+//	private Image line_acc_value_scale = line_acc_value;
+//	private Image line_acc_pc_scale = line_acc_pc;
+//	private Image line_acc_ir_scale = line_acc_ir;
+//	private Image line_acc_ar_scale = line_acc_ar;
 	private Image line_valueacc_alu_scale = line_valueacc_alu;
 	private Image line_acc_alu_scale = line_acc_alu;
 	private Image line_acc_ram_scale = line_acc_ram;
@@ -78,7 +72,6 @@ public class View extends JComponent
 	private Image led_ir_scale = led_ir;
 	private Image led_value_scale = led_value;
 	private Image led_acc_scale = led_acc;
-	private Image led_alu_scale = led_alu;
 	
 	// RAM-JTextArea field.
 	private JTextArea are = new JTextArea();
@@ -167,107 +160,80 @@ public class View extends JComponent
 			// RAM to Address Register
 			g.drawImage(line_ram_ar_scale,0,0, this);
 			g.drawImage(line_ar_ram_scale,0,0, this);
+			// Address Register LED
+			g.drawImage(led_ar_scale,0,0, this);
 			break;
 		case 2:
 			// RAM to Accumulator
 			g.drawImage(line_ram_acc_scale,0,0, this);
+			// Accumulator LED
+			g.drawImage(led_acc_scale,0,0, this);
 			break;
 		case 3:
 			// RAM to Program Counter
 			g.drawImage(line_ram_pc_scale,0,0, this);
+			// Program Counter LED
+			g.drawImage(led_pc_scale,0,0, this);
 			break;
 		case 4:
 			// RAM to Value
 			g.drawImage(line_ram_value_scale,0,0, this);
+			// Value LED
+			g.drawImage(led_value_scale,0,0, this);
 			break;
 		case 5:
 			// RAM to Instruction Register
 			g.drawImage(line_ram_ir_scale,0,0, this);
+			// Instruction Register LED
+			g.drawImage(led_ir_scale,0,0, this);
 			break;
 		case 6:
 			// Program Counter to Address Register 
 			g.drawImage(line_pc_ar_scale,0,0, this);
 			g.drawImage(line_ar_ram_scale,0,0, this);
+			// Address Register LED
+			g.drawImage(led_ar_scale,0,0, this);
 			break;
 		case 7:
-			// Program Counter to Value
-			g.drawImage(line_pc_value_scale,0,0, this);
-			break;
-		case 8:
 			// Instructionregister to Accumulator
 			g.drawImage(line_ir_acc_scale,0,0, this);
+			// Accumulator LED
+			g.drawImage(led_acc_scale,0,0, this);
 			break;
-		case 9:
+		case 8:
 			// Instruction Register to Program Counter
 			g.drawImage(line_ir_pc_scale,0,0, this);
+			// Program Counter LED
+			g.drawImage(led_pc_scale,0,0, this);
 			break;
-		case 10:
+		case 9:
 			// Instruction Register to Value
 			g.drawImage(line_ir_value_scale,0,0, this);
+			// Value LED
+			g.drawImage(led_value_scale,0,0, this);
 			break;
-		case 11:
+		case 10:
 			// Instruction Register to Address Register
 			g.drawImage(line_ir_ar_scale,0,0, this);
 			g.drawImage(line_ar_ram_scale,0,0, this);
+			// Address Register LED
+			g.drawImage(led_ar_scale,0,0, this);
 			break;
-		case 12:
+		case 11:
 			// ALU Calculation
 			g.drawImage(line_valueacc_alu_scale,0,0,this);
 			g.drawImage(line_alu_acc_scale,0,0, this);
 			break;
-		case 13:
-			// Accumulator to Value
-			g.drawImage(line_acc_value_scale,0,0, this);
-			break;
-		case 14:
-			// Accumulator to Program Counter
-			g.drawImage(line_acc_pc_scale,0,0, this);
-			break;
-		case 15:
-			// Accumulator to Instruction Register
-			g.drawImage(line_acc_ir_scale,0,0, this);
-			break;
-		case 16:
-			// Accumulator to Address Register
-			g.drawImage(line_acc_ar_scale,0,0, this);
-			g.drawImage(line_ar_ram_scale,0,0, this);
-			break;
-		case 17:
+		case 12:
 			//single operand operation to alu and back
 			g.drawImage(line_acc_alu_scale,0,0,this);
 			g.drawImage(line_alu_acc_scale,0,0, this);
 			break;
-		case 18:
+		case 13:
 			// Accumulator to ram
 			g.drawImage(line_acc_ram_scale,0,0, this);
-			break;
-		case 19:
 			// RAM LED
 			g.drawImage(led_ram_scale,0,0, this);
-			break;
-		case 20:
-			// Program Counter LED
-			g.drawImage(led_pc_scale,0,0, this);
-			break;
-		case 21:
-			// Address Register LED
-			g.drawImage(led_ar_scale,0,0, this);
-			break;
-		case 22:
-			// Instruction Register LED
-			g.drawImage(led_ir_scale,0,0, this);
-			break;
-		case 23:
-			// Value LED
-			g.drawImage(led_value_scale,0,0, this);
-			break;
-		case 24:
-			// Accumulator LED
-			g.drawImage(led_acc_scale,0,0, this);
-			break;
-		case 25:
-			// ALU LED
-			g.drawImage(led_alu_scale,0,0, this);
 			break;
 		}
 		
@@ -280,10 +246,7 @@ public class View extends JComponent
 			g2d.drawString(acc,(int)(668*scale*scaleToPicture),(int)(451*scale*scaleToPicture));
 			try {
 				g2d.drawString(cycle,(int)(648*scale*scaleToPicture),(int)(36*scale*scaleToPicture));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (Exception e) {/**ignore this exception only happens when program is closing**/			}
 
 	}
 	
@@ -355,19 +318,20 @@ public class View extends JComponent
 		line_ram_ir_scale = line_ram_ir.getScaledInstance(x,y,hints);
 		line_ram_acc_scale = line_ram_acc.getScaledInstance(x,y,hints);
 		line_pc_ar_scale = line_pc_ar.getScaledInstance(x,y,hints);
-		line_pc_value_scale = line_pc_value.getScaledInstance(x,y,hints);
 		line_ir_pc_scale = line_ir_pc.getScaledInstance(x,y,hints);
 		line_ir_value_scale = line_ir_value.getScaledInstance(x,y,hints);
 		line_ir_ar_scale = line_ir_ar.getScaledInstance(x,y,hints);
 		line_ir_acc_scale = line_ir_acc.getScaledInstance(x, y, hints);
 		line_alu_acc_scale = line_alu_acc.getScaledInstance(x,y,hints);
-		line_acc_value_scale = line_acc_value.getScaledInstance(x,y,hints);
-		line_acc_pc_scale = line_acc_pc.getScaledInstance(x,y,hints);
-		line_acc_ir_scale = line_acc_ir.getScaledInstance(x,y,hints);
-		line_acc_ar_scale = line_acc_ar.getScaledInstance(x,y,hints);
 		line_valueacc_alu_scale = line_valueacc_alu.getScaledInstance(x,y,hints);
 		line_acc_ram_scale = line_acc_ram.getScaledInstance(x,y,hints);
 		line_acc_alu_scale = line_acc_alu.getScaledInstance(x,y,hints);
+		led_ram_scale = led_ram.getScaledInstance(x,y,hints);
+		led_pc_scale = led_pc.getScaledInstance(x,y,hints);
+		led_ar_scale = led_ar.getScaledInstance(x,y,hints); 
+		led_ir_scale = led_ir.getScaledInstance(x,y,hints); 
+		led_value_scale = led_value.getScaledInstance(x,y,hints);
+		led_acc_scale = led_acc.getScaledInstance(x,y,hints);
 	}
 
 	protected Dimension updateSize(int nCodeFieldX, int nConsoleHeight) 

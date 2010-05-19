@@ -119,11 +119,13 @@ public class VonNeumannRechner
 			case 0:
 				loadCurrentAddress();
 				microCounter++;
+				controller.appendEvent("Set Adressregister to Programcounter ("+programCounter+")\n");
 				break;
 			case 1:
 				loadOpcode();
 				resetMicro();
 				nextStep = STEP_INDIRECT;
+				controller.appendEvent("LOAD memorycell "+ addressRegister +" into Instructionregister\n");
 		}
 	}
 	
@@ -158,6 +160,7 @@ public class VonNeumannRechner
 		case JMPGE:
 		case JMPLE:
 			loadAddress();
+			controller.appendEvent("Set Adressregister to "+addressRegister+"\n");
 		case LOADM:
 		case ADDM:
 		case SUBM:
@@ -199,11 +202,13 @@ public class VonNeumannRechner
 			case 0:
 				loadAddress();
 				microCounter++;
+				controller.appendEvent("Set Adressregister to "+addressRegister+"\n");
 				break;
 			case 1:
 				addressIndirect();
 				resetMicro();
 				nextStep = STEP_EXECUTE;
+				controller.appendEvent("Indirect Adressregister to "+addressRegister+"\n");
 				break;
 			}
 			break;
@@ -216,15 +221,23 @@ public class VonNeumannRechner
 		{
 		case NOP:
 		default:
+			controller.appendEvent("NOP\n");
 			increaseProgramCounter();
 			nextStep = STEP_FETCH;
 			controller.setLine(0);
 			break;
 		case HALT:
+			controller.appendEvent("HALT\n");
 			nextStep = STEP_HALT;
 			controller.setCycleDisplay("HALT");
 			controller.setLine(0);
 			controller.halt();
+			break;
+		case BREAK:
+			controller.appendEvent("Breakpoint reached\n");
+			controller.halt();
+			increaseProgramCounter();
+			nextStep = STEP_FETCH;
 			break;
 		case LOADI:
 		case LOAD:
@@ -464,7 +477,6 @@ public class VonNeumannRechner
 			not();
 			increaseProgramCounter();
 			nextStep = STEP_FETCH;
-			increaseProgramCounter();
 			break;
 		case JMP:
 		case JMPI:
@@ -536,6 +548,7 @@ public class VonNeumannRechner
 		{		
 			programCounter++;
 			controller.setRegister(PROGRAMMCOUNTER, programCounter);
+			controller.appendEvent("Increase Programcounter by 1 ("+programCounter+")\n");
 		}
 		else
 		{
@@ -556,21 +569,23 @@ public class VonNeumannRechner
 	{
 		valueRegister = instructionRegister&0xFFFFFF/**16777215**/;
 		controller.setRegister(VALUEREGISTER, valueRegister);
-		controller.setLine(10);
+		controller.setLine(9);
+		controller.appendEvent("Load value "+ valueRegister +" into Valueregister\n");
 	}
 	
 	private void loadAccImmediate()
 	{
 		accumulator = instructionRegister&0xFFFFFF/**16777215**/;
 		controller.setRegister(ACCUMULATOR, accumulator);
-		controller.setLine(8);
+		controller.setLine(7);
+		controller.appendEvent("LOAD value "+ accumulator +" into Accumulator\n");
 	}
 	
 	private void loadAddress()
 	{
 		addressRegister = instructionRegister&0xFFFFFF/**16777215**/%ram.length;	//line 11
 		controller.setRegister(ADDRESSREGISTER, addressRegister);
-		controller.setLine(11);
+		controller.setLine(10);
 	}
 	
 	private void loadValue()
@@ -578,6 +593,7 @@ public class VonNeumannRechner
 		valueRegister = ram[addressRegister];
 		controller.setRegister(VALUEREGISTER, valueRegister);
 		controller.setLine(4);
+		controller.appendEvent("Load memorycell "+ addressRegister +" ("+valueRegister+") into Valueregister\n");
 	}
 	
 	private void loadRamToAcc()
@@ -585,68 +601,78 @@ public class VonNeumannRechner
 		accumulator = ram[addressRegister];
 		controller.setRegister(ACCUMULATOR, accumulator);
 		controller.setLine(2);
+		controller.appendEvent("LOAD memorycell "+ addressRegister +" ("+accumulator+") into Accumulator\n");
 	}
 	
 	private void storeAccToRam()
 	{
 		setRam(addressRegister,accumulator);
-		controller.setLine(18);
+		controller.setLine(13);
+		controller.appendEvent("STORE Accumulator ("+accumulator+") to memorycell "+ addressRegister +"\n");
 	}
 	
 	private void add()
 	{
 		accumulator = accumulator + valueRegister;
 		controller.setRegister(ACCUMULATOR, accumulator);
-		controller.setLine(12);
+		controller.setLine(11);
+		controller.appendEvent("ADD Valueregister ("+valueRegister+") to Accumulator. Result: "+accumulator+"\n");
 	}
 	
 	private void sub()
 	{
 		accumulator = accumulator - valueRegister;
 		controller.setRegister(ACCUMULATOR, accumulator);
-		controller.setLine(12);
+		controller.setLine(11);
+		controller.appendEvent("Substract Valueregister ("+valueRegister+") from Accumulator. Result: "+accumulator+"\n");
 	}
 	
 	private void mult()
 	{
 		accumulator = accumulator * valueRegister;
 		controller.setRegister(ACCUMULATOR, accumulator);
-		controller.setLine(12);
+		controller.setLine(11);
+		controller.appendEvent("Multiply Valueregister ("+valueRegister+") and Accumulator. Result: "+accumulator+"\n");
 	}
 	
 	private void div()
 	{
 		accumulator = accumulator / valueRegister;
 		controller.setRegister(ACCUMULATOR, accumulator);
-		controller.setLine(12);
+		controller.setLine(11);
+		controller.appendEvent("Devide Accumulator by Valueregister ("+valueRegister+"). Result: "+accumulator+"\n");
 	}
 	
 	private void mod()
 	{
 		accumulator = accumulator % valueRegister;
 		controller.setRegister(ACCUMULATOR, accumulator);
-		controller.setLine(12);
+		controller.setLine(11);
+		controller.appendEvent("Accumulator Modulo Valueregister ("+valueRegister+"). Result: "+accumulator+"\n");
 	}
 	
 	private void and()
 	{
 		accumulator = accumulator & valueRegister;
 		controller.setRegister(ACCUMULATOR, accumulator);
-		controller.setLine(12);
+		controller.setLine(11);
+		controller.appendEvent("Accumulator AND Valueregister ("+valueRegister+"). Result: "+accumulator+"\n");
 	}
 	
 	private void or()
 	{
 		accumulator = accumulator | valueRegister;
 		controller.setRegister(ACCUMULATOR, accumulator);
-		controller.setLine(12);
+		controller.setLine(11);
+		controller.appendEvent("Accumulator OR Valueregister ("+valueRegister+"). Result: "+accumulator+"\n");
 	}
 	
 	private void not()
 	{
 		accumulator = ~accumulator;
 		controller.setRegister(ACCUMULATOR, accumulator);
-		controller.setLine(17);
+		controller.setLine(12);
+		controller.appendEvent("Invert Accumulator. Result: "+accumulator+"\n");
 	}
 	
 	private void loadJmpImmediate()
@@ -654,7 +680,8 @@ public class VonNeumannRechner
 		programCounter = instructionRegister&0xFFFFFF/**16777215**/%ram.length;
 		nextStep = STEP_FETCH;
 		controller.setRegister(PROGRAMMCOUNTER, programCounter);
-		controller.setLine(9);
+		controller.setLine(8);
+		controller.appendEvent("Jump: set Programmcounter to "+programCounter+"\n");
 	}
 	
 	private void loadJmp()
@@ -663,6 +690,7 @@ public class VonNeumannRechner
 		nextStep = STEP_FETCH;
 		controller.setRegister(PROGRAMMCOUNTER, programCounter);
 		controller.setLine(3);
+		controller.appendEvent("Jump: set Programmcounter to "+programCounter+"\n");
 	}
 	
 	private void checkEQ()
@@ -706,6 +734,7 @@ public class VonNeumannRechner
 		{
 			nextStep = STEP_FETCH;
 			increaseProgramCounter();
+			controller.appendEvent("Jump: Jump condition is not fulfilled\n");
 		}
 	}
 	
@@ -720,6 +749,7 @@ public class VonNeumannRechner
 		{
 			nextStep = STEP_FETCH;
 			increaseProgramCounter();
+			controller.appendEvent("Jump: Jump condition is not fulfilled\n");
 		}
 	}
 	

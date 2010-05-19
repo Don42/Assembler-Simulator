@@ -8,7 +8,7 @@ import java.io.FileWriter;;
 
 /**
  * @author Marco "Don" Kaulea
- * 
+ * Objects of this class act as an intermediary between the GUI and the virtual maschine
  */
 public class Controller
 {
@@ -18,29 +18,39 @@ public class Controller
 	 */
 	
 	Clock clock;
-	Interpreter interpreter;
 	VonNeumannRechner rechner;
 	View view;
 	GUIFrame frm;
 	
+	
+	/**
+	 * @param nramSize The amount of ram the virtual maschine should have; in 32-bit Cells.
+	 * Constructor creates object for the GUI and virtual maschine;
+	 * initializes necessary variables and sets the GUI visible. 
+	 */
 	public Controller(int nramSize)
 	{
 		
-		interpreter = new Interpreter();
 		rechner = new VonNeumannRechner(this, nramSize);
 		view = new View(this);
 		clock = new Clock(rechner);
 		frm = new GUIFrame(view, this);
 		rechner.setRam(new int[nramSize]);
 		setCycleDisplay("FETCH");
-		frm.setVisible(true);
+		frm.setVisible(true);	//after everything is created show the GUI
 	}
 	
-	public void step()
+	/**
+	 * This function executes the next step in the virtual maschine.
+	 */
+	protected void step()
 	{
 	clock.step();
 	}
 	
+	/**
+	 * Begins to run the virtual maschine continuosly with a delay between steps defined by frm.getSliderValue
+	 */
 	protected void run()
 	{
 		setStepTime(frm.getSliderValue());
@@ -48,23 +58,42 @@ public class Controller
 		clock.run();
 	}
 	
+	/**
+	 * Stops the virtual maschine
+	 */
 	protected void halt() 
 	{
 		frm.stop();
 		clock.halt();
 	}
 	
-	public void setStepTime(int nStepTime)
+	/**
+	 * Sets the delay between steps.
+	 * nStepTime is converted to miliseconds using an exponential function. 
+	 * This way it is easier to use the slider for small values.
+	 * @param nStepTime Value of time to set
+	 */
+	protected void setStepTime(int nStepTime)
 	{
 		clock.setStepTime((int)Math.pow(2, (nStepTime/10))+2);//+2 to get to 10ms in lowest setting 2³ + 2=10
 	}
 	
-	public void setRegister(int nregister, int nvalue)
+	/**
+	 * Sets the variables in the GUI that are used to display the register fields
+	 * @param nregister	Defines which Register to set
+	 * @param nvalue The value to which the choosen register ist set
+	 */
+	protected void setRegister(int nregister, int nvalue)
 	{
 		view.setRegister(nregister, nvalue);
 	}
 	
-	public void loadRamFromFile(File nfile) throws Exception
+	/**
+	 * Sets the Codearea in the GUI to the content of the given file
+	 * @param nfile is the file to read
+	 * @throws Exception Throws exceptions from FileReader and BufferedReader
+	 */
+	protected void loadRamFromFile(File nfile) throws Exception
 	{
 		StringBuilder tString = new StringBuilder(512);
 		FileReader reader = new FileReader(nfile);
@@ -77,7 +106,12 @@ public class Controller
 		setCodeArea(tString.toString());
 	}
 
-	public void saveRamToFile(File nfile) throws Exception
+	/**
+	 * Writes the Code from the Codearea in the GUI to the given file.
+	 * @param nfile is the file to write to
+	 * @throws Exception Throws exceptions from FileWriter and BufferedWriter
+	 */
+	protected void saveCodeToFile(File nfile) throws Exception
 	{
 		String tCode = frm.getTextFromCodeArea();
 		FileWriter wrt = new FileWriter(nfile);
@@ -89,12 +123,20 @@ public class Controller
 		wrt.close();
 	}
 
+	/**
+	 * Sends a provided String to the interpreter for interpetation and returns the resulting maschinecode
+	 * @param input String to interpret
+	 * @return int-array the size of ram that represents the String in maschinecode 
+	 */
 	protected int[] interpretInput(String input)
 	{
-		return interpreter.stringToRam(input, rechner.getRamSize());
+		return Interpreter.stringToRam(input, rechner.getRamSize());
 		
 	}
 	
+	/**
+	 * Assemble the Code from Codearea and write resulting maschinecode to ram
+	 */
 	protected void setRAM()
 	{
 		this.reset();
@@ -103,11 +145,19 @@ public class Controller
 		rechner.setRam(tRAM);
 	}
 	
+	/**
+	 * Sets the Codearea in the GUI
+	 * @param string to set the CodeArea to
+	 */
 	protected void setCodeArea(String string)
 	{
 		frm.setCodeArea(string);
 	}
 	
+	/**
+	 * Converts all RAM values to String; combines the to one and formats them
+	 * @param nRAM int-array that represents the RAM
+	 */
 	protected void updateRAMAnimation(int[] nRAM)
 	{
 		int[] tRAM = nRAM;
@@ -127,27 +177,42 @@ public class Controller
 				cell = "0"+cell;
 			}
 			
-			output = output + "  " + cell + " | " + tOut+" | " + interpreter.opcodeToString(tRAM[i]) +"\n";
+			output = output + "  " + cell + " | " + tOut+" | " + Interpreter.opcodeToString(tRAM[i]) +"\n";
 		}
 		view.updateRAMAnimation(output);
 	}
 
+	/**
+	 * resets the virtual maschine and the GUI
+	 */
 	protected void reset() 
 	{
 		rechner.reset();
 		frm.clearEvents();
 	}
 	
+	/**
+	 * Sets the variable in the GUI that defines which part of the animation to display
+	 * @param nLine defines which line to set
+	 */
 	protected void setLine(int nLine)
 	{
 		view.setLine(nLine);
 	}
 	
+	/**
+	 * Sets the variable in the GUI that defines what instruction cycle to display
+	 * @param nCycle defines which instruction cycle to set
+	 */
 	protected void setCycleDisplay(String nCycle)
 	{
 			view.setCycle(nCycle);
 	}
 	
+	/**
+	 * Appends a given String to the console field in the GUI
+	 * @param nEvent the String to append
+	 */
 	protected void appendEvent(String nEvent)
 	{
 		frm.appendEvent(nEvent);

@@ -4,14 +4,18 @@ import java.util.HashMap;
 
 
 /**
- * /**
  * @author Tim Borcherding
+ * Contains methods to translate between opcode and machine language
  */
 public class Interpreter
 {
-	public Interpreter(){}
-	
-	protected int[] stringToRam(String assemblerCode, int nRamSize)
+	/**
+	 * Translates a program to its machinecode representation 
+	 * @param assemblerCode The program to translate
+	 * @param nRamSize The machinecode representation of the program 
+	 * @return
+	 */
+	protected static int[] stringToRam(String assemblerCode, int nRamSize)
 	{
 		
 		int[] output = new int[nRamSize];
@@ -52,8 +56,12 @@ public class Interpreter
 		}
 		return output;
 	}
-	
-	protected String ramToString(int[] nRam)
+	/**
+	 * Translates the whole ram to its assemblercode representations
+	 * @param nRam The content of the ram
+	 * @return The assemblercodes of the ram
+	 */
+	protected static String ramToString(int[] nRam)
 	{		
 		String programm = new String();
 		for(int i = 0; i < nRam.length; i++)
@@ -62,61 +70,88 @@ public class Interpreter
 		}
 		return programm;
 	}
-	protected int stringToOpcode(String assemblerCode)
+	/**
+	 * Translates a assemblercode to its machinecode
+	 * @param AssemblerCode The assemblercode to translate
+	 * @return The translated machinecode
+	 */
+	protected static int stringToOpcode(String assemblerCode)
 	{		
 		return stringToOpcode(assemblerCode, null);
 		
 	}
-	protected int stringToOpcode(String assemblerCode, HashMap<String,Integer> nLabels)
+	/**
+	 * Translates a assemblercode to its machinecode
+	 * @param AssemblerCode the assemblercode to translate
+	 * @param nLabels Defined jumplabels
+	 * @return The translated machinecode
+	 */
+	protected static int stringToOpcode(String assemblerCode, HashMap<String,Integer> nLabels)
 	{
 		int code;
 		int instruction;
 		int adresse;
 		assemblerCode = assemblerCode.trim();
 		String input[] = assemblerCode.split(";")[0].split(" ");
-		
-		try
+		if(input.length == 1 && input[0].length() == 0)
 		{
-			try{
-				//guess what this does ;-)
-				instruction = Opcodes.valueOf(input[0].toUpperCase()).ordinal()*0x1000000;
-			}
-			catch(IllegalArgumentException e)
-			{
-				instruction = 0;
-			}
-			
-			String adresseString;
-			if(input.length==1 && instruction == 0 && !input[0].equalsIgnoreCase("NOP") && !input[0].equals(""))
-			{
-				adresseString = input[0];
-			}
-			else if(input.length==2)
-			{
-				adresseString = input[1];
-			}
-			else
-			{
-				adresseString = "0";
-			}
+			code = 0;
+		}
+		else
+		{
 			try
 			{
-				adresse = Integer.parseInt(adresseString);				
+				try
+				{
+					instruction = Opcodes.valueOf(input[0].toUpperCase()).ordinal()*0x1000000;
+					if(input.length>1)
+					{
+						try
+						{
+							adresse = Integer.parseInt(input[1]);
+							if(adresse < 0 || adresse > 0xFFFFFF)
+							{
+								throw new Exception();
+							}
+						}
+						catch(NumberFormatException e)
+						{
+							adresse = nLabels.get(input[1].toUpperCase());					
+						}
+					}
+					else
+					{
+						adresse = 0;
+					}
+				}
+				catch(IllegalArgumentException e)
+				{
+					instruction = 0;
+					try
+					{
+						adresse = Integer.parseInt(input[0]);
+					}
+					catch(NumberFormatException e2)
+					{
+						adresse = nLabels.get(input[0].toUpperCase());					
+					}				
+				}
+				code = instruction+adresse;
+				
 			}
-			catch(NumberFormatException e)
+			catch(Exception e)
 			{
-				adresse = nLabels.get(adresseString.toUpperCase());
+				code = 0xABADC0DE;			
 			}
-			code = instruction+adresse;
-		}
-		catch(Exception e)
-		{
-			code = 0xABADC0DE;
 		}
 		return code;
 	}
-	
-	protected String opcodeToString(int ramCell)
+	/**
+	 * Translates a machinecode to its assemblercode representations
+	 * @param ramCell The machinecode to translate
+	 * @return The assemblercode of the input
+	 */
+	protected static String opcodeToString(int ramCell)
 
 	{
 		int instruction = Integer.rotateRight(ramCell, 24)&0xFF;

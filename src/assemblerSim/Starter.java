@@ -2,18 +2,18 @@ package assemblerSim;
 
 /**
  * @author Marco "Don" Kaulea
- *
+ * This class is starts the rest of the program
  */
 public class Starter 
 {
 
 	/**
-	 * @param args
+	 * @param args 
+	 * Creates an object of the Controller class, which the takes over control.
 	 */
 	public static void main(String[] args) 
 	{
-		@SuppressWarnings("unused")
-		Controller sim = new Controller(512);
+		new Controller(512);
 	}
 
 }

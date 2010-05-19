@@ -10,6 +10,7 @@ public enum Opcodes {
 	 */
 	NOP,
 	HALT,
+	BREAK,
 	LOAD,
 	STORE,
 	ADD,
