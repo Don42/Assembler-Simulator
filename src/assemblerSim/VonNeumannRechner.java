@@ -1,6 +1,7 @@
 package assemblerSim;
 
 /**
+ * Simulates a VonNeuman-machine
  * @author Tim Borcherding; Marco "Don" Kaulea
  *
  */
@@ -43,7 +44,11 @@ public class VonNeumannRechner
 	public final static int STEP_INDIRECT = 2;
 	public final static int STEP_EXECUTE = 3;
 	
-	
+	/**
+	 * Create a new instance of VonNeumanRechner
+	 * @param nController 
+	 * @param nramSize Size of the ram
+	 */
 	public VonNeumannRechner(Controller nController, int nramSize)
 	{
 		controller = nController;
@@ -51,27 +56,42 @@ public class VonNeumannRechner
 		nextStep = 1;
 	}
 	
+	/**
+	 * Resets the microinstruction counter
+	 */
 	private void resetMicro()
 	{
 		microCounter = 0;
 	}
 	
+	/**
+	 * Sets a new ram content
+	 * @param nram The new ram content
+	 */
 	protected void setRam(int[] nram)
 	{
 		ram = nram;
 		controller.updateRAMAnimation(ram);
 	}
-	
+	/**
+	 * Returns the content of the ram
+	 * @return The content of the ram
+	 */
 	protected int[] getRam()
 	{
 		return ram;
 	}
-	
+	/**
+	 * Returns the number of lines in the ram
+	 * @return The number of lines in the ram
+	 */
 	protected int getRamSize()
 	{
 		return ram.length;
 	}
-	
+	/**
+	 * Resets the VonNeumann-Machine
+	 */
 	protected void reset() 
 	{
 		
@@ -92,7 +112,9 @@ public class VonNeumannRechner
 		controller.setCycleDisplay("FETCH");
 		controller.setLine(0);
 	}
-	
+	/**
+	 * Execute a instruction step on the VonNeumann-Machine 
+	 */
 	protected void step()
 	{
 		switch(nextStep)
@@ -111,7 +133,9 @@ public class VonNeumannRechner
 				break;
 		}
 	}
-	
+	/**
+	 * Execute the Fetch-Cycle on the VonNeuman-Machine
+	 */
 	private void fetch()
 	{
 		switch(microCounter)
@@ -128,7 +152,9 @@ public class VonNeumannRechner
 				controller.appendEvent("LOAD memorycell "+ addressRegister +" into Instructionregister\n");
 		}
 	}
-	
+	/**
+	 * Execute the Indirect-Cycle on the VonNeuman-Machine
+	 */
 	private void indirect()
 	{
 		instruction = Integer.rotateRight(instructionRegister, 24)&255;
@@ -214,7 +240,9 @@ public class VonNeumannRechner
 			break;
 		}
 	}
-
+	/**
+	 * Execute the Execute-Cycle on the VonNeuman-Machine
+	 */
 	private void execute()
 	{		
 		switch (command)
@@ -261,7 +289,7 @@ public class VonNeumannRechner
 			switch(microCounter)
 			{
 			case 0:
-				loadValue();
+				loadRamToValue();
 				microCounter++;
 			break;
 			case 1:
@@ -292,7 +320,7 @@ public class VonNeumannRechner
 			switch(microCounter)
 			{
 			case 0:
-				loadValue();
+				loadRamToValue();
 				microCounter++;
 			break;
 			case 1:
@@ -323,7 +351,7 @@ public class VonNeumannRechner
 			switch(microCounter)
 			{
 			case 0:
-				loadValue();
+				loadRamToValue();
 				microCounter++;
 			break;
 			case 1:
@@ -354,7 +382,7 @@ public class VonNeumannRechner
 			switch(microCounter)
 			{
 			case 0:
-				loadValue();
+				loadRamToValue();
 				microCounter++;
 			break;
 			case 1:
@@ -385,7 +413,7 @@ public class VonNeumannRechner
 			switch(microCounter)
 			{
 			case 0:
-				loadValue();
+				loadRamToValue();
 				microCounter++;
 			break;
 			case 1:
@@ -416,7 +444,7 @@ public class VonNeumannRechner
 			switch(microCounter)
 			{
 			case 0:
-				loadValue();
+				loadRamToValue();
 				microCounter++;
 			break;
 			case 1:
@@ -447,7 +475,7 @@ public class VonNeumannRechner
 			switch(microCounter)
 			{
 			case 0:
-				loadValue();
+				loadRamToValue();
 				microCounter++;
 			break;
 			case 1:
@@ -541,7 +569,9 @@ public class VonNeumannRechner
 			break;
 		}
 	}
-
+	/**
+	 * Increase the programmcounter of the VonNeuman-Machine by 1 and HALT, if the programmcounter points to the last line of the ram of the VonNeuman-Machine
+	 */
 	private void increaseProgramCounter()
 	{
 		if(programCounter < (ram.length-1))
@@ -557,14 +587,18 @@ public class VonNeumannRechner
 			controller.halt();
 		}
 	}
-
+	/**
+	 * use the adress set in the adress register to load the new adress from ram
+	 */
 	private void addressIndirect()
 	{
 		addressRegister = ram[addressRegister]%ram.length;
 		controller.setRegister(ADDRESSREGISTER, addressRegister);
 		controller.setLine(1);
 	}
-	
+	/**
+	 * Load a value into the valueregister directly from the instruction register
+	 */
 	private void loadValueImmediate()
 	{
 		valueRegister = instructionRegister&0xFFFFFF/**16777215**/;
@@ -572,7 +606,9 @@ public class VonNeumannRechner
 		controller.setLine(9);
 		controller.appendEvent("Load value "+ valueRegister +" into Valueregister\n");
 	}
-	
+	/**
+	 * Load a value into the accumulator directly from the instruction register
+	 */
 	private void loadAccImmediate()
 	{
 		accumulator = instructionRegister&0xFFFFFF/**16777215**/;
@@ -580,22 +616,28 @@ public class VonNeumannRechner
 		controller.setLine(7);
 		controller.appendEvent("LOAD value "+ accumulator +" into Accumulator\n");
 	}
-	
+	/**
+	 * Load the adress from the instructionregister into the adressregister
+	 */
 	private void loadAddress()
 	{
 		addressRegister = instructionRegister&0xFFFFFF/**16777215**/%ram.length;	//line 11
 		controller.setRegister(ADDRESSREGISTER, addressRegister);
 		controller.setLine(10);
 	}
-	
-	private void loadValue()
+	/**
+	 * Load the content of the ramcell, which is pointed to by the adressregister into the valueregister.
+	 */
+	private void loadRamToValue()
 	{
 		valueRegister = ram[addressRegister];
 		controller.setRegister(VALUEREGISTER, valueRegister);
 		controller.setLine(4);
 		controller.appendEvent("Load memorycell "+ addressRegister +" ("+valueRegister+") into Valueregister\n");
 	}
-	
+	/**
+	 * Load the content of the ramcell, which is pointed to by the adressregister into the accumulator. 
+	 */
 	private void loadRamToAcc()
 	{
 		accumulator = ram[addressRegister];
@@ -603,14 +645,18 @@ public class VonNeumannRechner
 		controller.setLine(2);
 		controller.appendEvent("LOAD memorycell "+ addressRegister +" ("+accumulator+") into Accumulator\n");
 	}
-	
+	/**
+	 * Stores the Accumulator to the ramcell which is pointet to by the adressregister.
+	 */
 	private void storeAccToRam()
 	{
 		setRam(addressRegister,accumulator);
 		controller.setLine(13);
 		controller.appendEvent("STORE Accumulator ("+accumulator+") to memorycell "+ addressRegister +"\n");
 	}
-	
+	/**
+	 * Adds the accumulator and the valueregister and stores the result in the accumulator
+	 */
 	private void add()
 	{
 		accumulator = accumulator + valueRegister;
@@ -618,7 +664,9 @@ public class VonNeumannRechner
 		controller.setLine(11);
 		controller.appendEvent("ADD Valueregister ("+valueRegister+") to Accumulator. Result: "+accumulator+"\n");
 	}
-	
+	/**
+	 * Substract the accumulator by the valueregister and stores the result in the accumulator
+	 */
 	private void sub()
 	{
 		accumulator = accumulator - valueRegister;
@@ -626,7 +674,9 @@ public class VonNeumannRechner
 		controller.setLine(11);
 		controller.appendEvent("Substract Valueregister ("+valueRegister+") from Accumulator. Result: "+accumulator+"\n");
 	}
-	
+	/**
+	 * Multiply the accumulator by the valueregister and stores the result in the accumulator
+	 */
 	private void mult()
 	{
 		accumulator = accumulator * valueRegister;
@@ -634,7 +684,9 @@ public class VonNeumannRechner
 		controller.setLine(11);
 		controller.appendEvent("Multiply Valueregister ("+valueRegister+") and Accumulator. Result: "+accumulator+"\n");
 	}
-	
+	/**
+	 * Divide the accumulator by the valueregister and stores the result in the accumulator
+	 */
 	private void div()
 	{
 		accumulator = accumulator / valueRegister;
@@ -642,7 +694,9 @@ public class VonNeumannRechner
 		controller.setLine(11);
 		controller.appendEvent("Devide Accumulator by Valueregister ("+valueRegister+"). Result: "+accumulator+"\n");
 	}
-	
+	/**
+	 *  Calculate the remainder of the accumulator by the valueregister and stores the result in the accumulator 
+	 */
 	private void mod()
 	{
 		accumulator = accumulator % valueRegister;
@@ -650,7 +704,9 @@ public class VonNeumannRechner
 		controller.setLine(11);
 		controller.appendEvent("Accumulator Modulo Valueregister ("+valueRegister+"). Result: "+accumulator+"\n");
 	}
-	
+	/**
+	 * Calculate the logical conjunction "and" of the accumulator and valueregister and stores the result in the accumulator
+	 */
 	private void and()
 	{
 		accumulator = accumulator & valueRegister;
@@ -658,7 +714,9 @@ public class VonNeumannRechner
 		controller.setLine(11);
 		controller.appendEvent("Accumulator AND Valueregister ("+valueRegister+"). Result: "+accumulator+"\n");
 	}
-	
+	/**
+	 * Calculate the logical conjunction "or" of the accumulator and valueregister and stores the result in the accumulator
+	 */
 	private void or()
 	{
 		accumulator = accumulator | valueRegister;
@@ -666,7 +724,9 @@ public class VonNeumannRechner
 		controller.setLine(11);
 		controller.appendEvent("Accumulator OR Valueregister ("+valueRegister+"). Result: "+accumulator+"\n");
 	}
-	
+	/**
+	 * Invert the Accumulator
+	 */
 	private void not()
 	{
 		accumulator = ~accumulator;
@@ -674,7 +734,9 @@ public class VonNeumannRechner
 		controller.setLine(12);
 		controller.appendEvent("Invert Accumulator. Result: "+accumulator+"\n");
 	}
-	
+	/**
+	 * Load the adress for the jump into the programcounter directly from the instruction register
+	 */
 	private void loadJmpImmediate()
 	{
 		programCounter = instructionRegister&0xFFFFFF/**16777215**/%ram.length;
@@ -683,7 +745,9 @@ public class VonNeumannRechner
 		controller.setLine(8);
 		controller.appendEvent("Jump: set Programmcounter to "+programCounter+"\n");
 	}
-	
+	/**
+	 * Load the adress for the jump into the programcounter from the ramcell pointed to by the adressregister
+	 */
 	private void loadJmp()
 	{
 		programCounter = ram[addressRegister];
@@ -692,37 +756,51 @@ public class VonNeumannRechner
 		controller.setLine(3);
 		controller.appendEvent("Jump: set Programmcounter to "+programCounter+"\n");
 	}
-	
+	/**
+	 * Sets the jump flag if accumulator is equal to zero
+	 */
 	private void checkEQ()
 	{
 			jmpFlag = (accumulator == 0);			
 	}
-	
+	/**
+	 * Sets the jump flag if accumulator is not equal to zero
+	 */
 	private void checkNE()
 	{
 			jmpFlag = (accumulator != 0);			
 	}
-	
+	/**
+	 * Sets the jump flag if accumulator is greater than zero
+	 */
 	private void checkGT()
 	{
 			jmpFlag = (accumulator > 0);			
 	}
-	
+	/**
+	 * Sets the jump flag if accumulator is less than zero
+	 */
 	private void checkLT()
 	{
 			jmpFlag = (accumulator < 0);			
 	}
-	
+	/**
+	 * Sets the jump flag if accumulator is greater than or equal to zero
+	 */
 	private void checkGE()
 	{
 			jmpFlag = (accumulator >= 0);	
 	}
-	
+	/**
+	 * Sets the jump flag if accumulator is less than or equal to zero
+	 */
 	private void checkLE()
 	{
 			jmpFlag = (accumulator <= 0);
 	}
-	
+	/**
+	 * Checks the condition and jumps to the adress pointed to by the adressregister
+	 */
 	private void checkCond()
 	{
 		if(jmpFlag)
@@ -737,7 +815,9 @@ public class VonNeumannRechner
 			controller.appendEvent("Jump: Jump condition is not fulfilled\n");
 		}
 	}
-	
+	/**
+	 * Checks the condition and jumps to the adress set in the instructionregister
+	 */
 	private void checkCondM()
 	{
 		if(jmpFlag)
@@ -752,14 +832,18 @@ public class VonNeumannRechner
 			controller.appendEvent("Jump: Jump condition is not fulfilled\n");
 		}
 	}
-	
+	/**
+	 * Loads the adress from the programcounter into the adressregister
+	 */
 	private void loadCurrentAddress()
 	{
 		addressRegister = programCounter%ram.length; 
 		controller.setRegister(ADDRESSREGISTER, addressRegister);
 		controller.setLine(6);
 	}
-	
+	/**
+	 * Load the content of the ramcell, which is pointed to by the adressregister into the instructionregister 
+	 */
 	private void loadOpcode()
 	{
 		instructionRegister = ram[addressRegister];

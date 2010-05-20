@@ -26,17 +26,16 @@ import javax.swing.event.ChangeListener;
  */
 public class GUIFrame extends JFrame
 {
-	
+	//GUI size constants
 	private static final int BUTTON_HEIGHT = 30;
 	private static final int CONSOLE_STD_HEIGHT = 100;
 	private static final int CONSOLE_TO_CODE_MARGIN = 10;
 	private static final int CODE_FIELD_WIDTH = 130;
 	private final static int BUTTON_WIDTH = 100;
 	private final static int BUTTON_SPACER = 15;
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
+	
 	// object declaration
 	private View view;
 	private Controller parent;
@@ -203,25 +202,45 @@ public class GUIFrame extends JFrame
 		return area.getText();
 	}
 	
+	/**
+	 * Sets the text in the codefield
+	 * @param in text to set the codefield to
+	 */
 	protected void setCodeArea(String in)
 	{
 		this.area.setText(in); 
 	}
+	
+	/**
+	 * Returns the content of the codefield
+	 * @return content of the codefield
+	 */
 	protected String getTextFromCodeArea()
 	{
 		return this.area.getText();
 	}
+	
+	/**
+	 * appends a provided string to the console
+	 * @param nEvent String to be appended to the console
+	 */
 	protected void appendEvent(String nEvent)
 	{
 		console.append(nEvent);
 		console.setCaretPosition(console.getText().length());
 	}
 	
+	/**
+	 * clears the console
+	 */
 	protected void clearEvents()
 	{
 		console.setText("");
 	}
 	
+	/**
+	 * de/activates buttons to reflect the running status
+	 */
 	void run()
 	{
 		step.setEnabled(false);
@@ -231,6 +250,9 @@ public class GUIFrame extends JFrame
 		stop.setEnabled(true);
 	}
 	
+	/**
+	 * de/activates buttons to reflect the stoped status
+	 */
 	void stop()
 	{
 		step.setEnabled(true);
@@ -240,6 +262,9 @@ public class GUIFrame extends JFrame
 		stop.setEnabled(false);
 	}
 	
+	/**
+	 * Open FileChooser and supply the controller with a file object to read
+	 */
 	void loadRamFromFile()
 	{
 		JFileChooser chooser = new JFileChooser();
@@ -262,6 +287,9 @@ public class GUIFrame extends JFrame
         }
 	}
 	
+	/**
+	 * Open FileChooser and supply the controller with a file object to write to
+	 */
 	void saveRamToFile()
 	{
 		JFileChooser chooser = new JFileChooser();
@@ -299,6 +327,9 @@ public class GUIFrame extends JFrame
 		}
 	}
 
+	/**
+	 * Update the size and position of all graphic elements inside the Frame; call
+	 */
 	void updateSize() 
 	{
 		//Move Buttons
@@ -319,6 +350,9 @@ public class GUIFrame extends JFrame
 		scroll2.revalidate();
 	}
 
+	/**
+	 * @return the value of the slider
+	 */
 	int getSliderValue()
 	{
 		return slider.getValue();

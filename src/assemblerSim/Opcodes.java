@@ -2,7 +2,7 @@ package assemblerSim;
 
 /**
  * @author Tim Borcherding; Marco "Don" Kaulea
- *
+ * This enum contains all implemented opcodes
  */
 public enum Opcodes {
 	/**

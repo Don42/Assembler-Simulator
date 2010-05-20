@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
- * This call is responsible for the animation part of the GUI. 
+ * An object from this class is responsible for the animation part of the GUI. 
  * @author Simon Alexander Skolik; Marco "Don" Kaulea
  * 
  */
@@ -53,16 +53,11 @@ public class View extends JComponent
 	private Image line_ram_ir_scale = line_ram_ir;
 	private Image line_ram_acc_scale = line_ram_acc;
 	private Image line_pc_ar_scale = line_pc_ar;
-//	private Image line_pc_value_scale = line_pc_value;
 	private Image line_ir_pc_scale = line_ir_pc;
 	private Image line_ir_value_scale = line_ir_value;
 	private Image line_ir_ar_scale = line_ir_ar;
 	private Image line_ir_acc_scale = line_ir_acc;
 	private Image line_alu_acc_scale = line_alu_acc;
-//	private Image line_acc_value_scale = line_acc_value;
-//	private Image line_acc_pc_scale = line_acc_pc;
-//	private Image line_acc_ir_scale = line_acc_ir;
-//	private Image line_acc_ar_scale = line_acc_ar;
 	private Image line_valueacc_alu_scale = line_valueacc_alu;
 	private Image line_acc_alu_scale = line_acc_alu;
 	private Image line_acc_ram_scale = line_acc_ram;
@@ -99,17 +94,15 @@ public class View extends JComponent
 	private String cycle;
 	protected void setCycle(String cycle)
 	{
-		if(!cycle.equals(null))
-		{
-			this.cycle = cycle;
-		}
-		else
-		{
-			this.cycle="";
-		}
+		this.cycle=cycle;
 		repaint();
 	}
 
+	/**
+	 * Constructor
+	 * initializes fonts; the ramfield and resizing fields
+	 * @param ncontroller parent, is used for function callbacks
+	 */
 	public View(Controller ncontroller)
 	{
 		//Parent is used for function calls
@@ -128,7 +121,6 @@ public class View extends JComponent
 		int max = 0;
 		while(main_image.getHeight(this)==-1&&max>=0)
 		{
-			scale = scale*1;
 			max = max+1;
 		}
 		//Initialize scaling factor to given picture size
@@ -291,7 +283,7 @@ public class View extends JComponent
 	
 	
 	/**
-	 * @param line defines which line to change
+	 * @param line defines which line to display during animation
 	 */
 	protected void setLine(int line)
 	{
@@ -300,14 +292,20 @@ public class View extends JComponent
 	
 	/**
 	 * Sets the code in the RAM-JTextArea field.
-	 * @param code Der Code, der im RAM-JTextArea-Feld angezeigt werden soll
+	 * @param code 
 	 */
-	public void updateRAMAnimation(String code)
+	protected void updateRAMAnimation(String code)
 	{
 		are.setText(code);
 		are.setCaretPosition(0);
 	}
 	
+	/**
+	 * Resizes all pictures to a new size
+	 * @param x size in x direction
+	 * @param y size in y direction
+	 * @param hints defines which scaling quality to use
+	 */
 	private void resizePictures(int x, int y,int hints)
 	{
 		main_image_scale = main_image.getScaledInstance(x,y,hints);
@@ -334,6 +332,12 @@ public class View extends JComponent
 		led_acc_scale = led_acc.getScaledInstance(x,y,hints);
 	}
 
+	/**
+	 * Updates the size of all pictures and adjusts the fontsize
+	 * @param nCodeFieldX
+	 * @param nConsoleHeight
+	 * @return the dimensions of the pictures
+	 */
 	protected Dimension updateSize(int nCodeFieldX, int nConsoleHeight) 
 	{
 		double maxHeightScale = ((this.getParent().getHeight() - nConsoleHeight) / (double) main_image.getHeight(this));
@@ -370,6 +374,10 @@ public class View extends JComponent
 		return out;
 	}
 	
+	/**
+	 * repaints the component
+	 * overwrites standard operation, so it does not delete component content
+	 */
 	public void update(Graphics g) {
 		   paint(g);
 		}
