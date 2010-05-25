@@ -3,8 +3,8 @@ package assemblerSim;
 import java.util.*;
 
 /**
- * @author Marco "Don" Kaulea
  * This clock is used to execute steps in the virtual maschine
+ * @author Marco "Don" Kaulea
  */
 public class Clock
 {

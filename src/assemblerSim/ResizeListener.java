@@ -4,8 +4,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 /**
- * @author Marco "Don" Kaulea
  * Listens for resizingEvents and initiates the resizing of all components
+ * @author Marco "Don" Kaulea
  */
 public class ResizeListener extends ComponentAdapter implements
 		ComponentListener 

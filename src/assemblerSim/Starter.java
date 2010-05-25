@@ -6,8 +6,8 @@ import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 
 /**
- * @author Marco "Don" Kaulea
  * This class is starts the rest of the program
+ * @author Marco "Don" Kaulea 
  */
 public class Starter 
 {

@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;;
 
 /**
- * @author Marco "Don" Kaulea
  * Objects of this class act as an intermediary between the GUI and the virtual maschine
+ * @author Marco "Don" Kaulea
  */
 public class Controller
 {

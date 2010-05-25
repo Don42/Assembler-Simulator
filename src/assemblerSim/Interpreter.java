@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 
 /**
- * @author Tim Borcherding
  * Contains methods to translate between opcode and machine language
+ * @author Tim Borcherding
  */
 public class Interpreter
 {
