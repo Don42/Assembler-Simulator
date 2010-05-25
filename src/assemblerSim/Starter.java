@@ -1,5 +1,10 @@
 package assemblerSim;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.JOptionPane;
+
 /**
  * @author Marco "Don" Kaulea
  * This class is starts the rest of the program
@@ -13,7 +18,25 @@ public class Starter
 	 */
 	public static void main(String[] args) 
 	{
-		new Controller(512);
+
+		Dimension scrnsize = Toolkit.getDefaultToolkit().getScreenSize();
+		if(scrnsize.height<768||scrnsize.width<1024)
+			{
+			int ans = JOptionPane.showConfirmDialog(null, "Your Resolution is not supported. If you continue there might be graphical errors. Do you want to continue?", null, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (ans == JOptionPane.OK_OPTION)
+			{
+				new Controller(512);
+			}
+			else
+			{
+				return;
+			}
+		}
+		else
+		{
+			new Controller(512);
+		}
+			
 	}
 
 }

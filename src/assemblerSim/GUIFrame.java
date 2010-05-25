@@ -48,7 +48,9 @@ public class GUIFrame extends JFrame
 	private JButton stop = new JButton("Stop");
 	private JButton reset = new JButton("Reset");
 	private JButton toRAM = new JButton("Assemble");
-	private JLabel sliderLabel = new JLabel("Delay");
+	private JLabel sliderLabel = new JLabel("Speed");
+	private JLabel slowLabel = new JLabel("slow");
+	private JLabel fastLabel = new JLabel("fast");
 	private JSlider slider = new JSlider(JSlider.VERTICAL,30,120,75);
 	private JTextArea area = new JTextArea();
 	private JTextArea console = new JTextArea();
@@ -159,10 +161,14 @@ public class GUIFrame extends JFrame
 		// Label for the clock elements
 		add(sliderLabel);
 		sliderLabel.setBounds(this.getWidth()-BUTTON_WIDTH,220,BUTTON_WIDTH,20);
-		
+
+		add(slowLabel);
+		add(fastLabel);
+		slowLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),240,BUTTON_WIDTH,20);
+		fastLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),420,BUTTON_WIDTH,20);
 		// Clock-Slider
 		add(slider);
-		slider.setBounds(this.getWidth()-BUTTON_WIDTH,240,BUTTON_WIDTH,200);
+		slider.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),240,BUTTON_WIDTH,200);
 		slider.setMajorTickSpacing(1000);
 		slider.setMinorTickSpacing(500);
 		slider.setPaintTicks(true);
@@ -341,6 +347,8 @@ public class GUIFrame extends JFrame
 		step.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),step.getY(),step.getWidth(),step.getHeight());
 		stop.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),stop.getY(),stop.getWidth(),stop.getHeight());
 		slider.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),slider.getY(),slider.getWidth(),slider.getHeight());
+		slowLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),slowLabel.getY(),slowLabel.getWidth(),slowLabel.getHeight());
+		fastLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),fastLabel.getY(),fastLabel.getWidth(),fastLabel.getHeight());
 		sliderLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),sliderLabel.getY(),sliderLabel.getWidth(),sliderLabel.getHeight());
 		scroll1.setBounds(this.getWidth()-(CODE_FIELD_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),scroll1.getY(),CODE_FIELD_WIDTH,this.getHeight()-(CONSOLE_STD_HEIGHT+CONSOLE_TO_CODE_MARGIN));	
 		Dimension pictureSize = view.updateSize((CODE_FIELD_WIDTH+BUTTON_SPACER+BUTTON_WIDTH),CONSOLE_STD_HEIGHT+CONSOLE_TO_CODE_MARGIN);
