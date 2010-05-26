@@ -119,7 +119,7 @@ public class View extends JComponent
 		
 		//waiting until image is loaded or max iterated through 32bit
 		int max = 0;
-		while(main_image.getHeight(this)==-1&&max>=0)
+		while(main_image.getHeight(this)==-1&&max<15000)
 		{
 			max = max+1;
 		}

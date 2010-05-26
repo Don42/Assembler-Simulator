@@ -165,10 +165,10 @@ public class GUIFrame extends JFrame
 		add(slowLabel);
 		add(fastLabel);
 		slowLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),240,BUTTON_WIDTH,20);
-		fastLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),420,BUTTON_WIDTH,20);
+		fastLabel.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),460,BUTTON_WIDTH,20);
 		// Clock-Slider
 		add(slider);
-		slider.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),240,BUTTON_WIDTH,200);
+		slider.setBounds(this.getWidth()-(BUTTON_SPACER+BUTTON_WIDTH),260,BUTTON_WIDTH,200);
 		slider.setMajorTickSpacing(1000);
 		slider.setMinorTickSpacing(500);
 		slider.setPaintTicks(true);

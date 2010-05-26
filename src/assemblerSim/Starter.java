@@ -18,7 +18,6 @@ public class Starter
 	 */
 	public static void main(String[] args) 
 	{
-
 		Dimension scrnsize = Toolkit.getDefaultToolkit().getScreenSize();
 		if(scrnsize.height<768||scrnsize.width<1024)
 			{
@@ -36,7 +35,6 @@ public class Starter
 		{
 			new Controller(512);
 		}
-			
 	}
 
 }
